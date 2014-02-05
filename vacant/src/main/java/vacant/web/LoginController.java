@@ -4,6 +4,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,8 +20,10 @@ import vacant.service.VacantUserService;
 import vacant.util.AjaxResult;
 
 @Controller
+@RequestMapping("/login")
 public class LoginController {
 	public static final String SESSION_USER = "user";
+	public static final String REQUEST_TREE_DATA = "treeData";
 
 	@Autowired
 	private VacantUserService userService;
@@ -29,7 +32,7 @@ public class LoginController {
 
 	@RequestMapping(value = "/login", method = GET)
 	public String login() {
-		return "login";
+		return "/login/login";
 	}
 
 	@ResponseBody
@@ -49,11 +52,32 @@ public class LoginController {
 	@RequestMapping(value = "/login", method = POST)
 	public String login(HttpServletRequest request, VacantUser user) {
 		user = userService.findUserByLoginName(user.getLoginName());
-		// 把用户权限放到用户中
 		List<VacantResource> resourceList = resourceService
 				.getResourceListByUserId(user.getId());
-		user.setResourceList(resourceList);
+		// 把用户权限放到用户中
+		Set<String> resourceUrlSet = resourceService
+				.getResourceUrlSet(resourceList);
+		user.setResourceList(resourceUrlSet);
 		request.getSession().setAttribute(SESSION_USER, user);
-		return "main";
+		// 菜单
+		String treeData = resourceService.getTreeData(resourceList);
+		request.setAttribute(REQUEST_TREE_DATA, treeData);
+
+		return "/login/main";
+	}
+	
+	@RequestMapping(value = "/top")
+	public String top() {
+		return "/login/top";
+	}
+	
+	@RequestMapping(value = "/left")
+	public String left() {
+		return "/login/left";
+	}
+	
+	@RequestMapping(value = "/right")
+	public String right() {
+		return "/login/right";
 	}
 }

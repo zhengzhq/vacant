@@ -1,10 +1,8 @@
 package vacant.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import net.sf.json.JSONArray;
@@ -34,22 +32,20 @@ public class VacantResourceService {
 				.setParameter("user_id", userId).list();
 	}
 
-	public Set<String> getUrlSetByUserId(String userId) {
+	public Set<String> getResourceUrlSet(List<VacantResource> resourceList) {
 		Set<String> set = new HashSet<String>();
-		List<VacantResource> list = getResourceListByUserId(userId);
-		for (VacantResource resource : list) {
+		for (VacantResource resource : resourceList) {
 			set.add(resource.getUrl());
 		}
 		return set;
 	}
 
-	public String getTreeDataByUserId(String userId) {
+	public String getTreeData(List<VacantResource> resourceList) {
 		List<EasyuiTreeNode> rootNodeList = new ArrayList<EasyuiTreeNode>();
 
-		List<VacantResource> resourceList = getResourceListByUserId(userId);
 		for (VacantResource resource : resourceList) {
 			if (resource.getParentId() == null
-					&& resource.getIsDisplay().equals(YesOrNo.NO)) {
+					&& resource.getIsDisplay().equals(YesOrNo.YES)) {
 				String id = resource.getId();
 				String text = resource.getDisplayName();
 				String url = resource.getUrl();
@@ -63,12 +59,17 @@ public class VacantResourceService {
 
 	protected void attachChildren(EasyuiTreeNode node,
 			List<VacantResource> resourceList) {
+		List<EasyuiTreeNode> children = new ArrayList<>();
 		String nodeId = node.getId();
 		for (VacantResource resource : resourceList) {
 			if (nodeId.equals(resource.getParentId())
-					&& resource.getIsDisplay().equals(YesOrNo.NO)) {
-
+					&& resource.getIsDisplay().equals(YesOrNo.YES)) {
+				EasyuiTreeNode childNode = new EasyuiTreeNode(resource.getId(),
+						resource.getDisplayName(), resource.getUrl());
+				attachChildren(childNode, resourceList);
+				children.add(childNode);
 			}
 		}
+		node.setChildren(children.toArray(new EasyuiTreeNode[children.size()]));
 	}
 }

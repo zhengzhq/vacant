@@ -1,6 +1,6 @@
 package vacant.domain;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,14 +12,14 @@ import javax.persistence.Transient;
 public class VacantUser extends WriteOffable {
 	
 	@Transient
-	private List<VacantResource> resourceList;
+	private Set<String> resourceUrlSet;
 
-	public List<VacantResource> getResourceList() {
-		return resourceList;
+	public Set<String> getResourceList() {
+		return resourceUrlSet;
 	}
 
-	public void setResourceList(List<VacantResource> resourceList) {
-		this.resourceList = resourceList;
+	public void setResourceList(Set<String> resourceUrlSet) {
+		this.resourceUrlSet = resourceUrlSet;
 	}
 
 	//-----------------------------------------------------------------

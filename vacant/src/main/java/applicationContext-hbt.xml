@@ -19,8 +19,8 @@
 		destroy-method="close"
 		p:driverClassName="com.mysql.jdbc.Driver"
 		p:url="jdbc:mysql://localhost:3306/sampledb"
-		p:username="minzheng"
-		p:password="minzheng"/>
+		p:username="vacant"
+		p:password="vacant"/>
     
  	<bean id="lobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler"
 		lazy-init="true" />
