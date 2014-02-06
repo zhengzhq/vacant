@@ -2,3 +2,5 @@
 
 2014-02-06
 1、安全过滤器中没有放开.gif .png，结果显示easyui tree的时候不能显示
+2、关闭mysql：mysqladmin -uroot -pvacant shutdown
+3、设置mysql内存：未解决

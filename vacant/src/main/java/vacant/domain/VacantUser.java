@@ -12,6 +12,17 @@ import javax.persistence.Transient;
 public class VacantUser extends WriteOffable {
 	
 	@Transient
+	private VacantDepartment department;
+	
+	public VacantDepartment getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(VacantDepartment department) {
+		this.department = department;
+	}
+
+	@Transient
 	private Set<String> resourceUrlSet;
 
 	public Set<String> getResourceUrlSet() {

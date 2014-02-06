@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>空虚的心灵</title>
+<title>空灵</title>
 </head>
 <frameset border="1" frameborder="yes" rows="90,*">
 	<frame name="top" src="/vacant/login/top" />

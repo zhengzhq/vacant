@@ -1,6 +1,8 @@
 eclipse.preferences.version=1
 encoding//data/readme.txt=UTF-8
+encoding//doc/growing\ pains=UTF-8
 encoding//src/main/java/vacant/domain/WriteOffable.java=UTF-8
 encoding//src/main/java/vacant/web/LoginController.java=UTF-8
 encoding//src/main/java/vacant/web/Model1Controller.java=UTF-8
 encoding//src/test/java/vacant/service/VacantResourceServiceTest.java=UTF-8
+encoding/<project>=UTF-8

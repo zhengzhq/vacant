@@ -12,8 +12,8 @@
 	<context:component-scan base-package="vacant.web" />
 
 	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
-	<mvc:annotation-driven/>
-	
+	<mvc:annotation-driven />
+
 	<!-- 配置视图解析器，将ModelAndView及字符串解析为具体的页面 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
@@ -21,5 +21,20 @@
 		p:suffix=".jsp" />
 
 	<mvc:default-servlet-handler />
-
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="mappingJacksonHttpMessageConverter" />
+			</list>
+		</property>
+	</bean>
+	<bean id="mappingJacksonHttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>application/json;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
 </beans>
