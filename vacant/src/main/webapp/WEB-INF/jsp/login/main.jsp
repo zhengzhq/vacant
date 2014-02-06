@@ -8,11 +8,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>空虚的心灵</title>
 </head>
-<frameset border="0" frameborder="yes" framespacing="10" rows="90,*">
+<frameset border="1" frameborder="yes" rows="90,*">
 	<frame name="top" src="/vacant/login/top" />
-	<frameset border="0" frameborder="yes" framespacing="10" cols="180,*">
-		<frame name="left" src="/vacant/login/left" />
-		<frame name="right" src="/vacant/login/right" />
+	<frameset border="1" frameborder="yes" cols="180,*">
+		<frame name="left" src="${contextPath}/login/left" />
+		<frame name="right" src="${contextPath}/login/right" />
 	</frameset>
 </frameset>
 </html>

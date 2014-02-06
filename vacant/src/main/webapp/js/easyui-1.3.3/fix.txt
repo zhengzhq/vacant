@@ -1,5 +1,0 @@
-Esun定制信息
-1.easyloader.js已修改,增加代理支持
-2.easyloader.js已修复Bug,tooltip依赖window但未配置依赖问题
-3.jquery.panel.js已修复Bug,在初始化时panel时未检查panel原始元素的隐藏状态.该Bug会与Window,Dialog关联
-4.jquery.parser.js增加xheditor解析支持

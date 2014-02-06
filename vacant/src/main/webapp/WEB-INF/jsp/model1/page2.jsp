@@ -8,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>空虚的心灵</title>
 </head>
-<body style="background-color: #123456">
-	<span style="font-size:24px;">banner</span>
+<body>
+	page1
 </body>
 </html>

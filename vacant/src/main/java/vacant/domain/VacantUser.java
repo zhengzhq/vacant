@@ -14,7 +14,7 @@ public class VacantUser extends WriteOffable {
 	@Transient
 	private Set<String> resourceUrlSet;
 
-	public Set<String> getResourceList() {
+	public Set<String> getResourceUrlSet() {
 		return resourceUrlSet;
 	}
 
