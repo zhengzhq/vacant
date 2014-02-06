@@ -59,7 +59,7 @@ public class VacantResourceService {
 
 	protected void attachChildren(EasyuiTreeNode node,
 			List<VacantResource> resourceList) {
-		List<EasyuiTreeNode> children = new ArrayList<>();
+		List<EasyuiTreeNode> children = new ArrayList<EasyuiTreeNode>();
 		String nodeId = node.getId();
 		for (VacantResource resource : resourceList) {
 			if (nodeId.equals(resource.getParentId())
