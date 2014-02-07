@@ -47,16 +47,16 @@
 		<div title="用户管理">
 			<table id="dg"></table>
 			<div id="toolbar" style="padding: 3 0 0 5">
-				登录名: <input id="loginName" style="width: 80px">
-				姓名: <input id="name" style="width: 80px"><a href="#"
+				登录名: <input id="loginName" style="width: 80px"> 姓名: <input
+					id="name" style="width: 80px"><a href="#"
 					class="easyui-linkbutton" plain="true" onclick="doSearch()"
 					iconCls="icon-search">查询</a>
 			</div>
 			<div id="buttons">
 				<a href="#" plain="true" class="easyui-linkbutton"
-					onclick="doSearch()" iconCls="icon-add">增加</a> <a 
-					href="#" plain="true" class="easyui-linkbutton"
-					onclick="doSearch()" iconCls="icon-remove">删除</a>
+					onclick="doSearch()" iconCls="icon-add">增加</a> <a href="#"
+					plain="true" class="easyui-linkbutton" onclick="doSearch()"
+					iconCls="icon-remove">删除</a>
 			</div>
 		</div>
 	</div>
@@ -67,6 +67,7 @@
 			pagination : true,
 			rownumbers : true,
 			singleSelect : true,
+			loadMsg : '正在处理，请稍候...',
 			columns : [ [ {
 				field : 'department',
 				width : 200,
