@@ -10,8 +10,8 @@
 </head>
 <frameset border="1" frameborder="yes" rows="90,*">
 	<frame name="top" src="${contextPath}/top" />
-	<frameset border="1" frameborder="yes" cols="180,*">
-		<frame name="left" src="${contextPath}/left" />
+	<frameset border="1" frameborder="yes" cols="300,*">
+		<frame name="left" src="${contextPath}/left"  />
 		<frame name="right" src="${contextPath}/right" />
 	</frameset>
 </frameset>

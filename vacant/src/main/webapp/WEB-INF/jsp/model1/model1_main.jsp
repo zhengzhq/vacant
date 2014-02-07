@@ -43,17 +43,22 @@
 	src="${contextPath}/js/jquery-easyui-1.3.5/jquery.easyui.min.js"></script>
 </head>
 <body>
-	<h2>Basic CRUD Application</h2>
-	<div class="demo-info" style="margin-bottom: 10px">
-		<div class="demo-tip icon-tip">&nbsp;</div>
-		<div>Click the buttons on datagrid toolbar to do crud actions.</div>
-	</div>
-	<table id="dg"></table>
-	<div id="toolbar">
-		<div>
-			name: <input id="name" style="width: 80px"> <a href="#"
-				class="easyui-linkbutton" plain="true" onclick="doSearch()"
-				iconCls="icon-search">Search</a>
+	<div class="easyui-tabs" style="width: 1050; height: 534">
+		<div title="用户管理" style="padding: 10px">
+			<table id="dg"></table>
+			<div id="toolbar">
+				<div style="margin-bottom: 5px">
+					<a href="#" class="easyui-linkbutton" iconCls="icon-add"
+						plain="true"></a> <a href="#" class="easyui-linkbutton"
+						iconCls="icon-edit" plain="true"></a>&nbsp;<a href="#"
+						class="easyui-linkbutton" iconCls="icon-remove" plain="true"></a>
+				</div>
+				<div>
+					name: <input id="name" style="width: 80px"><a href="#"
+						class="easyui-linkbutton" plain="true" onclick="doSearch()"
+						iconCls="icon-search">Search</a>
+				</div>
+			</div>
 		</div>
 	</div>
 	<script type="text/javascript">

@@ -33,10 +33,7 @@ public class SecurityFilter implements Filter {
 		String requestURI = httpRequest.getRequestURI().replaceFirst(
 				httpRequest.getContextPath(), "");
 
-		if (requestURI.startsWith("/login") || requestURI.startsWith("/main")
-				|| requestURI.startsWith("/left")
-				|| requestURI.startsWith("/top")
-				|| requestURI.startsWith("/right") || requestURI.equals("/")
+		if (requestURI.startsWith("/login") || requestURI.equals("/")
 				|| requestURI.endsWith(".js") || requestURI.endsWith(".css")
 				|| requestURI.endsWith(".gif") || requestURI.endsWith(".png")
 				|| requestURI.endsWith(".html")) {
@@ -57,6 +54,13 @@ public class SecurityFilter implements Filter {
 			script += loginURI;
 			script += "'</script>";
 			response.getWriter().write(script);
+			return;
+		}
+
+		if (requestURI.startsWith("/main") || requestURI.startsWith("/left")
+				|| requestURI.startsWith("/top")
+				|| requestURI.startsWith("/right")) {
+			chain.doFilter(httpRequest, response);
 			return;
 		}
 		VacantUser user = (VacantUser) session

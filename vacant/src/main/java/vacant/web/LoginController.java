@@ -46,7 +46,7 @@ public class LoginController {
 		return AjaxResult.fail("用户名或密码错误。");
 	}
 
-	@RequestMapping(value = "/main", method = POST)
+	@RequestMapping(value = "/main")
 	public String login(HttpServletRequest request, VacantUser user) {
 		user = userService.findUserByLoginName(user.getLoginName());
 		List<VacantResource> resourceList = resourceService
