@@ -43,21 +43,20 @@
 	src="${contextPath}/js/jquery-easyui-1.3.5/jquery.easyui.min.js"></script>
 </head>
 <body>
-	<div class="easyui-tabs" style="width: 1050; height: 534">
-		<div title="用户管理" style="padding: 10px">
+	<div class="easyui-tabs" fit="true">
+		<div title="用户管理">
 			<table id="dg"></table>
-			<div id="toolbar">
-				<div style="margin-bottom: 5px">
-					<a href="#" class="easyui-linkbutton" iconCls="icon-add"
-						plain="true"></a> <a href="#" class="easyui-linkbutton"
-						iconCls="icon-edit" plain="true"></a>&nbsp;<a href="#"
-						class="easyui-linkbutton" iconCls="icon-remove" plain="true"></a>
-				</div>
-				<div>
-					name: <input id="name" style="width: 80px"><a href="#"
-						class="easyui-linkbutton" plain="true" onclick="doSearch()"
-						iconCls="icon-search">Search</a>
-				</div>
+			<div id="toolbar" style="padding: 3 0 0 5">
+				登录名: <input id="loginName" style="width: 80px">
+				姓名: <input id="name" style="width: 80px"><a href="#"
+					class="easyui-linkbutton" plain="true" onclick="doSearch()"
+					iconCls="icon-search">查询</a>
+			</div>
+			<div id="buttons">
+				<a href="#" plain="true" class="easyui-linkbutton"
+					onclick="doSearch()" iconCls="icon-add">增加</a> <a 
+					href="#" plain="true" class="easyui-linkbutton"
+					onclick="doSearch()" iconCls="icon-remove">删除</a>
 			</div>
 		</div>
 	</div>
@@ -66,9 +65,12 @@
 			url : '${contextPath}/model1/query_page',
 			toolbar : '#toolbar',
 			pagination : true,
+			rownumbers : true,
+			singleSelect : true,
 			columns : [ [ {
-				field : 'Department',
-				title : 'Department',
+				field : 'department',
+				width : 200,
+				title : '部门',
 				formatter : function(value, rec) {
 					if (rec.department) {
 						return rec.department.name;
@@ -76,10 +78,12 @@
 				}
 			}, {
 				field : 'loginName',
-				title : 'Login Name'
+				width : 100,
+				title : '登录名'
 			}, {
 				field : 'name',
-				title : 'Name'
+				width : 100,
+				title : '姓名'
 			} ] ]
 		});
 		function doSearch() {
@@ -87,6 +91,10 @@
 				name : $('#name').val(),
 			});
 		}
+		var pager = $('#dg').datagrid().datagrid('getPager'); // get the pager of datagrid
+		pager.pagination({
+			buttons : $('#buttons')
+		});
 	</script>
 </body>
 </html>

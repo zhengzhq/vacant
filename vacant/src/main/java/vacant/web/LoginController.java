@@ -1,7 +1,5 @@
 package vacant.web;
 
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-
 import java.util.List;
 import java.util.Set;
 

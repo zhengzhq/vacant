@@ -19,7 +19,7 @@
 	src="${contextPath}/js/jquery-easyui-1.3.5/jquery.easyui.min.js"></script>
 </head>
 <body>
-	<div class="easyui-tabs" style="width: 285; height: 535">
+	<div class="easyui-accordion" fit="true">
 		<div title="菜单" style="padding: 10px">
 			<ul id="tree"></ul>
 		</div>
