@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v11.11 (32 bit)
-MySQL - 5.6.16 : Database - sampledb
+MySQL - 5.6.13 : Database - sampledb
 *********************************************************************
 */
 
@@ -129,7 +129,7 @@ CREATE TABLE `vacant_user` (
 
 /*Data for the table `vacant_user` */
 
-insert  into `vacant_user`(`id`,`area_code`,`department_id`,`login_name`,`password`,`name`,`is_written_off`,`written_off_date`,`written_off_reason`) values ('fd27a7bd-870d-11e3-a27f-08606e729ccc','220104',NULL,'scott','1','郑志强','0',NULL,NULL);
+insert  into `vacant_user`(`id`,`area_code`,`department_id`,`login_name`,`password`,`name`,`is_written_off`,`written_off_date`,`written_off_reason`) values ('2b689697-8f93-11e3-b984-08606e729ccc','220104',NULL,'vacant','1','vacant','0',NULL,NULL),('a0f5e677-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user1','1','user1','0',NULL,NULL),('a0fa7b46-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user2','1','user2','0',NULL,NULL),('a0ff0c5d-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user3','1','user3','0',NULL,NULL),('a104c4c8-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user4','1','user4','0',NULL,NULL),('a10a8105-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user5','1','user5','0',NULL,NULL),('a10ef91b-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user6','1','user6','0',NULL,NULL),('a1138b0c-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user7','1','user7','0',NULL,NULL),('a117e882-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user8','8','user8','0',NULL,NULL),('a11c828e-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user9','1','user9','0',NULL,NULL),('a120e93f-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user1','10','user10','0',NULL,NULL),('a125664d-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user1','11','user11','0',NULL,NULL),('fd27a7bd-870d-11e3-a27f-08606e729ccc','220104',NULL,'scott','1','郑志强','0',NULL,NULL);
 
 /*Table structure for table `vacant_user_role` */
 
