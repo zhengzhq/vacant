@@ -6,7 +6,7 @@
 <title>登录</title>
 </head>
 <body>
-	<form action="<c:url value="/login/main" />" method="post">
+	<form action="<c:url value="/main" />" method="post">
 		用户名： <input type="text" name="loginName"><br>
 		密 码：<input type="password" name="password"><br>
 		<input type="submit" value="登录" />

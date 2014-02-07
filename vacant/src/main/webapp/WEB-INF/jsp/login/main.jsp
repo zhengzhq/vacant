@@ -9,10 +9,10 @@
 <title>空灵</title>
 </head>
 <frameset border="1" frameborder="yes" rows="90,*">
-	<frame name="top" src="/vacant/login/top" />
+	<frame name="top" src="${contextPath}/top" />
 	<frameset border="1" frameborder="yes" cols="180,*">
-		<frame name="left" src="${contextPath}/login/left" />
-		<frame name="right" src="${contextPath}/login/right" />
+		<frame name="left" src="${contextPath}/left" />
+		<frame name="right" src="${contextPath}/right" />
 	</frameset>
 </frameset>
 </html>

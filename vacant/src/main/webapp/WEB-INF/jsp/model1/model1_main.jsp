@@ -60,11 +60,14 @@
 		$('#dg').datagrid({
 			url : '${contextPath}/model1/query_page',
 			toolbar : '#toolbar',
+			pagination : true,
 			columns : [ [ {
 				field : 'Department',
 				title : 'Department',
 				formatter : function(value, rec) {
-					return rec.department.name;
+					if (rec.department) {
+						return rec.department.name;
+					}
 				}
 			}, {
 				field : 'loginName',

@@ -20,7 +20,6 @@ import vacant.service.VacantUserService;
 import vacant.util.AjaxResult;
 
 @Controller
-@RequestMapping("/login")
 public class LoginController {
 
 	@Autowired
@@ -28,7 +27,7 @@ public class LoginController {
 	@Autowired
 	private VacantResourceService resourceService;
 
-	@RequestMapping()
+	@RequestMapping("/login")
 	public String login() {
 		return "/login/login";
 	}
@@ -60,23 +59,24 @@ public class LoginController {
 
 		return "/login/main";
 	}
-	
+
 	@RequestMapping(value = "/top")
 	public String top() {
 		return "/login/top";
 	}
-	
+
 	@RequestMapping(value = "/left")
 	public String left(HttpServletRequest request) {
 		// 菜单
-		VacantUser user = (VacantUser)request.getSession().getAttribute(Global.SESSION_ATTRIBUTE_USER);
+		VacantUser user = (VacantUser) request.getSession().getAttribute(
+				Global.SESSION_ATTRIBUTE_USER);
 		List<VacantResource> resourceList = resourceService
 				.getResourceListByUserId(user.getId());
 		String treeData = resourceService.getTreeData(resourceList);
 		request.setAttribute(Global.REQUEST_ATTRIBUTE_TREE_DATA, treeData);
 		return "/login/left";
 	}
-	
+
 	@RequestMapping(value = "/right")
 	public String right() {
 		return "/login/right";
