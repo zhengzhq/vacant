@@ -1,6 +1,5 @@
 package vacant.service;
 
-import java.math.BigInteger;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -32,30 +31,34 @@ public class VacantUserService {
 		return user;
 	}
 
-	public Page<VacantUser> queryPage(String name, int page, int rows) {
+	public Page<VacantUser> queryPage(String loginName, String name, int page, int rows) {
 		Page<VacantUser> result = new Page<VacantUser>();
 		int offset = (page - 1) * rows;
 		String sql = "select * from vacant_user ";
 		sql += "where is_written_off=:is_written_off ";
+		if (StringUtils.isNotBlank(loginName)) {
+			sql += "and login_name like :login_name ";
+		}
 		if (StringUtils.isNotBlank(name)) {
 			sql += "and name like :name ";
 		}
-		String sqlCount = sql.replace("*", "count(*) total");
 		sql += "limit :offset, :rows";
 		Session session = factory.getCurrentSession();
 		Query query = session.createSQLQuery(sql).addEntity(VacantUser.class)
 				.setParameter("is_written_off", YesOrNo.NO);
-		Query queryCount = session.createSQLQuery(sqlCount).addScalar("total")
-				.setParameter("is_written_off", YesOrNo.NO);
+		if (StringUtils.isNotBlank(loginName)) {
+			query.setParameter("login_name", "%" + loginName + "%");
+		}
 		if (StringUtils.isNotBlank(name)) {
 			query.setParameter("name", "%" + name + "%");
-			queryCount.setParameter("name", "%" + name + "%");
 		}
-		BigInteger total = (BigInteger) queryCount.uniqueResult();
-		result.setTotal(total.intValue());
 		List<VacantUser> list = query.setParameter("offset", offset)
-				.setParameter("rows", rows).list();
+				.setParameter("rows", rows + 1).list();
 		result.setRows(list);
+		result.setTotal(offset + list.size());
+		if (list.size() > rows) {
+			list.remove(list.size() - 1);
+		}
 		return result;
 	}
 

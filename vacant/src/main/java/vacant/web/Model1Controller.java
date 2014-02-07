@@ -32,10 +32,11 @@ public class Model1Controller {
 	@RequestMapping(value = "/query_page")
 	@ResponseBody
 	public Page<VacantUser> queryPage(
+			@RequestParam(value = "loginName", required = false) String loginName,
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "page", required = false, defaultValue = "1") int page,
 			@RequestParam(value = "rows", required = false, defaultValue = "10") int rows) {
 
-		return userService.queryPage(name, page, rows);
+		return userService.queryPage(loginName, name, page, rows);
 	}
 }
