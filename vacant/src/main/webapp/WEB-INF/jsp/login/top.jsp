@@ -9,6 +9,6 @@
 <title>空虚的心灵</title>
 </head>
 <body style="background-color: #123456">
-	<span style="font-size:24px;">banner</span>
+	<span style="font-size:48px;font-style: italic;">vacant</span>
 </body>
 </html>

@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -6,8 +7,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>空灵</title>
-<link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/default/easyui.css">
-<link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/icon.css">
+<link rel="stylesheet" type="text/css"
+	href="http://www.jeasyui.com/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css"
+	href="http://www.jeasyui.com/easyui/themes/icon.css">
 
 <style type="text/css">
 #fm {
@@ -33,8 +36,10 @@
 }
 </style>
 <script type="text/javascript" src="${contextPath}/js/application/common.js"></script>
-<script type="text/javascript" src="${contextPath}/js/jquery-1.10.2/jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="${contextPath}/js/jquery-easyui-1.3.5/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="${contextPath}/js/jquery-1.10.2/jquery-1.10.2.min.js"></script>
+<script type="text/javascript"
+	src="${contextPath}/js/jquery-easyui-1.3.5/jquery.easyui.min.js"></script>
 </head>
 <body>
 	<div class="easyui-tabs" fit="true">
@@ -45,17 +50,23 @@
 				<input id="loginName" style="width: 80px">
 				姓名:
 				<input id="name" style="width: 80px">
-				<a href="#" class="easyui-linkbutton" plain="true" onclick="doSearch()" iconCls="icon-search">查询</a>
+				<a href="#" class="easyui-linkbutton" plain="true" onclick="doSearch()"
+					iconCls="icon-search">查询</a>
 			</div>
 			<div id="buttons">
-				<a href="#" plain="true" class="easyui-linkbutton" onclick="newUser()" iconCls="icon-add">增加</a>
-				<a href="#" plain="true" class="easyui-linkbutton" onclick="editUser()" iconCls="icon-edit">修改</a>
-				<a href="#" plain="true" class="easyui-linkbutton" onclick="doSearch()" iconCls="icon-remove">删除</a>
+				<a href="#" plain="true" class="easyui-linkbutton" onclick="newUser()"
+					iconCls="icon-add">增加</a>
+				<a href="#" plain="true" class="easyui-linkbutton" onclick="editUser()"
+					iconCls="icon-edit">修改</a>
+				<a href="#" plain="true" class="easyui-linkbutton" onclick="doSearch()"
+					iconCls="icon-remove">删除</a>
 			</div>
 
-			<div id="dlg" class="easyui-dialog" style="width: 400px; height: 280px; padding: 10px 20px" closed="true" buttons="#dlg-buttons">
+			<div id="dlg" class="easyui-dialog"
+				style="width: 400px; height: 280px; padding: 10px 20px" closed="true"
+				buttons="#dlg-buttons">
 				<div class="ftitle">用户信息</div>
-				<form id="fm" method="post" novalidate>
+				<form id="fm" method="post">
 					<input type="hidden" name="id">
 					<div class="fitem">
 						<label>Login Name:</label>
@@ -68,14 +79,17 @@
 				</form>
 			</div>
 			<div id="dlg-buttons">
-				<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUser()">Save</a>
-				<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">Cancel</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok"
+					onclick="saveUser()">保存</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel"
+					onclick="javascript:$('#dlg').dialog('close')">取消</a>
 			</div>
 		</div>
 	</div>
 	<script type="text/javascript">
+		var modelPath = '${contextPath}/model1/';
 		$('#dg').datagrid({
-			url : '${contextPath}/model1/query_page',
+			url : modelPath + 'query_page',
 			toolbar : '#toolbar',
 			pagination : true,
 			rownumbers : true,
@@ -91,6 +105,7 @@
 				field : 'department',
 				width : 200,
 				title : '部门',
+				halign : 'center',
 				formatter : function(value, rec) {
 					if (rec.department) {
 						return rec.department.name;
@@ -99,11 +114,15 @@
 			}, {
 				field : 'loginName',
 				width : 100,
-				title : '登录名'
+				title : '登录名',
+				halign : 'center',
+				align : 'center'
 			}, {
 				field : 'name',
 				width : 100,
-				title : '姓名'
+				title : '姓名',
+				halign : 'center',
+				align : 'center'
 			} ] ]
 		});
 		function doSearch() {
@@ -121,15 +140,38 @@
 		function newUser() {
 			$('#dlg').dialog('open').dialog('setTitle', '添加用户');
 			$('#fm').form('clear');
-			url = 'save_user.php';
 		}
 		function editUser() {
 			var row = $('#dg').datagrid('getSelected');
 			if (row) {
 				$('#dlg').dialog('open').dialog('setTitle', '编辑用户');
 				$('#fm').form('load', row);
-				url = 'update_user.php?id=' + row.id;
+			} else {
+				$.messager.show({
+					title : '提示',
+					msg : '请选择要修改的用户'
+				});
 			}
+		}
+		function saveUser() {
+			$('#fm').form('submit', {
+				url : modelPath + 'save_user',
+				onSubmit : function() {
+					// return $(this).form('validate');
+					return true;
+				},
+				success : function(result) {
+					if (result.message) {
+						$.messager.show({
+							title : 'Error',
+							msg : result.message
+						});
+					} else {
+						$('#dlg').dialog('close');
+						$('#dg').datagrid('reload');
+					}
+				}
+			});
 		}
 	</script>
 </body>

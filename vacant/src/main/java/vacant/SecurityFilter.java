@@ -10,7 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
@@ -29,14 +28,14 @@ public class SecurityFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		String requestURI = httpRequest.getRequestURI().replaceFirst(
 				httpRequest.getContextPath(), "");
 
 		if (requestURI.startsWith("/login") || requestURI.equals("/")
 				|| requestURI.endsWith(".js") || requestURI.endsWith(".css")
 				|| requestURI.endsWith(".gif") || requestURI.endsWith(".png")
-				|| requestURI.endsWith(".html")) {
+				|| requestURI.endsWith(".html")
+				|| requestURI.startsWith("/error")) {
 			chain.doFilter(httpRequest, response);
 			return;
 		}
@@ -72,12 +71,13 @@ public class SecurityFilter implements Filter {
 						"User %s don't have permission to visit \"%s\"",
 						user.getLoginName(), requestURI));
 			}
-			httpResponse.sendRedirect(httpRequest.getContextPath()
-					+ "/no_privilege");
+			String script = "<script type='text/javascript'>top.location.href='";
+			script += httpRequest.getContextPath() + "/error/no_privilege";
+			script += "'</script>";
+			response.getWriter().write(script);
 		} else {
 			chain.doFilter(httpRequest, response);
 		}
-
 	}
 
 	public void destroy() {

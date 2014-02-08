@@ -31,7 +31,8 @@ public class VacantUserService {
 		return user;
 	}
 
-	public Page<VacantUser> queryPage(String loginName, String name, int page, int rows) {
+	public Page<VacantUser> queryPage(String loginName, String name, int page,
+			int rows) {
 		Page<VacantUser> result = new Page<VacantUser>();
 		int offset = (page - 1) * rows;
 		String sql = "select * from vacant_user ";
@@ -60,6 +61,10 @@ public class VacantUserService {
 			list.remove(list.size() - 1);
 		}
 		return result;
+	}
+
+	public void save(VacantUser user) {
+		factory.getCurrentSession().saveOrUpdate(user);
 	}
 
 }

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -7,6 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-木有权限
+	木有权限
+	<br>
+	<a href="javascript:history.back(-1)">返&nbsp;&nbsp;回</a>
 </body>
 </html>

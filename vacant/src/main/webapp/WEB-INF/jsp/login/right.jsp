@@ -8,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>空虚的心灵</title>
 </head>
-<body>
-	bbbbbbbbbbbbb
+<body style="height:100%">
+	<span style="font: 48px italic;">Welcome to vacant!</span>
 </body>
 </html>
