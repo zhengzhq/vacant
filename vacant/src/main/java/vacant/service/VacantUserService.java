@@ -64,6 +64,9 @@ public class VacantUserService {
 	}
 
 	public void save(VacantUser user) {
+		if("".equals(user.getId())) {
+			user.setId(null);
+		}
 		user.setIsWrittenOff(YesOrNo.NO);
 		factory.getCurrentSession().saveOrUpdate(user);
 	}

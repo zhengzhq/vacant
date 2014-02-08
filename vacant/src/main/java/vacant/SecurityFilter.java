@@ -34,7 +34,7 @@ public class SecurityFilter implements Filter {
 		if (requestURI.startsWith("/login") || requestURI.equals("/")
 				|| requestURI.endsWith(".js") || requestURI.endsWith(".css")
 				|| requestURI.endsWith(".gif") || requestURI.endsWith(".png")
-				|| requestURI.endsWith(".html")
+				|| requestURI.endsWith(".html") || requestURI.endsWith(".json")
 				|| requestURI.startsWith("/error")) {
 			chain.doFilter(httpRequest, response);
 			return;
