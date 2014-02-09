@@ -1,6 +1,7 @@
 package vacant.web;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,7 +42,7 @@ public class VacantUserController {
 		return userService.queryPage(loginName, name, page, rows);
 	}
 
-	@RequestMapping(value = "/save_user")
+	@RequestMapping(value = "/save_user", method = POST)
 	@ResponseBody
 	public AjaxResult saveUser(VacantUser user) {
 		userService.save(user);

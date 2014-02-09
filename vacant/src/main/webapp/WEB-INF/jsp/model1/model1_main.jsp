@@ -59,19 +59,23 @@
 					<input type="hidden" name="id">
 					<div class="fitem">
 						<label>部门:</label>
-						<input id="departmentId" name="departmentId" class="easyui-validatebox" required="true">
+						<input id="departmentId" name="departmentId">
 					</div>
 					<div class="fitem">
 						<label>登录名:</label>
-						<input name="loginName" class="easyui-validatebox" required="true">
+						<input name="loginName" class="easyui-validatebox" data-options="required:true">
 					</div>
 					<div class="fitem">
 						<label>密码:</label>
-						<input name="password" class="easyui-validatebox" required="true">
+						<input name="password" class="easyui-validatebox" data-options="required:true">
 					</div>
 					<div class="fitem">
 						<label>姓名:</label>
-						<input name="name" class="easyui-validatebox" required="true">
+						<input name="name" class="easyui-validatebox" data-options="required:true">
+					</div>
+					<div class="fitem">
+						<label>角色:</label>
+						<input id="roleId" name="roleId">
 					</div>
 				</form>
 			</div>
@@ -82,7 +86,8 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		var modelPath = '${contextPath}/model1/';
+		var modelPath = contextPath+'/model1/';
+		// uis begin
 		$('#dg').datagrid({
 			url : modelPath + 'query_page',
 			toolbar : '#toolbar',
@@ -91,12 +96,6 @@
 			singleSelect : true,
 			loadMsg : '正在处理，请稍候...',
 			columns : [ [ {
-				field : 'id',
-				hidden : true
-			}, {
-				field : 'departmentId',
-				hidden : true
-			}, {
 				field : 'department',
 				width : 200,
 				title : '部门',
@@ -121,9 +120,17 @@
 			} ] ]
 		});
 		$('#departmentId').combobox({
+			required:true,
 			editable : false,
-			url : '${contextPath}/dictionary/department.json'
+			url : contextPath+'/json/department.json',
+			 panelHeight:'auto'
 		});
+		$('#roleId').combobox({
+			required:true,
+			editable : false,
+			url : contextPath+'/json/role.json'
+		});
+		// handlers begin
 		function doSearch() {
 			$('#dg').datagrid('load', {
 				loginName : $('#loginName').val(),
@@ -155,14 +162,14 @@
 		function saveUser() {
 			$('#fm').form('submit', {
 				url : modelPath + 'save_user',
+				method : 'post',
 				onSubmit : function() {
-					// return $(this).form('validate');
-					return true;
+					return $(this).form('validate');
 				},
 				success : function(result) {
 					if (result.message) {
 						$.messager.show({
-							title : 'Error',
+							title : '错误',
 							msg : result.message
 						});
 					} else {

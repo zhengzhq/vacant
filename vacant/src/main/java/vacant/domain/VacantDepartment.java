@@ -6,7 +6,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="vacant_department")
-public class VacantDepartment extends WriteOffable {
+public class VacantDepartment extends WrittenOffable {
 
 	@Column(name="name")
 	private String name;

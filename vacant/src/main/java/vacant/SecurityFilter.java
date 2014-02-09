@@ -35,6 +35,7 @@ public class SecurityFilter implements Filter {
 				|| requestURI.endsWith(".js") || requestURI.endsWith(".css")
 				|| requestURI.endsWith(".gif") || requestURI.endsWith(".png")
 				|| requestURI.endsWith(".html") || requestURI.endsWith(".json")
+				|| requestURI.endsWith("validation")
 				|| requestURI.startsWith("/error")) {
 			chain.doFilter(httpRequest, response);
 			return;

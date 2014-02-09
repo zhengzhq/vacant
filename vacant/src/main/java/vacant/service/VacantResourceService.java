@@ -24,9 +24,9 @@ public class VacantResourceService {
 
 	public List<VacantResource> getResourceListByUserId(String userId) {
 		String sql = "select r.* from vacant_resource r, ";
-		sql += "vacant_resource_role rr, vacant_user_role ru ";
-		sql += "where r.id=rr.resource_id and rr.role_id=ru.role_id ";
-		sql += "and ru.user_id=:user_id ";
+		sql += "vacant_resource_role rr, vacant_user u ";
+		sql += "where r.id=rr.resource_id and rr.role_id=u.role_id ";
+		sql += "and u.id=:user_id ";
 		Session session = factory.getCurrentSession();
 		return session.createSQLQuery(sql).addEntity(VacantResource.class)
 				.setParameter("user_id", userId).list();

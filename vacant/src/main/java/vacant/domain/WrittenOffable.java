@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public abstract class WriteOffable extends AbstractDomain {
+public abstract class WrittenOffable extends AbstractDomain {
 	
 	/** 是否已注销 */
 	@Column(name="is_written_off")

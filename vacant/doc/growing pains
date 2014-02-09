@@ -7,3 +7,7 @@
 
 2014-02-08
 1、前台发送请求,后台跟踪不到:没有为用户配置权限
+
+2014-02-09
+1、combobox 所需 的json数据中的key必须加双引号
+2、mysql中文乱码：在my.ini中设置character_set_server=utf8

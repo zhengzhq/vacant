@@ -9,8 +9,7 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name="vacant_user")
-public class VacantUser extends WriteOffable {
-	
+public class VacantUser extends WrittenOffable {
 	@Transient
 	private VacantDepartment department;
 	
@@ -29,7 +28,7 @@ public class VacantUser extends WriteOffable {
 		return resourceUrlSet;
 	}
 
-	public void setResourceList(Set<String> resourceUrlSet) {
+	public void setResourceUrlSet(Set<String> resourceUrlSet) {
 		this.resourceUrlSet = resourceUrlSet;
 	}
 
@@ -50,6 +49,9 @@ public class VacantUser extends WriteOffable {
 	@Column(name="name")
 	private String name;
 
+	@Column(name="role_id")
+	private String roleId;
+	
 	public String getAreaCode() {
 		return areaCode;
 	}
@@ -88,6 +90,14 @@ public class VacantUser extends WriteOffable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
 	}
 	
 

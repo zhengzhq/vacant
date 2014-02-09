@@ -52,7 +52,7 @@ public class LoginController {
 		// 把用户权限放到用户中
 		Set<String> resourceUrlSet = resourceService
 				.getResourceUrlSet(resourceList);
-		user.setResourceList(resourceUrlSet);
+		user.setResourceUrlSet(resourceUrlSet);
 		request.getSession().setAttribute(Global.SESSION_ATTRIBUTE_USER, user);
 
 		return "/login/main";
