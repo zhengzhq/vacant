@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import vacant.constant.YesOrNo;
 import vacant.domain.VacantUser;
+import vacant.util.DictUtil;
 import vacant.util.Page;
 
 @Service
@@ -59,6 +60,9 @@ public class VacantUserService {
 		result.setTotal(offset + list.size());
 		if (list.size() > rows) {
 			list.remove(list.size() - 1);
+		}
+		for (VacantUser user : list) {
+			// TODO
 		}
 		return result;
 	}

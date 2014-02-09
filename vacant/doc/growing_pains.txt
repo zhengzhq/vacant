@@ -11,3 +11,4 @@
 2014-02-09
 1、combobox 所需 的json数据中的key必须加双引号
 2、mysql中文乱码：在my.ini中设置character_set_server=utf8
+3、input class=validateBox，同时使用js设置为combobox，冲突，导致表单校验无法通过

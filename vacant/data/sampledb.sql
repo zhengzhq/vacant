@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v11.11 (32 bit)
-MySQL - 5.6.13 : Database - sampledb
+MySQL - 5.6.16 : Database - sampledb
 *********************************************************************
 */
 
@@ -62,6 +62,8 @@ CREATE TABLE `vacant_department` (
 
 /*Data for the table `vacant_department` */
 
+insert  into `vacant_department`(`id`,`name`) values ('1','二道区民政局');
+
 /*Table structure for table `vacant_resource` */
 
 DROP TABLE IF EXISTS `vacant_resource`;
@@ -121,30 +123,17 @@ CREATE TABLE `vacant_user` (
   `login_name` varchar(24) DEFAULT NULL COMMENT '登录名',
   `password` varchar(160) DEFAULT NULL COMMENT '密码',
   `name` varchar(10) DEFAULT NULL COMMENT '姓名',
-  `is_written_off` varchar(1) DEFAULT '0',
-  `written_off_date` varchar(10) DEFAULT NULL,
-  `written_off_reason` varchar(45) DEFAULT NULL,
+  `gender` varchar(1) DEFAULT NULL COMMENT '性别，dict=gender',
+  `role_id` varchar(36) DEFAULT NULL COMMENT '角色id',
+  `is_written_off` varchar(1) DEFAULT '0' COMMENT '是否已注销',
+  `written_off_date` varchar(10) DEFAULT NULL COMMENT '注销日期',
+  `written_off_reason` varchar(45) DEFAULT NULL COMMENT '注销原因',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `vacant_user` */
 
-insert  into `vacant_user`(`id`,`area_code`,`department_id`,`login_name`,`password`,`name`,`is_written_off`,`written_off_date`,`written_off_reason`) values ('2b689697-8f93-11e3-b984-08606e729ccc','220104',NULL,'vacant','1','vacant','0',NULL,NULL),('a0f5e677-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user1','1','user1','0',NULL,NULL),('a0fa7b46-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user2','1','user2','0',NULL,NULL),('a0ff0c5d-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user3','1','user3','0',NULL,NULL),('a104c4c8-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user4','1','user4','0',NULL,NULL),('a10a8105-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user5','1','user5','0',NULL,NULL),('a10ef91b-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user6','1','user6','0',NULL,NULL),('a1138b0c-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user77',NULL,'user7',NULL,NULL,NULL),('a117e882-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user88',NULL,'user8',NULL,NULL,NULL),('a11c828e-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user99',NULL,'user9','0',NULL,NULL),('a120e93f-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user1','10','user10','0',NULL,NULL),('a125664d-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user1','11','user11','0',NULL,NULL),('fd27a7bd-870d-11e3-a27f-08606e729ccc','220104',NULL,'scott','1','郑志强','0',NULL,NULL);
-
-/*Table structure for table `vacant_user_role` */
-
-DROP TABLE IF EXISTS `vacant_user_role`;
-
-CREATE TABLE `vacant_user_role` (
-  `id` varchar(36) NOT NULL COMMENT '主键',
-  `user_id` varchar(36) DEFAULT NULL COMMENT '用户id',
-  `role_id` varchar(36) DEFAULT NULL COMMENT '角色id',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `vacant_user_role` */
-
-insert  into `vacant_user_role`(`id`,`user_id`,`role_id`) values ('3c14097d-870e-11e3-a27f-08606e729ccc','fd27a7bd-870d-11e3-a27f-08606e729ccc','6f913757-870d-11e3-a27f-08606e729ccc');
+insert  into `vacant_user`(`id`,`area_code`,`department_id`,`login_name`,`password`,`name`,`gender`,`role_id`,`is_written_off`,`written_off_date`,`written_off_reason`) values ('267b01ac-a596-4fd6-b3d5-9d32d4110550',NULL,'1,2','combobox','combobox','combobox',NULL,NULL,'0',NULL,NULL),('2b689697-8f93-11e3-b984-08606e729ccc','220104',NULL,'vacant','1','vacant',NULL,NULL,'0',NULL,NULL),('42aa560d-525f-4d01-a70c-046f021a17fb',NULL,NULL,'add',NULL,'add',NULL,NULL,'0',NULL,NULL),('5f9ad8ae-5cf9-4477-b017-259295e2be2d',NULL,'1','1','1','1',NULL,'6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL),('a0f5e677-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user1','1','user1',NULL,NULL,'0',NULL,NULL),('a0fa7b46-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user2','1','user2',NULL,NULL,'0',NULL,NULL),('a0ff0c5d-8f93-11e3-b984-08606e729ccc',NULL,'1','user3','1','user3',NULL,'','0',NULL,NULL),('a104c4c8-8f93-11e3-b984-08606e729ccc',NULL,'1','user4','1','user4',NULL,'6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL),('a10a8105-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user5','1','user5',NULL,NULL,'0',NULL,NULL),('a10ef91b-8f93-11e3-b984-08606e729ccc',NULL,'1','user6','1','user6',NULL,'','0',NULL,NULL),('a1138b0c-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user77',NULL,'user7',NULL,NULL,NULL,NULL,NULL),('a117e882-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user88',NULL,'user8',NULL,NULL,NULL,NULL,NULL),('a11c828e-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user99',NULL,'user9',NULL,NULL,'0',NULL,NULL),('a120e93f-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user1',NULL,'user1',NULL,NULL,'0',NULL,NULL),('a125664d-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user1','11','user11',NULL,NULL,'0',NULL,NULL),('fd27a7bd-870d-11e3-a27f-08606e729ccc',NULL,'1','scott','1','正',NULL,'6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

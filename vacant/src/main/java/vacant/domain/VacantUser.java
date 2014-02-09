@@ -13,6 +13,12 @@ public class VacantUser extends WrittenOffable {
 	@Transient
 	private VacantDepartment department;
 	
+	@Transient
+	private String genderValue;
+
+	@Transient
+	private Set<String> resourceUrlSet;
+	
 	public VacantDepartment getDepartment() {
 		return department;
 	}
@@ -20,9 +26,6 @@ public class VacantUser extends WrittenOffable {
 	public void setDepartment(VacantDepartment department) {
 		this.department = department;
 	}
-
-	@Transient
-	private Set<String> resourceUrlSet;
 
 	public Set<String> getResourceUrlSet() {
 		return resourceUrlSet;
@@ -48,6 +51,9 @@ public class VacantUser extends WrittenOffable {
 
 	@Column(name="name")
 	private String name;
+
+	@Column(name="gender")
+	private String gender;
 
 	@Column(name="role_id")
 	private String roleId;
