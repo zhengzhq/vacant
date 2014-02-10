@@ -64,6 +64,37 @@ CREATE TABLE `vacant_department` (
 
 insert  into `vacant_department`(`id`,`name`) values ('1','二道区民政局');
 
+/*Table structure for table `vacant_dictionary` */
+
+DROP TABLE IF EXISTS `vacant_dictionary`;
+
+CREATE TABLE `vacant_dictionary` (
+  `id` varchar(36) NOT NULL,
+  `type` varchar(45) DEFAULT NULL COMMENT '类型',
+  `name` varchar(45) DEFAULT NULL COMMENT '类型',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='字典';
+
+/*Data for the table `vacant_dictionary` */
+
+insert  into `vacant_dictionary`(`id`,`type`,`name`) values ('f4061295-9252-11e3-894c-00215d2e38e8','gender','性别');
+
+/*Table structure for table `vacant_dictionary_item` */
+
+DROP TABLE IF EXISTS `vacant_dictionary_item`;
+
+CREATE TABLE `vacant_dictionary_item` (
+  `id` varchar(36) NOT NULL,
+  `dictionary_id` varchar(36) DEFAULT NULL COMMENT '字典id',
+  `code` varchar(45) DEFAULT NULL COMMENT '代码',
+  `value` varchar(45) DEFAULT NULL COMMENT '值',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='字典项';
+
+/*Data for the table `vacant_dictionary_item` */
+
+insert  into `vacant_dictionary_item`(`id`,`dictionary_id`,`code`,`value`) values ('141711fe-9253-11e3-894c-00215d2e38e8','f4061295-9252-11e3-894c-00215d2e38e8','1','男'),('1abdc642-9253-11e3-894c-00215d2e38e8','f4061295-9252-11e3-894c-00215d2e38e8',NULL,'女');
+
 /*Table structure for table `vacant_resource` */
 
 DROP TABLE IF EXISTS `vacant_resource`;
@@ -105,12 +136,15 @@ CREATE TABLE `vacant_role` (
   `id` varchar(36) NOT NULL COMMENT '主键',
   `name` varchar(20) DEFAULT NULL COMMENT '名称',
   `description` varchar(50) DEFAULT NULL COMMENT '描述',
+  `is_written_off` varchar(1) DEFAULT NULL,
+  `written_off_date` varchar(10) DEFAULT NULL,
+  `written_off_reason` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `vacant_role` */
 
-insert  into `vacant_role`(`id`,`name`,`description`) values ('6f913757-870d-11e3-a27f-08606e729ccc','管理员','拥有系统所有权限');
+insert  into `vacant_role`(`id`,`name`,`description`,`is_written_off`,`written_off_date`,`written_off_reason`) values ('6f913757-870d-11e3-a27f-08606e729ccc','管理员','拥有系统所有权限',NULL,NULL,NULL);
 
 /*Table structure for table `vacant_user` */
 
