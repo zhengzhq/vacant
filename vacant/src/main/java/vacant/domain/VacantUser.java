@@ -4,24 +4,29 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name="vacant_user")
+@Table(name = "vacant_user")
 public class VacantUser extends WrittenOffable {
-	@Transient
+
+	@ManyToOne
+	@JoinColumn(name = "department_id", insertable = false, updatable = false)
 	private VacantDepartment department;
 
-	@Transient
+	@ManyToOne
+	@JoinColumn(name = "department_id", insertable = false, updatable = false)
 	private VacantRole role;
-	
+
 	@Transient
 	private String genderValue;
 
 	@Transient
 	private Set<String> resourceUrlSet;
-	
+
 	public VacantDepartment getDepartment() {
 		return department;
 	}
@@ -38,29 +43,29 @@ public class VacantUser extends WrittenOffable {
 		this.resourceUrlSet = resourceUrlSet;
 	}
 
-	//-----------------------------------------------------------------
-	
-	@Column(name="area_code")
+	// -----------------------------------------------------------------
+
+	@Column(name = "area_code")
 	private String areaCode;
-	
-	@Column(name="department_id")
+
+	@Column(name = "department_id")
 	private String departmentId;
 
-	@Column(name="login_name")
+	@Column(name = "login_name")
 	private String loginName;
 
-	@Column(name="password")
+	@Column(name = "password")
 	private String password;
 
-	@Column(name="name")
+	@Column(name = "name")
 	private String name;
 
-	@Column(name="gender")
+	@Column(name = "gender")
 	private String gender;
 
-	@Column(name="role_id")
+	@Column(name = "role_id")
 	private String roleId;
-	
+
 	public String getAreaCode() {
 		return areaCode;
 	}
@@ -108,6 +113,5 @@ public class VacantUser extends WrittenOffable {
 	public void setRoleId(String roleId) {
 		this.roleId = roleId;
 	}
-	
 
 }

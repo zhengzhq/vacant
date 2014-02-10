@@ -46,18 +46,17 @@ public class VacantUserService {
 		if (StringUtils.isNotBlank(name)) {
 			sql += "and name like :name ";
 		}
-		sql += "limit :offset, :rows";
 		Session session = factory.getCurrentSession();
-		Query query = session.createSQLQuery(sql).addEntity(VacantUser.class)
-				.setParameter("isWrittenOff", YesOrNo.NO);
+		Query query = session.createQuery(sql).setParameter("isWrittenOff",
+				YesOrNo.NO);
 		if (StringUtils.isNotBlank(loginName)) {
 			query.setParameter("loginName", "%" + loginName + "%");
 		}
 		if (StringUtils.isNotBlank(name)) {
 			query.setParameter("name", "%" + name + "%");
 		}
-		List<VacantUser> list = query.setParameter("offset", offset)
-				.setParameter("rows", rows + 1).list();
+		List<VacantUser> list = query.setMaxResults(rows + 1)
+				.setFirstResult(offset).list();
 		result.setRows(list);
 		result.setTotal(offset + list.size());
 		if (list.size() > rows) {
