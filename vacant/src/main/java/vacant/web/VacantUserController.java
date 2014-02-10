@@ -37,9 +37,10 @@ public class VacantUserController {
 			@RequestParam(value = "loginName", required = false) String loginName,
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "page", required = false, defaultValue = "1") int page,
-			@RequestParam(value = "rows", required = false, defaultValue = "10") int rows) {
+			@RequestParam(value = "rows", required = false, defaultValue = "10") int rows)
+			throws NoSuchFieldException {
 
-		return userService.queryPage(loginName, name, page, rows);
+		return userService.getPage(loginName, name, page, rows);
 	}
 
 	@RequestMapping(value = "/save_user", method = POST)

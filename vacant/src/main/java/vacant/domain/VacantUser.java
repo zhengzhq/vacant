@@ -12,6 +12,9 @@ import javax.persistence.Transient;
 public class VacantUser extends WrittenOffable {
 	@Transient
 	private VacantDepartment department;
+
+	@Transient
+	private VacantRole role;
 	
 	@Transient
 	private String genderValue;

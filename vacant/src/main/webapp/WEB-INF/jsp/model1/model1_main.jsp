@@ -74,6 +74,10 @@
 						<input name="name" class="easyui-validatebox" data-options="required:true">
 					</div>
 					<div class="fitem">
+						<label>性别:</label>
+						<input name="gender" data-options="required:true">
+					</div>
+					<div class="fitem">
 						<label>角色:</label>
 						<input id="roleId" name="roleId">
 					</div>
@@ -117,13 +121,30 @@
 				title : '姓名',
 				halign : 'center',
 				align : 'center'
-			} ] ]
+			}, {
+				field : 'genderValue',
+				width : 100,
+				title : '性别',
+				halign : 'center',
+				align : 'center'
+			} , {
+				field : 'roleValue',
+				width : 100,
+				title : '角色',
+				halign : 'center',
+				align : 'center'
+			}  ] ]
 		});
 		$('#departmentId').combobox({
 			required:true,
 			editable : false,
 			url : contextPath+'/json/department.json',
 			 panelHeight:'auto'
+		});
+		$('#gender').combobox({
+			required:true,
+			editable : false,
+			url : contextPath+'/json/gender.json'
 		});
 		$('#roleId').combobox({
 			required:true,

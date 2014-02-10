@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import vacant.constant.YesOrNo;
 import vacant.domain.VacantUser;
-import vacant.util.DictUtil;
 import vacant.util.Page;
 
 @Service
@@ -19,6 +18,8 @@ public class VacantUserService {
 
 	@Autowired
 	private SessionFactory factory;
+	@Autowired
+	private DictionaryService dictionaryService;
 
 	public VacantUser findUserByLoginName(String loginName) {
 		VacantUser user = null;
@@ -32,14 +33,15 @@ public class VacantUserService {
 		return user;
 	}
 
-	public Page<VacantUser> queryPage(String loginName, String name, int page,
-			int rows) {
+	public Page<VacantUser> getPage(String loginName, String name, int page,
+			int rows) throws NoSuchFieldException {
 		Page<VacantUser> result = new Page<VacantUser>();
 		int offset = (page - 1) * rows;
-		String sql = "select * from vacant_user ";
-		sql += "where is_written_off=:is_written_off ";
+		String sql = "from VacantUser left join fetch VacantDepartment ";
+		sql += "left join fetch VacantRole ";
+		sql += "where isWrittenOff=:isWrittenOff ";
 		if (StringUtils.isNotBlank(loginName)) {
-			sql += "and login_name like :login_name ";
+			sql += "and loginName like :loginName ";
 		}
 		if (StringUtils.isNotBlank(name)) {
 			sql += "and name like :name ";
@@ -47,9 +49,9 @@ public class VacantUserService {
 		sql += "limit :offset, :rows";
 		Session session = factory.getCurrentSession();
 		Query query = session.createSQLQuery(sql).addEntity(VacantUser.class)
-				.setParameter("is_written_off", YesOrNo.NO);
+				.setParameter("isWrittenOff", YesOrNo.NO);
 		if (StringUtils.isNotBlank(loginName)) {
-			query.setParameter("login_name", "%" + loginName + "%");
+			query.setParameter("loginName", "%" + loginName + "%");
 		}
 		if (StringUtils.isNotBlank(name)) {
 			query.setParameter("name", "%" + name + "%");
@@ -62,13 +64,13 @@ public class VacantUserService {
 			list.remove(list.size() - 1);
 		}
 		for (VacantUser user : list) {
-			// TODO
+			dictionaryService.decodeBean(user);
 		}
 		return result;
 	}
 
 	public void save(VacantUser user) {
-		if("".equals(user.getId())) {
+		if ("".equals(user.getId())) {
 			user.setId(null);
 		}
 		user.setIsWrittenOff(YesOrNo.NO);

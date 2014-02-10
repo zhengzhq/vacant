@@ -6,7 +6,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="vacant_resource")
-public class VacantResource extends AbstractDomain {
+public class VacantResource extends BaseDomain {
 
 	@Column(name="url")
 	private String url;

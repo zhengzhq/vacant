@@ -10,7 +10,7 @@ import javax.persistence.MappedSuperclass;
 import org.hibernate.annotations.GenericGenerator;
 
 @MappedSuperclass
-public class AbstractDomain implements Serializable {
+public class BaseDomain implements Serializable {
 
 	@Id
 	@GeneratedValue(generator = "uuid")
