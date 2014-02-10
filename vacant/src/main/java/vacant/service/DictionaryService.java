@@ -7,15 +7,13 @@ import java.util.Map;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import vacant.constant.YesOrNo;
 import vacant.domain.VacantDictionary;
 import vacant.domain.VacantDictionaryItem;
 import vacant.util.DictCode;
 
-@Lazy(true)
+
 @Service
 public class DictionaryService {
 
@@ -23,19 +21,19 @@ public class DictionaryService {
 	private SessionFactory factory;
 
 	private Map<String, Map<String, String>> dicts = new HashMap<String, Map<String, String>>();
-
-	public DictionaryService() {
-//		String hql = "from VacantDictionary join fetch VacantDictionaryItem ";
-//		List<VacantDictionary> list = factory.getCurrentSession()
-//				.createQuery(hql).list();
-//		for (VacantDictionary dict : list) {
-//			List<VacantDictionaryItem> items = dict.getItems();
-//			Map<String, String> itemMap = new HashMap<String, String>();
-//			for (VacantDictionaryItem item : items) {
-//				itemMap.put(item.getCode(), item.getValue());
-//			}
-//			dicts.put(dict.getType(), itemMap);
-//		}
+	
+	public void loadDicts() {
+		String hql = "from VacantDictionary join fetch VacantDictionaryItem ";
+		List<VacantDictionary> list = factory.getCurrentSession()
+				.createQuery(hql).list();
+		for (VacantDictionary dict : list) {
+			List<VacantDictionaryItem> items = dict.getItems();
+			Map<String, String> itemMap = new HashMap<String, String>();
+			for (VacantDictionaryItem item : items) {
+				itemMap.put(item.getCode(), item.getValue());
+			}
+			dicts.put(dict.getType(), itemMap);
+		}
 	}
 
 	public void decodeBean(Object obj) throws NoSuchFieldException {

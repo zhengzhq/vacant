@@ -18,6 +18,7 @@ public class ContextListener implements ServletContextListener {
         //设置当前WEB路径上下文
         String contextPath = context.getContextPath();
         context.setAttribute("contextPath", contextPath);
+        
 	}
 
 	public void contextDestroyed(ServletContextEvent sce) {
