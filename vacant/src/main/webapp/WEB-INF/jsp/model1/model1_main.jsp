@@ -62,7 +62,7 @@
 				<a href="#" plain="true" class="easyui-linkbutton"
 					onclick="editUser()" iconCls="icon-edit">修改</a>
 				<a href="#" plain="true" class="easyui-linkbutton"
-					onclick="removeUser()" iconCls="icon-remove">删除</a>
+					onclick="removeUser()" iconCls="icon-remove">注销</a>
 			</div>
 
 			<div id="dlg" class="easyui-dialog" fit="true"
@@ -107,34 +107,31 @@
 					iconCls="icon-cancel"
 					onclick="javascript:$('#dlg').dialog('close')">取消</a>
 			</div>
-			<!-- 删除 -->
+			<!-- 注销 -->
 			<div id="dlgRemove" class="easyui-dialog" fit="true"
 				style="padding: 10px 20px" closed="true" buttons="#btnsRemove">
-				<div class="ftitle">删除用户信息</div>
+				<div class="ftitle">注销用户信息</div>
 				<form id="fmRemove" method="post">
 					<input type="hidden" name="id">
 					<div class="fitem">
 						<label>部门:</label>
-						<input id="departmentId" name="departmentId" readonly>
+						<input id="remove_department" readonly>
 					</div>
 					<div class="fitem">
 						<label>登录名:</label>
-						<input name="loginName" class="easyui-validatebox"
-							readonly>
+						<input name="loginName" class="easyui-validatebox" readonly>
 					</div>
 					<div class="fitem">
 						<label>密码:</label>
-						<input name="password" class="easyui-validatebox"
-							readonly>
+						<input name="password" class="easyui-validatebox" readonly>
 					</div>
 					<div class="fitem">
 						<label>姓名:</label>
-						<input name="name" class="easyui-validatebox"
-							readonly>
+						<input name="name" class="easyui-validatebox" readonly>
 					</div>
 					<div class="fitem">
 						<label>性别:</label>
-						<input id="gender" name="gender" readonly>
+						<input name="genderValue" readonly>
 					</div>
 					<div class="fitem">
 						<label>角色:</label>
@@ -142,7 +139,8 @@
 					</div>
 					<div class="fitem">
 						<label>注销原因:</label>
-						<input name="writtenOffReason">
+						<input name="writtenOffReason" class="easyui-validatebox"
+							data-options="required:true">
 					</div>
 				</form>
 			</div>
@@ -158,71 +156,74 @@
 	<script type="text/javascript">
 		var modelPath = contextPath + '/model1/';
 		// uis begin
-		$('#dg').datagrid(
-				{
-					url : modelPath + 'query_page',
-					toolbar : '#toolbar',
-					pagination : true,
-					rownumbers : true,
-					singleSelect : true,
-					fitColumns : true,
-					loadMsg : '正在处理，请稍候...',
-					columns : [ [
-							{
-								field : 'department',
-								width : 1,
-								title : '部门',
-								halign : 'center',
-								formatter : function(value, data) {
-									if (data.department) {
-										return data.department.name;
-									}
-								}
-							},
-							{
-								field : 'loginName',
-								width : 1,
-								title : '登录名',
-								halign : 'center',
-								align : 'center'
-							},
-							{
-								field : 'name',
-								width : 1,
-								title : '姓名',
-								halign : 'center',
-								align : 'center'
-							},
-							{
-								field : 'genderValue',
-								width : 1,
-								title : '性别',
-								halign : 'center',
-								align : 'center'
-							},
-							{
-								field : 'role',
-								width : 1,
-								title : '角色',
-								halign : 'center',
-								align : 'center',
-								formatter : function(value, data) {
-									if (data.role) {
-										return data.role.name;
-									}
-								}
-							},
-							{
-								field : 'operate',
-								title : '操作',
-								halign : 'center',
-								align : 'center',
-								formatter : function(value, data, index) {
-									return '<a href="#" onclick="editUser2('
-											+ index + ')">修改</a>';
-								}
-							} ] ]
-				});
+		$('#dg')
+				.datagrid(
+						{
+							url : modelPath + 'query_page',
+							toolbar : '#toolbar',
+							pagination : true,
+							rownumbers : true,
+							singleSelect : true,
+							fitColumns : true,
+							loadMsg : '正在处理，请稍候...',
+							columns : [ [
+									{
+										field : 'department',
+										width : 1,
+										title : '部门',
+										halign : 'center',
+										formatter : function(value, data) {
+											if (data.department) {
+												return data.department.name;
+											}
+										}
+									},
+									{
+										field : 'loginName',
+										width : 1,
+										title : '登录名',
+										halign : 'center',
+										align : 'center'
+									},
+									{
+										field : 'name',
+										width : 1,
+										title : '姓名',
+										halign : 'center',
+										align : 'center'
+									},
+									{
+										field : 'genderValue',
+										width : 1,
+										title : '性别',
+										halign : 'center',
+										align : 'center'
+									},
+									{
+										field : 'role',
+										width : 1,
+										title : '角色',
+										halign : 'center',
+										align : 'center',
+										formatter : function(value, data) {
+											if (data.role) {
+												return data.role.name;
+											}
+										}
+									},
+									{
+										field : 'operate',
+										title : '操作',
+										halign : 'center',
+										align : 'center',
+										formatter : function(value, data, index) {
+											return '<a href="#" onclick="editUser2('
+													+ index
+													+ ')">修改</a>&nbsp;<a href="#" onclick="removeUser2('
+													+ index + ')">注銷</a>';
+										}
+									} ] ]
+						});
 		$('#departmentId').combobox({
 			required : true,
 			editable : false,
@@ -304,11 +305,13 @@
 			var row = $('#dg').datagrid('getSelected');
 			if (row) {
 				$('#dlgRemove').dialog('open').dialog('setTitle', '注销用户');
+				$('#fmRemove').form('clear');
 				$('#fmRemove').form('load', row);
+				$('#remove_department').val(row.department.name);
 			} else {
 				$.messager.show({
 					title : '提示',
-					msg : '请选择要删除的用户'
+					msg : '请选择要注销的用户'
 				});
 			}
 		}
