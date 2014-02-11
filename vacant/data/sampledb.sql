@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v11.11 (32 bit)
-MySQL - 5.6.16 : Database - sampledb
+MySQL - 5.6.13 : Database - sampledb
 *********************************************************************
 */
 
@@ -57,12 +57,15 @@ DROP TABLE IF EXISTS `vacant_department`;
 CREATE TABLE `vacant_department` (
   `id` varchar(36) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
+  `is_written_off` varchar(1) DEFAULT NULL,
+  `written_off_date` varchar(10) DEFAULT NULL,
+  `written_off_reason` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `vacant_department` */
 
-insert  into `vacant_department`(`id`,`name`) values ('1','二道区民政局');
+insert  into `vacant_department`(`id`,`name`,`is_written_off`,`written_off_date`,`written_off_reason`) values ('1','二道区民政局',NULL,NULL,NULL);
 
 /*Table structure for table `vacant_dictionary` */
 
@@ -93,7 +96,7 @@ CREATE TABLE `vacant_dictionary_item` (
 
 /*Data for the table `vacant_dictionary_item` */
 
-insert  into `vacant_dictionary_item`(`id`,`dictionary_id`,`code`,`value`) values ('141711fe-9253-11e3-894c-00215d2e38e8','f4061295-9252-11e3-894c-00215d2e38e8','1','男'),('1abdc642-9253-11e3-894c-00215d2e38e8','f4061295-9252-11e3-894c-00215d2e38e8',NULL,'女');
+insert  into `vacant_dictionary_item`(`id`,`dictionary_id`,`code`,`value`) values ('141711fe-9253-11e3-894c-00215d2e38e8','f4061295-9252-11e3-894c-00215d2e38e8','1','男'),('1abdc642-9253-11e3-894c-00215d2e38e8','f4061295-9252-11e3-894c-00215d2e38e8','2','女');
 
 /*Table structure for table `vacant_resource` */
 
@@ -167,7 +170,7 @@ CREATE TABLE `vacant_user` (
 
 /*Data for the table `vacant_user` */
 
-insert  into `vacant_user`(`id`,`area_code`,`department_id`,`login_name`,`password`,`name`,`gender`,`role_id`,`is_written_off`,`written_off_date`,`written_off_reason`) values ('267b01ac-a596-4fd6-b3d5-9d32d4110550',NULL,'1,2','combobox','combobox','combobox',NULL,NULL,'0',NULL,NULL),('2b689697-8f93-11e3-b984-08606e729ccc','220104',NULL,'vacant','1','vacant',NULL,NULL,'0',NULL,NULL),('42aa560d-525f-4d01-a70c-046f021a17fb',NULL,NULL,'add',NULL,'add',NULL,NULL,'0',NULL,NULL),('5f9ad8ae-5cf9-4477-b017-259295e2be2d',NULL,'1','1','1','1',NULL,'6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL),('a0f5e677-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user1','1','user1',NULL,NULL,'0',NULL,NULL),('a0fa7b46-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user2','1','user2',NULL,NULL,'0',NULL,NULL),('a0ff0c5d-8f93-11e3-b984-08606e729ccc',NULL,'1','user3','1','user3',NULL,'','0',NULL,NULL),('a104c4c8-8f93-11e3-b984-08606e729ccc',NULL,'1','user4','1','user4',NULL,'6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL),('a10a8105-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user5','1','user5',NULL,NULL,'0',NULL,NULL),('a10ef91b-8f93-11e3-b984-08606e729ccc',NULL,'1','user6','1','user6',NULL,'','0',NULL,NULL),('a1138b0c-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user77',NULL,'user7',NULL,NULL,NULL,NULL,NULL),('a117e882-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user88',NULL,'user8',NULL,NULL,NULL,NULL,NULL),('a11c828e-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user99',NULL,'user9',NULL,NULL,'0',NULL,NULL),('a120e93f-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user1',NULL,'user1',NULL,NULL,'0',NULL,NULL),('a125664d-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user1','11','user11',NULL,NULL,'0',NULL,NULL),('fd27a7bd-870d-11e3-a27f-08606e729ccc',NULL,'1','scott','1','正',NULL,'6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL);
+insert  into `vacant_user`(`id`,`area_code`,`department_id`,`login_name`,`password`,`name`,`gender`,`role_id`,`is_written_off`,`written_off_date`,`written_off_reason`) values ('267b01ac-a596-4fd6-b3d5-9d32d4110550',NULL,'1','combobox','combobox','combobox',NULL,NULL,'0',NULL,NULL),('2b689697-8f93-11e3-b984-08606e729ccc','220104',NULL,'vacant','1','vacant',NULL,NULL,'0',NULL,NULL),('42aa560d-525f-4d01-a70c-046f021a17fb',NULL,NULL,'add',NULL,'add',NULL,NULL,'0',NULL,NULL),('5f9ad8ae-5cf9-4477-b017-259295e2be2d',NULL,'1','1','1','1',NULL,'6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL),('a0f5e677-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user1','1','user1',NULL,NULL,'0',NULL,NULL),('a0fa7b46-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user2','1','user2',NULL,NULL,'0',NULL,NULL),('a0ff0c5d-8f93-11e3-b984-08606e729ccc',NULL,'1','user3','1','user3',NULL,NULL,'0',NULL,NULL),('a104c4c8-8f93-11e3-b984-08606e729ccc',NULL,'1','user4','1','user4',NULL,'6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL),('a10a8105-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user5','1','user5',NULL,NULL,'0',NULL,NULL),('a10ef91b-8f93-11e3-b984-08606e729ccc',NULL,'1','user6','1','user6',NULL,NULL,'0',NULL,NULL),('a1138b0c-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user77',NULL,'user7',NULL,NULL,NULL,NULL,NULL),('a117e882-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user88',NULL,'user8',NULL,NULL,NULL,NULL,NULL),('a11c828e-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user99',NULL,'user9',NULL,NULL,'0',NULL,NULL),('a120e93f-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user1',NULL,'user1',NULL,NULL,'0',NULL,NULL),('a125664d-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user1','11','user11',NULL,NULL,'0',NULL,NULL),('fd27a7bd-870d-11e3-a27f-08606e729ccc',NULL,'1','scott','1','正','1','6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

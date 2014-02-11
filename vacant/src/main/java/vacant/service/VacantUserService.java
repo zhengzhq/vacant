@@ -41,10 +41,10 @@ public class VacantUserService {
 		sql += "left join fetch u.role ";
 		sql += "where u.isWrittenOff=:isWrittenOff ";
 		if (StringUtils.isNotBlank(loginName)) {
-			sql += "and loginName like :loginName ";
+			sql += "and u.loginName like :loginName ";
 		}
 		if (StringUtils.isNotBlank(name)) {
-			sql += "and name like :name ";
+			sql += "and u.name like :name ";
 		}
 		Session session = factory.getCurrentSession();
 		Query query = session.createQuery(sql).setParameter("isWrittenOff",

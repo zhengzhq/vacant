@@ -38,7 +38,7 @@
 </head>
 <body>
 	<div class="easyui-tabs" fit="true">
-		<div title="用户管理">
+		<div title="用户管理" style="padding:5px;">
 			<table id="dg"></table>
 			<div id="toolbar" style="padding: 3 0 0 5">
 				<label>登录名:</label>
@@ -46,6 +46,7 @@
 				<label>姓名:</label>
 				<input id="name" style="width: 80px">
 				<a href="#" class="easyui-linkbutton" plain="true" onclick="doSearch()" iconCls="icon-search">查询</a>
+				<a href="#" class="easyui-linkbutton" plain="true" onclick="doStatistic()" iconCls="icon-search">统计</a>
 			</div>
 			<div id="buttons">
 				<a href="#" plain="true" class="easyui-linkbutton" onclick="newUser()" iconCls="icon-add">增加</a>
@@ -53,13 +54,13 @@
 				<a href="#" plain="true" class="easyui-linkbutton" onclick="doSearch()" iconCls="icon-remove">删除</a>
 			</div>
 
-			<div id="dlg" class="easyui-dialog" style="width: 400px; height: 280px; padding: 10px 20px" closed="true" buttons="#dlg-buttons">
+			<div id="dlg" class="easyui-dialog" fit="true" style="padding: 10px 20px" closed="true" buttons="#dlg-buttons">
 				<div class="ftitle">用户信息</div>
 				<form id="fm" method="post">
 					<input type="hidden" name="id">
 					<div class="fitem">
 						<label>部门:</label>
-						<input id="departmentId" name="departmentId">
+						<input id="departmentId" name="departmentId" data-options="required:true">
 					</div>
 					<div class="fitem">
 						<label>登录名:</label>
@@ -75,11 +76,11 @@
 					</div>
 					<div class="fitem">
 						<label>性别:</label>
-						<input name="gender" data-options="required:true">
+						<input id="gender" name="gender" data-options="required:true">
 					</div>
 					<div class="fitem">
 						<label>角色:</label>
-						<input id="roleId" name="roleId">
+						<input id="roleId" name="roleId" data-options="required:true">
 					</div>
 				</form>
 			</div>
@@ -161,6 +162,12 @@
 			$('#dg').datagrid('load', {
 				loginName : $('#loginName').val(),
 				name : $('#name').val(),
+			});
+		}
+		function doStatistic() {
+			$.messager.show({
+				title : '提示',
+				msg : '统计符合条件的记录数等，还没有实现呢'
 			});
 		}
 		var pager = $('#dg').datagrid().datagrid('getPager'); // get the pager of datagrid
