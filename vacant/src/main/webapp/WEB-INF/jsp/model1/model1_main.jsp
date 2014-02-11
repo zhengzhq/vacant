@@ -112,63 +112,71 @@
 	<script type="text/javascript">
 		var modelPath = contextPath + '/model1/';
 		// uis begin
-		$('#dg').datagrid({
-			url : modelPath + 'query_page',
-			toolbar : '#toolbar',
-			pagination : true,
-			rownumbers : true,
-			singleSelect : true,
-			loadMsg : '正在处理，请稍候...',
-			columns : [ [ {
-				field : 'department',
-				width : 200,
-				title : '部门',
-				halign : 'center',
-				formatter : function(value, data) {
-					if (data.department) {
-						return data.department.name;
-					}
-				}
-			}, {
-				field : 'loginName',
-				width : 100,
-				title : '登录名',
-				halign : 'center',
-				align : 'center'
-			}, {
-				field : 'name',
-				width : 100,
-				title : '姓名',
-				halign : 'center',
-				align : 'center'
-			}, {
-				field : 'genderValue',
-				width : 100,
-				title : '性别',
-				halign : 'center',
-				align : 'center'
-			}, {
-				field : 'role',
-				width : 100,
-				title : '角色',
-				halign : 'center',
-				align : 'center',
-				formatter : function(value, data) {
-					if (data.role) {
-						return data.role.name;
-					}
-				}
-			}, {
-				field : 'operate',
-				width : 100,
-				title : '操作',
-				halign : 'center',
-				align : 'center',
-				formatter : function(value, data, index) {
-						return '<a href="#" onclick="editUser2('+index+')">修改</a>';
-				}
-			} ] ]
-		});
+		$('#dg').datagrid(
+				{
+					url : modelPath + 'query_page',
+					toolbar : '#toolbar',
+					pagination : true,
+					rownumbers : true,
+					singleSelect : true,
+					fitColumns : true,
+					loadMsg : '正在处理，请稍候...',
+					columns : [ [
+							{
+								field : 'department',
+								width : 1,
+								title : '部门',
+								halign : 'center',
+								formatter : function(value, data) {
+									if (data.department) {
+										return data.department.name;
+									}
+								}
+							},
+							{
+								field : 'loginName',
+								width : 1,
+								title : '登录名',
+								halign : 'center',
+								align : 'center'
+							},
+							{
+								field : 'name',
+								width : 1,
+								title : '姓名',
+								halign : 'center',
+								align : 'center'
+							},
+							{
+								field : 'genderValue',
+								width : 1,
+								title : '性别',
+								halign : 'center',
+								align : 'center'
+							},
+							{
+								field : 'role',
+								width : 1,
+								title : '角色',
+								halign : 'center',
+								align : 'center',
+								formatter : function(value, data) {
+									if (data.role) {
+										return data.role.name;
+									}
+								}
+							},
+							{
+								field : 'operate',
+								title : '操作',
+								halign : 'center',
+								align : 'center',
+								formatter : function(value, data, index) {
+									return '<a href="#" onclick="editUser2('
+											+ index + ')">修改</a>';
+								}
+							} ] ]
+				});
 		$('#departmentId').combobox({
 			required : true,
 			editable : false,
@@ -223,7 +231,7 @@
 			}
 		}
 		function editUser2(index) {
-			$('#dg').datagrid('selectRow',index);
+			$('#dg').datagrid('selectRow', index);
 			var row = $('#dg').datagrid('getSelected');
 			$('#dlg').dialog('open').dialog('setTitle', '编辑用户');
 			$('#fm').form('load', row);
