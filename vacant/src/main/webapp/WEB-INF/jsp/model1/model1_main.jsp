@@ -158,6 +158,15 @@
 						return data.role.name;
 					}
 				}
+			}, {
+				field : 'operate',
+				width : 100,
+				title : '操作',
+				halign : 'center',
+				align : 'center',
+				formatter : function(value, data, index) {
+						return '<a href="#" onclick="editUser2('+index+')">修改</a>';
+				}
 			} ] ]
 		});
 		$('#departmentId').combobox({
@@ -212,6 +221,12 @@
 					msg : '请选择要修改的用户'
 				});
 			}
+		}
+		function editUser2(index) {
+			$('#dg').datagrid('selectRow',index);
+			var row = $('#dg').datagrid('getSelected');
+			$('#dlg').dialog('open').dialog('setTitle', '编辑用户');
+			$('#fm').form('load', row);
 		}
 		function saveUser() {
 			$('#fm').form('submit', {
