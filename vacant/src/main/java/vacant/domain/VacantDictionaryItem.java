@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Table(name = "vacant_dictionary_item")
 public class VacantDictionaryItem extends BaseDomain {
 
-	@Column(name = "dictioarny_id")
+	@Column(name = "dictionary_id")
 	private String dictionaryId;
 
 	private String code;

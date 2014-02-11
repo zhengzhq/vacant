@@ -37,9 +37,9 @@ public class VacantUserService {
 			int rows) throws NoSuchFieldException {
 		Page<VacantUser> result = new Page<VacantUser>();
 		int offset = (page - 1) * rows;
-		String sql = "from VacantUser left join fetch VacantDepartment ";
-		sql += "left join fetch VacantRole ";
-		sql += "where isWrittenOff=:isWrittenOff ";
+		String sql = "from VacantUser u left join fetch u.department ";
+		sql += "left join fetch u.role ";
+		sql += "where u.isWrittenOff=:isWrittenOff ";
 		if (StringUtils.isNotBlank(loginName)) {
 			sql += "and loginName like :loginName ";
 		}

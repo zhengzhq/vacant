@@ -104,9 +104,9 @@
 				width : 200,
 				title : '部门',
 				halign : 'center',
-				formatter : function(value, rec) {
-					if (rec.department) {
-						return rec.department.name;
+				formatter : function(value, data) {
+					if (data.department) {
+						return data.department.name;
 					}
 				}
 			}, {
@@ -128,11 +128,16 @@
 				halign : 'center',
 				align : 'center'
 			} , {
-				field : 'roleValue',
+				field : 'role',
 				width : 100,
 				title : '角色',
 				halign : 'center',
-				align : 'center'
+				align : 'center',
+				formatter : function(value, data) {
+					if (data.role) {
+						return data.role.name;
+					}
+				}
 			}  ] ]
 		});
 		$('#departmentId').combobox({

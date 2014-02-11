@@ -61,4 +61,5 @@
 		</tx:attributes>
 	</tx:advice>
 	
+	<bean class="vacant.listener.ContextRefreshedListener"></bean>
 </beans>

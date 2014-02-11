@@ -1,6 +1,7 @@
 package vacant.service;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,7 @@ public class DictionaryService {
 	private Map<String, Map<String, String>> dicts = new HashMap<String, Map<String, String>>();
 	
 	public void loadDicts() {
-		String hql = "from VacantDictionary join fetch VacantDictionaryItem ";
+		String hql = "from VacantDictionary d join fetch d.items ";
 		List<VacantDictionary> list = factory.getCurrentSession()
 				.createQuery(hql).list();
 		for (VacantDictionary dict : list) {
@@ -38,35 +39,38 @@ public class DictionaryService {
 
 	public void decodeBean(Object obj) throws NoSuchFieldException {
 		Class<?> clazz = obj.getClass();
-		// 取出对象的成员变量
-		Field[] fields = clazz.getDeclaredFields();
-
-		for (Field field : fields) {
-			// 获得成员变量的标注
-			DictCode annotation = field.getAnnotation(DictCode.class);
-			if (annotation == null) {
-				continue;
-			}
-			try {
-				// 重要:避免java虚拟机检查对私有成员的访问权限
-				field.setAccessible(true);
-				String dictCode = (String) field.get(obj);
-				if (dictCode == null || dictCode.equals("")) {
+		while(clazz != Object.class){
+			Field[] fields = clazz.getDeclaredFields();
+			for(Field field : fields){
+				if(!Modifier.isPrivate(field.getModifiers())){
 					continue;
 				}
-				String valueFieldName = annotation.valueField();
-				if (valueFieldName.equals("")) {
-					valueFieldName = field.getName() + "Value";
+				DictCode annotation = field.getAnnotation(DictCode.class);
+				if (annotation == null) {
+					continue;
 				}
-				String dictType = annotation.type();
-				String dictValue = decode(dictType, dictCode);
-				clazz.getField(valueFieldName).set(obj, dictValue);
-			} catch (IllegalAccessException e) {
-				// can't happen
+				try {
+					// 重要:避免java虚拟机检查对私有成员的访问权限
+					field.setAccessible(true);
+					String dictCode = (String) field.get(obj);
+					if (dictCode == null || dictCode.equals("")) {
+						continue;
+					}
+					String valueFieldName = annotation.valueField();
+					if (valueFieldName.equals("")) {
+						valueFieldName = field.getName() + "Value";
+					}
+					String dictType = annotation.type();
+					String dictValue = decode(dictType, dictCode);
+					Field valueField = clazz.getDeclaredField(valueFieldName);
+					valueField.setAccessible(true);
+					valueField.set(obj, dictValue);
+				} catch (IllegalAccessException e) {
+					// can't happen
+				}
 			}
-
+			clazz = clazz.getSuperclass();
 		}
-
 	}
 
 	public String decode(String dictType, String dictCode) {

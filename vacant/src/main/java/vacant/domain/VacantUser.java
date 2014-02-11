@@ -9,16 +9,18 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import vacant.util.DictCode;
+
 @Entity
 @Table(name = "vacant_user")
 public class VacantUser extends WrittenOffable {
 
 	@ManyToOne
-	@JoinColumn(name = "department_id", insertable = false, updatable = false)
+	@JoinColumn(name = "department_id", insertable = false, updatable = false, nullable = true)
 	private VacantDepartment department;
 
 	@ManyToOne
-	@JoinColumn(name = "department_id", insertable = false, updatable = false)
+	@JoinColumn(name = "role_id", insertable = false, updatable = false, nullable = true)
 	private VacantRole role;
 
 	@Transient
@@ -60,6 +62,7 @@ public class VacantUser extends WrittenOffable {
 	@Column(name = "name")
 	private String name;
 
+	@DictCode(type="gender")
 	@Column(name = "gender")
 	private String gender;
 
@@ -112,6 +115,30 @@ public class VacantUser extends WrittenOffable {
 
 	public void setRoleId(String roleId) {
 		this.roleId = roleId;
+	}
+
+	public VacantRole getRole() {
+		return role;
+	}
+
+	public void setRole(VacantRole role) {
+		this.role = role;
+	}
+
+	public String getGenderValue() {
+		return genderValue;
+	}
+
+	public void setGenderValue(String genderValue) {
+		this.genderValue = genderValue;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 
 }
