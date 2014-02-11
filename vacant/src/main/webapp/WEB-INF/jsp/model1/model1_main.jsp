@@ -62,7 +62,7 @@
 				<a href="#" plain="true" class="easyui-linkbutton"
 					onclick="editUser()" iconCls="icon-edit">修改</a>
 				<a href="#" plain="true" class="easyui-linkbutton"
-					onclick="doSearch()" iconCls="icon-remove">删除</a>
+					onclick="removeUser()" iconCls="icon-remove">删除</a>
 			</div>
 
 			<div id="dlg" class="easyui-dialog" fit="true"
@@ -102,10 +102,56 @@
 			</div>
 			<div id="dlg-buttons">
 				<a href="javascript:void(0)" class="easyui-linkbutton"
-					iconCls="icon-ok" onclick="saveUser()">保存</a>
+					iconCls="icon-ok" onclick="saveUser()">确定</a>
 				<a href="javascript:void(0)" class="easyui-linkbutton"
 					iconCls="icon-cancel"
 					onclick="javascript:$('#dlg').dialog('close')">取消</a>
+			</div>
+			<!-- 删除 -->
+			<div id="dlgRemove" class="easyui-dialog" fit="true"
+				style="padding: 10px 20px" closed="true" buttons="#btnsRemove">
+				<div class="ftitle">删除用户信息</div>
+				<form id="fmRemove" method="post">
+					<input type="hidden" name="id">
+					<div class="fitem">
+						<label>部门:</label>
+						<input id="departmentId" name="departmentId" readonly>
+					</div>
+					<div class="fitem">
+						<label>登录名:</label>
+						<input name="loginName" class="easyui-validatebox"
+							readonly>
+					</div>
+					<div class="fitem">
+						<label>密码:</label>
+						<input name="password" class="easyui-validatebox"
+							readonly>
+					</div>
+					<div class="fitem">
+						<label>姓名:</label>
+						<input name="name" class="easyui-validatebox"
+							readonly>
+					</div>
+					<div class="fitem">
+						<label>性别:</label>
+						<input id="gender" name="gender" readonly>
+					</div>
+					<div class="fitem">
+						<label>角色:</label>
+						<input id="roleId" name="roleId" readonly>
+					</div>
+					<div class="fitem">
+						<label>注销原因:</label>
+						<input name="writtenOffReason">
+					</div>
+				</form>
+			</div>
+			<div id="btnsRemove">
+				<a href="javascript:void(0)" class="easyui-linkbutton"
+					iconCls="icon-ok" onclick="doRemoveUser()">确定</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton"
+					iconCls="icon-cancel"
+					onclick="javascript:$('#dlgRemove').dialog('close')">取消</a>
 			</div>
 		</div>
 	</div>
@@ -232,9 +278,7 @@
 		}
 		function editUser2(index) {
 			$('#dg').datagrid('selectRow', index);
-			var row = $('#dg').datagrid('getSelected');
-			$('#dlg').dialog('open').dialog('setTitle', '编辑用户');
-			$('#fm').form('load', row);
+			editUser();
 		}
 		function saveUser() {
 			$('#fm').form('submit', {
@@ -252,6 +296,42 @@
 					} else {
 						$('#dlg').dialog('close');
 						$('#dg').datagrid('reload');
+					}
+				}
+			});
+		}
+		function removeUser() {
+			var row = $('#dg').datagrid('getSelected');
+			if (row) {
+				$('#dlgRemove').dialog('open').dialog('setTitle', '注销用户');
+				$('#fmRemove').form('load', row);
+			} else {
+				$.messager.show({
+					title : '提示',
+					msg : '请选择要删除的用户'
+				});
+			}
+		}
+		function removeUser2(index) {
+			$('#dg').datagrid('selectRow', index);
+			removeUser();
+		}
+		function doRemoveUser() {
+			$('#fmRemove').form('submit', {
+				url : modelPath + 'remove_user',
+				method : 'post',
+				onSubmit : function() {
+					return $(this).form('validate');
+				},
+				success : function(result) {
+					if (result.message) {
+						$.messager.show({
+							title : '错误',
+							msg : result.message
+						});
+					} else {
+						$('#dlgRemove').dialog('close');
+						$('#dlgRemove').datagrid('reload');
 					}
 				}
 			});

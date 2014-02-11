@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import vacant.constant.YesOrNo;
 import vacant.domain.VacantUser;
+import vacant.util.DateUtil;
 import vacant.util.Page;
 
 @Service
@@ -74,6 +75,18 @@ public class VacantUserService {
 		}
 		user.setIsWrittenOff(YesOrNo.NO);
 		factory.getCurrentSession().saveOrUpdate(user);
+	}
+
+	public void remove(String id, String writtenOffReason) {
+		String hql = "update VacantUser set writtenOffReason=:reason, ";
+		hql += "writtenOffDate=:date,";
+		hql += "isWrittenOff=:isWrittenOff ";
+		hql += "where id=:id";
+		factory.getCurrentSession().createQuery(hql)
+				.setString("reason", writtenOffReason)
+				.setString("date", DateUtil.currentDate())
+				.setString("isWrittenOff", YesOrNo.YES).setString("id", id)
+				.executeUpdate();
 	}
 
 }

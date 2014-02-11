@@ -49,4 +49,12 @@ public class VacantUserController {
 		userService.save(user);
 		return AjaxResult.success();
 	}
+
+	@RequestMapping(value = "/remove_user", method = POST)
+	@ResponseBody
+	public AjaxResult removeUser(@RequestParam("id") String id,
+			@RequestParam("writtenOffReason") String writtenOffReason) {
+		userService.remove(id, writtenOffReason);
+		return AjaxResult.success();
+	}
 }
