@@ -8,9 +8,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>空灵</title>
 <link rel="stylesheet" type="text/css"
-	href="http://www.jeasyui.com/easyui/themes/default/easyui.css">
+	href="${contextPath}/js/jquery-easyui-1.3.5/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css"
-	href="http://www.jeasyui.com/easyui/themes/icon.css">
+	href="${contextPath}/js/jquery-easyui-1.3.5/themes/icon.css">
 
 <style type="text/css">
 #fm {
