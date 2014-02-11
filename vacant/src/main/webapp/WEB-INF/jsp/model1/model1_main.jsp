@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -6,8 +7,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>空灵</title>
-<link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/default/easyui.css">
-<link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/icon.css">
+<link rel="stylesheet" type="text/css"
+	href="http://www.jeasyui.com/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css"
+	href="http://www.jeasyui.com/easyui/themes/icon.css">
 
 <style type="text/css">
 #fm {
@@ -32,47 +35,60 @@
 	width: 80px;
 }
 </style>
-<script type="text/javascript" src="${contextPath}/js/application/common.js"></script>
-<script type="text/javascript" src="${contextPath}/js/jquery-1.10.2/jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="${contextPath}/js/jquery-easyui-1.3.5/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="${contextPath}/js/application/common.js"></script>
+<script type="text/javascript"
+	src="${contextPath}/js/jquery-1.10.2/jquery-1.10.2.min.js"></script>
+<script type="text/javascript"
+	src="${contextPath}/js/jquery-easyui-1.3.5/jquery.easyui.min.js"></script>
 </head>
 <body>
 	<div class="easyui-tabs" fit="true">
-		<div title="用户管理" style="padding:5px;">
+		<div title="用户管理" style="padding: 5px;">
 			<table id="dg"></table>
 			<div id="toolbar" style="padding: 3 0 0 5">
 				<label>登录名:</label>
 				<input id="loginName" style="width: 80px">
 				<label>姓名:</label>
 				<input id="name" style="width: 80px">
-				<a href="#" class="easyui-linkbutton" plain="true" onclick="doSearch()" iconCls="icon-search">查询</a>
-				<a href="#" class="easyui-linkbutton" plain="true" onclick="doStatistic()" iconCls="icon-search">统计</a>
+				<a href="#" class="easyui-linkbutton" plain="true"
+					onclick="doSearch()" iconCls="icon-search">查询</a>
+				<a href="#" class="easyui-linkbutton" plain="true"
+					onclick="doStatistic()" iconCls="icon-sum">统计</a>
 			</div>
 			<div id="buttons">
-				<a href="#" plain="true" class="easyui-linkbutton" onclick="newUser()" iconCls="icon-add">增加</a>
-				<a href="#" plain="true" class="easyui-linkbutton" onclick="editUser()" iconCls="icon-edit">修改</a>
-				<a href="#" plain="true" class="easyui-linkbutton" onclick="doSearch()" iconCls="icon-remove">删除</a>
+				<a href="#" plain="true" class="easyui-linkbutton"
+					onclick="newUser()" iconCls="icon-add">增加</a>
+				<a href="#" plain="true" class="easyui-linkbutton"
+					onclick="editUser()" iconCls="icon-edit">修改</a>
+				<a href="#" plain="true" class="easyui-linkbutton"
+					onclick="doSearch()" iconCls="icon-remove">删除</a>
 			</div>
 
-			<div id="dlg" class="easyui-dialog" fit="true" style="padding: 10px 20px" closed="true" buttons="#dlg-buttons">
+			<div id="dlg" class="easyui-dialog" fit="true"
+				style="padding: 10px 20px" closed="true" buttons="#dlg-buttons">
 				<div class="ftitle">用户信息</div>
 				<form id="fm" method="post">
 					<input type="hidden" name="id">
 					<div class="fitem">
 						<label>部门:</label>
-						<input id="departmentId" name="departmentId" data-options="required:true">
+						<input id="departmentId" name="departmentId"
+							data-options="required:true">
 					</div>
 					<div class="fitem">
 						<label>登录名:</label>
-						<input name="loginName" class="easyui-validatebox" data-options="required:true">
+						<input name="loginName" class="easyui-validatebox"
+							data-options="required:true">
 					</div>
 					<div class="fitem">
 						<label>密码:</label>
-						<input name="password" class="easyui-validatebox" data-options="required:true">
+						<input name="password" class="easyui-validatebox"
+							data-options="required:true">
 					</div>
 					<div class="fitem">
 						<label>姓名:</label>
-						<input name="name" class="easyui-validatebox" data-options="required:true">
+						<input name="name" class="easyui-validatebox"
+							data-options="required:true">
 					</div>
 					<div class="fitem">
 						<label>性别:</label>
@@ -85,13 +101,16 @@
 				</form>
 			</div>
 			<div id="dlg-buttons">
-				<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUser()">保存</a>
-				<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton"
+					iconCls="icon-ok" onclick="saveUser()">保存</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton"
+					iconCls="icon-cancel"
+					onclick="javascript:$('#dlg').dialog('close')">取消</a>
 			</div>
 		</div>
 	</div>
 	<script type="text/javascript">
-		var modelPath = contextPath+'/model1/';
+		var modelPath = contextPath + '/model1/';
 		// uis begin
 		$('#dg').datagrid({
 			url : modelPath + 'query_page',
@@ -128,7 +147,7 @@
 				title : '性别',
 				halign : 'center',
 				align : 'center'
-			} , {
+			}, {
 				field : 'role',
 				width : 100,
 				title : '角色',
@@ -139,29 +158,31 @@
 						return data.role.name;
 					}
 				}
-			}  ] ]
+			} ] ]
 		});
 		$('#departmentId').combobox({
-			required:true,
+			required : true,
 			editable : false,
-			url : contextPath+'/json/department.json',
-			 panelHeight:'auto'
+			url : contextPath + '/json/department.json',
+			panelHeight : 'auto'
 		});
 		$('#gender').combobox({
-			required:true,
+			required : true,
 			editable : false,
-			url : contextPath+'/json/gender.json'
+			url : contextPath + '/json/gender.json',
+			panelHeight : 'auto'
 		});
 		$('#roleId').combobox({
-			required:true,
+			required : true,
 			editable : false,
-			url : contextPath+'/json/role.json'
+			url : contextPath + '/json/role.json',
+			panelHeight : 'auto'
 		});
 		// handlers begin
 		function doSearch() {
 			$('#dg').datagrid('load', {
 				loginName : $('#loginName').val(),
-				name : $('#name').val(),
+				name : $('#name').val()
 			});
 		}
 		function doStatistic() {

@@ -15,7 +15,7 @@
         marginWidth:设定在显示frame中的文字之前文字距离左右两边的空白距离,
         frameborder:决定是否在frame中显示边界，
     -->
-<frameset border="0" noresize="yes" rows="90,*">
+<frameset border="0" noresize="yes" rows="100,*">
 	<!--cols定义了浏览器中frame的列数，可以用百分比，像素，*代表余下部分来设定，
         border表示设定frame之间的距离，framespacing也可以设定frame之间的宽度,
         scrolling决定frame是否可以使用滚动条，noresize决定frame是否可以改变大小，

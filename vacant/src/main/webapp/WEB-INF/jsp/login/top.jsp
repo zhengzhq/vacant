@@ -8,7 +8,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>空虚的心灵</title>
 </head>
-<body style="background-color: #123456">
-	<span style="font-size:48px;font-style: italic;">vacant</span>
+<body style="background-color: #ccc;padding:5px;margin:0;">
+	<div
+		style="font-size: 56px; font-style: italic; color: white; margin-left: 100">vacant</div>
+	<div style="text-align: right">
+		<a href="#">首页</a>
+		|
+		<a href="#">退出</a>
+		|
+		<a href="#">帮助</a>
+	</div>
 </body>
 </html>
