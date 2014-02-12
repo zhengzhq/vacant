@@ -8,9 +8,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>空灵</title>
 <link rel="stylesheet" type="text/css"
-	href="${contextPath}/js/jquery-easyui-1.3.5/themes/default/easyui.css">
+	href="http://www.jeasyui.com/easyui/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css"
-	href="${contextPath}/js/jquery-easyui-1.3.5/themes/icon.css">
+	href="http://www.jeasyui.com/easyui/themes/icon.css">
 
 <style type="text/css">
 #fm {
@@ -139,7 +139,7 @@
 					</div>
 					<div class="fitem">
 						<label>注销原因:</label>
-						<input name="writtenOffReaso" class="easyui-validatebox"
+						<input name="writtenOffReason" class="easyui-validatebox"
 							data-options="required:true">
 					</div>
 				</form>
@@ -334,7 +334,7 @@
 						});
 					} else {
 						$('#dlgRemove').dialog('close');
-						$('#dlgRemove').datagrid('reload');
+						$('#dg').datagrid('reload');
 					}
 				}
 			});
