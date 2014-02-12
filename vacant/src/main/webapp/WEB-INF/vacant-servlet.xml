@@ -43,5 +43,6 @@
 				<prop key="java.lang.Exception">/error/system_error</prop>
 			</props>
 		</property>
+		<property name="order" value="0" />
 	</bean>
 </beans>

@@ -139,7 +139,7 @@
 					</div>
 					<div class="fitem">
 						<label>注销原因:</label>
-						<input name="writtenOffReason" class="easyui-validatebox"
+						<input name="writtenOffReaso" class="easyui-validatebox"
 							data-options="required:true">
 					</div>
 				</form>

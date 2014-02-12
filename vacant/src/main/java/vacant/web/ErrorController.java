@@ -21,4 +21,8 @@ public class ErrorController {
 		return "/error/no_privilege";
 	}
 
+	@RequestMapping("/system_error")
+	public String systemError() {
+		return "/error/system_error";
+	}
 }
