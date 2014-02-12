@@ -135,7 +135,7 @@
 					</div>
 					<div class="fitem">
 						<label>角色:</label>
-						<input id="roleId" name="roleId" readonly>
+						<input id="remove_role" readonly>
 					</div>
 					<div class="fitem">
 						<label>注销原因:</label>
@@ -289,6 +289,7 @@
 					return $(this).form('validate');
 				},
 				success : function(result) {
+					result = $.parseJSON(result);
 					if (result.message) {
 						$.messager.show({
 							title : '错误',
@@ -308,6 +309,7 @@
 				$('#fmRemove').form('clear');
 				$('#fmRemove').form('load', row);
 				$('#remove_department').val(row.department.name);
+				$('#remove_role').val(row.role.name);
 			} else {
 				$.messager.show({
 					title : '提示',
@@ -321,12 +323,13 @@
 		}
 		function doRemoveUser() {
 			$('#fmRemove').form('submit', {
-				url : modelPath + 'remove_user',
+				url : modelPath + 'ajax/remove_user',
 				method : 'post',
 				onSubmit : function() {
 					return $(this).form('validate');
 				},
 				success : function(result) {
+					result = $.parseJSON(result);
 					if (result.message) {
 						$.messager.show({
 							title : '错误',

@@ -17,7 +17,7 @@
 	<!-- 配置视图解析器，将ModelAndView及字符串解析为具体的页面 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-		p:viewClass="org.springframework.web.servlet.view.JstlView" p:prefix="/WEB-INF/jsp/"
+		p:viewClass="org.springframework.web.servlet.view.JstlView" p:prefix="/WEB-INF/jsp"
 		p:suffix=".jsp" />
 
 	<mvc:default-servlet-handler />
@@ -37,7 +37,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+	<bean class="vacant.VacantHandlerExceptionResolver">
 		<property name="exceptionMappings">
 			<props>
 				<prop key="java.lang.Exception">/error/system_error</prop>

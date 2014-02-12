@@ -50,7 +50,7 @@ public class VacantUserController {
 		return AjaxResult.success();
 	}
 
-	@RequestMapping(value = "/remove_user", method = POST)
+	@RequestMapping(value = "/ajax/remove_user", method = POST)
 	@ResponseBody
 	public AjaxResult removeUser(@RequestParam("id") String id,
 			@RequestParam("writtenOffReason") String writtenOffReason) {

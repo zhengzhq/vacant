@@ -23,5 +23,6 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/core-2.2.jar" sourcepath="lib/core-2.2-sources.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
