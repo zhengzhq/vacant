@@ -26,7 +26,7 @@ public class VacantResourceService {
 		String sql = "select r.* from vacant_resource r, ";
 		sql += "vacant_resource_role rr, vacant_user u ";
 		sql += "where r.id=rr.resource_id and rr.role_id=u.role_id ";
-		sql += "and u.id=:user_id ";
+		sql += "and u.id=:user_id order by r.display_order ";
 		Session session = factory.getCurrentSession();
 		return session.createSQLQuery(sql).addEntity(VacantResource.class)
 				.setParameter("user_id", userId).list();
