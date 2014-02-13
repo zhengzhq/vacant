@@ -22,6 +22,11 @@ public class VacantResourceService {
 	@Autowired
 	private SessionFactory factory;
 
+	public List<VacantResource> getAllResourceList() {
+		return factory.getCurrentSession().createQuery("from VacantResource")
+				.list();
+	}
+
 	public List<VacantResource> getResourceListByUserId(String userId) {
 		String sql = "select r.* from vacant_resource r, ";
 		sql += "vacant_resource_role rr, vacant_user u ";
