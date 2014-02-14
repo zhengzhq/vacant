@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import vacant.domain.VacantResource;
 import vacant.service.VacantResourceService;
+import vacant.util.AjaxResult;
 
 @Controller
 @RequestMapping("/resource")
@@ -32,6 +33,13 @@ public class VacantResourceController {
 		Map<String, List<VacantResource>> map = new HashMap<String, List<VacantResource>>();
 		map.put("rows", resourceService.getAllResourceList());
 		return map;
+	}
+	
+	@RequestMapping("/ajax/save_resource")
+	@ResponseBody
+	public AjaxResult saveResource(VacantResource resource) {
+		resourceService.save(resource);
+		return AjaxResult.success();
 	}
 
 }

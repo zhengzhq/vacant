@@ -15,3 +15,6 @@
 
 02-11
 1、ContextStartedEvent事件监听器不起作用：使用ContextRefreshedEvent
+
+02-14
+order是mysql的关键字,使用order作为字段名在执行sql时会出错

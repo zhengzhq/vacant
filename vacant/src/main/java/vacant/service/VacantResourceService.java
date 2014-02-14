@@ -52,7 +52,7 @@ public class VacantResourceService {
 			if (resource.getParentId() == null
 					&& resource.getIsDisplay().equals(YesOrNo.YES)) {
 				String id = resource.getId();
-				String text = resource.getDisplayName();
+				String text = resource.getName();
 				String url = resource.getUrl();
 				EasyuiTreeNode rootNode = new EasyuiTreeNode(id, text, url);
 				attachChildren(rootNode, resourceList);
@@ -70,11 +70,18 @@ public class VacantResourceService {
 			if (nodeId.equals(resource.getParentId())
 					&& resource.getIsDisplay().equals(YesOrNo.YES)) {
 				EasyuiTreeNode childNode = new EasyuiTreeNode(resource.getId(),
-						resource.getDisplayName(), resource.getUrl());
+						resource.getName(), resource.getUrl());
 				attachChildren(childNode, resourceList);
 				children.add(childNode);
 			}
 		}
 		node.setChildren(children.toArray(new EasyuiTreeNode[children.size()]));
+	}
+	
+	public void save(VacantResource resource) {
+		if ("".equals(resource.getId())) {
+			resource.setId(null);
+		}
+		factory.getCurrentSession().saveOrUpdate(resource);
 	}
 }

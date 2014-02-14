@@ -17,8 +17,8 @@ public class VacantResource extends BaseDomain {
 	@Column(name="display_order")
 	private String displayOrder;
 	
-	@Column(name="display_name")
-	private String displayName;
+	@Column(name="name")
+	private String name;
 	
 	@Column(name="parent_id")
 	private String parentId;
@@ -43,16 +43,16 @@ public class VacantResource extends BaseDomain {
 		return displayOrder;
 	}
 
-	public void setDisplayOrder(String displayOrder) {
-		this.displayOrder = displayOrder;
+	public void setDisplayOrder(String order) {
+		this.displayOrder = order;
 	}
 
-	public String getDisplayName() {
-		return displayName;
+	public String getName() {
+		return name;
 	}
 
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getParentId() {
