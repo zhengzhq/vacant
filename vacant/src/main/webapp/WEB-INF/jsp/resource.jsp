@@ -31,7 +31,7 @@
 						<th data-options="field:'name',width:100,halign:'center'">名称</th>
 						<th data-options="field:'url',width:100,halign:'center'">Url</th>
 						<th data-options="field:'isDisplay',width:100,align:'center'">是否是菜单项</th>
-						<th data-options="field:'order',width:100,align:'center'">顺序</th>
+						<th data-options="field:'displayOrder',width:100,align:'center'">顺序</th>
 						<th
 							data-options="field:'progress',width:120,formatter:operationFmtr,align:'center'">操作</th>
 					</tr>
@@ -39,10 +39,10 @@
 			</table>
 			<div id="mm" class="easyui-menu" style="width: 120px;">
 				<div onclick="addResource()" data-options="iconCls:'icon-add'">新增</div>
+				<div onclick="editResource()" data-options="iconCls:'icon-add'">修改</div>
 				<div onclick="removeIt()" data-options="iconCls:'icon-remove'">删除</div>
 				<div class="menu-sep"></div>
-				<div onclick="collapse()">Collapse</div>
-				<div onclick="expand()">Expand</div>
+				<div onclick="collapse()">分配给角色</div>
 			</div>
 			<div id="dlgEdit" class="easyui-dialog" fit="true"
 				style="padding: 10px 20px" closed="true" buttons="#btnsEdit">
@@ -88,8 +88,10 @@
 			url : contextPath + '/json/yes_or_no.json',
 			panelHeight : 'auto'
 		});
-		function operationFmtr(value, row) {
-			return '<a href="#">修改</a>';
+		function operationFmtr(value, data, index) {
+			return '<a href="#" onclick="editResource2(\'' + data.id
+					+ '\')">修改</a>&nbsp;<a href="#" onclick="removeResource2('
+					+ index + ')">注銷</a>';
 		}
 		function onContextMenu(e, row) {
 			e.preventDefault();
@@ -104,6 +106,23 @@
 			$('#dlgEdit').dialog('open').dialog('setTitle', '添加资源');
 			$('#fmEdit').form('clear');
 			$('#parentId').val(node.id);
+		}
+
+		function editResource() {
+			var row = $('#tg').treegrid('getSelected');
+			if (row) {
+				$('#dlgEdit').dialog('open').dialog('setTitle', '修改资源');
+				$('#fmEdit').form('load', row);
+			} else {
+				$.messager.show({
+					title : '提示',
+					msg : '请选择要修改的资源'
+				});
+			}
+		}
+		function editResource2(id) {
+			$('#tg').treegrid('select', id);
+			editResource();
 		}
 		function saveResource() {
 			$('#fmEdit').form('submit', {
