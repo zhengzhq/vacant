@@ -37,12 +37,5 @@
 			</list>
 		</property>
 	</bean>
-	<bean class="vacant.VacantHandlerExceptionResolver">
-		<property name="exceptionMappings">
-			<props>
-				<prop key="java.lang.Exception">/error/system_error</prop>
-			</props>
-		</property>
-		<property name="order" value="0" />
-	</bean>
+	<bean class="vacant.VacantHandlerExceptionResolver" />
 </beans>

@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import vacant.domain.VacantResource;
@@ -39,6 +40,13 @@ public class VacantResourceController {
 	@ResponseBody
 	public AjaxResult saveResource(VacantResource resource) {
 		resourceService.save(resource);
+		return AjaxResult.success();
+	}
+
+	@RequestMapping("/ajax/remove_resource")
+	@ResponseBody
+	public AjaxResult removeResource(@RequestParam("id") String id) {
+		resourceService.remove(id);
 		return AjaxResult.success();
 	}
 

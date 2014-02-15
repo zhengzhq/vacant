@@ -40,9 +40,9 @@
 			<div id="mm" class="easyui-menu" style="width: 120px;">
 				<div onclick="addResource()" data-options="iconCls:'icon-add'">新增</div>
 				<div onclick="editResource()" data-options="iconCls:'icon-add'">修改</div>
-				<div onclick="removeIt()" data-options="iconCls:'icon-remove'">删除</div>
+				<div onclick="removeResource()" data-options="iconCls:'icon-remove'">删除</div>
 				<div class="menu-sep"></div>
-				<div onclick="collapse()">分配给角色</div>
+				<div onclick="grantToAllRoles()">將此资源分配给所有角色</div>
 			</div>
 			<div id="dlgEdit" class="easyui-dialog" fit="true"
 				style="padding: 10px 20px" closed="true" buttons="#btnsEdit">
@@ -78,6 +78,37 @@
 					iconCls="icon-cancel"
 					onclick="javascript:$('#dlgEdit').dialog('close')">取消</a>
 			</div>
+			<!-- 删除 -->
+			<div id="dlgRemove" class="easyui-dialog" fit="true"
+				style="padding: 10px 20px" closed="true" buttons="#btnsRemove">
+				<div class="ftitle">删除资源</div>
+				<form id="fmRemove" method="post">
+					<input type="hidden" name="id">
+					<div class="fitem">
+						<label>名称:</label>
+						<input name="name" readonly>
+					</div>
+					<div class="fitem">
+						<label>URL:</label>
+						<input name="url" readonly>
+					</div>
+					<div class="fitem">
+						<label>顺序:</label>
+						<input name="displayOrder" readonly>
+					</div>
+					<div class="fitem">
+						<label>是否是菜单项:</label>
+						<input name="isDisplayValue" readonly>
+					</div>
+				</form>
+			</div>
+			<div id="btnsRemove">
+				<a href="javascript:void(0)" class="easyui-linkbutton"
+					iconCls="icon-ok" onclick="doRemoveResource()">确定</a>
+				<a href="javascript:void(0)" class="easyui-linkbutton"
+					iconCls="icon-cancel"
+					onclick="javascript:$('#dlgRemove').dialog('close')">取消</a>
+			</div>
 		</div>
 	</div>
 	<script type="text/javascript">
@@ -89,9 +120,10 @@
 			panelHeight : 'auto'
 		});
 		function operationFmtr(value, data, index) {
-			return '<a href="#" onclick="editResource2(\'' + data.id
-					+ '\')">修改</a>&nbsp;<a href="#" onclick="removeResource2('
-					+ index + ')">注銷</a>';
+			return '<a href="#" onclick="editResource2(\''
+					+ data.id
+					+ '\')">修改</a>&nbsp;<a href="#" onclick="removeResource2(\''
+					+ data.id + '\')">删除</a>';
 		}
 		function onContextMenu(e, row) {
 			e.preventDefault();
@@ -145,12 +177,39 @@
 				}
 			});
 		}
-
-		function removeIt() {
-			var node = $('#tg').treegrid('getSelected');
-			if (node) {
-				$('#tg').treegrid('remove', node.id);
+		// 删除资源
+		function removeResource() {
+			var row = $('#tg').treegrid('getSelected');
+			if (row) {
+				$('#fmRemove').form('submit', {
+					url : modelPath + 'ajax/remove_resource',
+					method : 'post',
+					onSubmit : function() {
+						return $(this).form('validate');
+					},
+					success : function(result) {
+						result = $.parseJSON(result);
+						if (result.message) {
+							$.messager.show({
+								title : '错误',
+								msg : result.message
+							});
+						} else {
+							$('#dlgRemove').dialog('close');
+							$('#tg').treegrid('reload');
+						}
+					}
+				});
+			} else {
+				$.messager.show({
+					title : '提示',
+					msg : '请选择要删除的资源'
+				});
 			}
+		}
+		function removeResource2(id) {
+			$('#tg').treegrid('select', id);
+			removeResource();
 		}
 	</script>
 </body>

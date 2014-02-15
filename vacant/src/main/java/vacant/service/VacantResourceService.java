@@ -77,11 +77,21 @@ public class VacantResourceService {
 		}
 		node.setChildren(children.toArray(new EasyuiTreeNode[children.size()]));
 	}
-	
+
 	public void save(VacantResource resource) {
 		if ("".equals(resource.getId())) {
 			resource.setId(null);
 		}
 		factory.getCurrentSession().saveOrUpdate(resource);
 	}
+
+	public void remove(String id) {
+		String sql = "delete vacant_resource where id=:id";
+		factory.getCurrentSession().createSQLQuery(sql).setString("id", id)
+				.executeUpdate();
+		sql = "delete vacant_resource_role where resource_id=:id";
+		factory.getCurrentSession().createSQLQuery(sql).setString("id", id)
+				.executeUpdate();
+	}
+
 }
