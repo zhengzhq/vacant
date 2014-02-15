@@ -4,19 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>TreeGrid ContextMenu - jQuery EasyUI Demo</title>
-<link rel="stylesheet" type="text/css"
-	href="http://www.jeasyui.com/easyui/themes/default/easyui.css">
-<link rel="stylesheet" type="text/css"
-	href="http://www.jeasyui.com/easyui/themes/icon.css">
-<link rel="stylesheet" type="text/css"
-	href="${contextPath}/css/common.css">
-<script type="text/javascript"
-	src="${contextPath}/js/application/common.js"></script>
-<script type="text/javascript"
-	src="http://www.jeasyui.com/easyui/jquery.min.js"></script>
-<script type="text/javascript"
-	src="http://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
+<title>空灵</title>
+<%@ include file="/include.jsp"%>
 </head>
 <body>
 	<div class="easyui-tabs" fit="true">
@@ -38,7 +27,8 @@
 				</thead>
 			</table>
 			<div id="mm" class="easyui-menu" style="width: 120px;">
-				<div onclick="addResource()" data-options="iconCls:'icon-add'">新增</div>
+				<div onclick="addTopResource()" data-options="iconCls:'icon-add'">添加顶级资源</div>
+				<div onclick="addSubResource()" data-options="iconCls:'icon-add'">添加下级资源</div>
 				<div onclick="editResource()" data-options="iconCls:'icon-add'">修改</div>
 				<div onclick="removeResource()" data-options="iconCls:'icon-remove'">删除</div>
 				<div class="menu-sep"></div>
@@ -78,37 +68,6 @@
 					iconCls="icon-cancel"
 					onclick="javascript:$('#dlgEdit').dialog('close')">取消</a>
 			</div>
-			<!-- 删除 -->
-			<div id="dlgRemove" class="easyui-dialog" fit="true"
-				style="padding: 10px 20px" closed="true" buttons="#btnsRemove">
-				<div class="ftitle">删除资源</div>
-				<form id="fmRemove" method="post">
-					<input type="hidden" name="id">
-					<div class="fitem">
-						<label>名称:</label>
-						<input name="name" readonly>
-					</div>
-					<div class="fitem">
-						<label>URL:</label>
-						<input name="url" readonly>
-					</div>
-					<div class="fitem">
-						<label>顺序:</label>
-						<input name="displayOrder" readonly>
-					</div>
-					<div class="fitem">
-						<label>是否是菜单项:</label>
-						<input name="isDisplayValue" readonly>
-					</div>
-				</form>
-			</div>
-			<div id="btnsRemove">
-				<a href="javascript:void(0)" class="easyui-linkbutton"
-					iconCls="icon-ok" onclick="doRemoveResource()">确定</a>
-				<a href="javascript:void(0)" class="easyui-linkbutton"
-					iconCls="icon-cancel"
-					onclick="javascript:$('#dlgRemove').dialog('close')">取消</a>
-			</div>
 		</div>
 	</div>
 	<script type="text/javascript">
@@ -133,7 +92,12 @@
 				top : e.pageY
 			});
 		}
-		function addResource() {
+		// 添加顶级资源
+		function addTopResource() {
+			$('#dlgEdit').dialog('open').dialog('setTitle', '添加资源');
+			$('#fmEdit').form('clear');
+		}
+		function addSubResource() {
 			var node = $('#tg').treegrid('getSelected');
 			$('#dlgEdit').dialog('open').dialog('setTitle', '添加资源');
 			$('#fmEdit').form('clear');
@@ -178,28 +142,29 @@
 			});
 		}
 		// 删除资源
+		// 如果存在下级资源，则不能删除
 		function removeResource() {
-			var row = $('#tg').treegrid('getSelected');
-			if (row) {
-				$('#fmRemove').form('submit', {
-					url : modelPath + 'ajax/remove_resource',
-					method : 'post',
-					onSubmit : function() {
-						return $(this).form('validate');
-					},
-					success : function(result) {
-						result = $.parseJSON(result);
+			var node = $('#tg').treegrid('getSelected');
+			if(node.children) {
+				$.messager.show({
+					title : '错误',
+					msg : '存在下级资源，则不能删除'
+				});
+			}
+			if (node) {
+				if (confirm('确定要删除资源' + node.name + '吗？')) {
+					$.post(modelPath + 'ajax/remove_resource',{id:node.id},
+							function(result) {
 						if (result.message) {
 							$.messager.show({
 								title : '错误',
 								msg : result.message
 							});
 						} else {
-							$('#dlgRemove').dialog('close');
 							$('#tg').treegrid('reload');
 						}
-					}
-				});
+					});
+				}
 			} else {
 				$.messager.show({
 					title : '提示',

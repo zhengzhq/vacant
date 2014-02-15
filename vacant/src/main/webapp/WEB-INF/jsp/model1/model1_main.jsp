@@ -7,40 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>空灵</title>
-<link rel="stylesheet" type="text/css"
-	href="http://www.jeasyui.com/easyui/themes/default/easyui.css">
-<link rel="stylesheet" type="text/css"
-	href="http://www.jeasyui.com/easyui/themes/icon.css">
-
-<style type="text/css">
-#fm {
-	margin: 0;
-	padding: 10px 30px;
-}
-
-.ftitle {
-	font-size: 14px;
-	font-weight: bold;
-	padding: 5px 0;
-	margin-bottom: 10px;
-	border-bottom: 1px solid #ccc;
-}
-
-.fitem {
-	margin-bottom: 5px;
-}
-
-.fitem label {
-	display: inline-block;
-	width: 80px;
-}
-</style>
-<script type="text/javascript"
-	src="${contextPath}/js/application/common.js"></script>
-<script type="text/javascript"
-	src="${contextPath}/js/jquery-1.10.2/jquery-1.10.2.min.js"></script>
-<script type="text/javascript"
-	src="${contextPath}/js/jquery-easyui-1.3.5/jquery.easyui.min.js"></script>
+<%@ include file="/include.jsp"%>
 </head>
 <body>
 	<div class="easyui-tabs" fit="true">
@@ -64,7 +31,6 @@
 				<a href="#" plain="true" class="easyui-linkbutton"
 					onclick="removeUser()" iconCls="icon-remove">注销</a>
 			</div>
-
 			<div id="dlg" class="easyui-dialog" fit="true"
 				style="padding: 10px 20px" closed="true" buttons="#dlg-buttons">
 				<div class="ftitle">用户信息</div>
@@ -139,7 +105,7 @@
 					</div>
 					<div class="fitem">
 						<label>注销原因:</label>
-						<input name="writtenOffReaso" class="easyui-validatebox"
+						<input name="writtenOffReason" class="easyui-validatebox"
 							data-options="required:true">
 					</div>
 				</form>

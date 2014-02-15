@@ -20,6 +20,8 @@ public class VacantHandlerExceptionResolver extends
 			HttpServletResponse response, Object handler, Exception ex) {
 
 		try {
+			ex.printStackTrace();
+			
 			String script = "<script type='text/javascript'>top.location.href='";
 			script += request.getContextPath() + "/error/system_error";
 			script += "'</script>";
