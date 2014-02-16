@@ -144,11 +144,12 @@
 		// 如果存在下级资源，则不能删除
 		function removeResource() {
 			var node = $('#tg').treegrid('getSelected');
-			if(node.children) {
+			if(node.children.length>0) {
 				$.messager.show({
 					title : '错误',
 					msg : '存在下级资源，则不能删除'
 				});
+				return;
 			}
 			if (node) {
 				if (confirm('确定要删除资源' + node.name + '吗？')) {
