@@ -120,7 +120,7 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		var modelPath = contextPath + '/model1/';
+		var modelPath = contextPath + '/user/';
 		// uis begin
 		$('#dg')
 				.datagrid(

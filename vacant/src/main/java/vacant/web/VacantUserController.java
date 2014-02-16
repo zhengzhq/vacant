@@ -15,7 +15,7 @@ import vacant.util.AjaxResult;
 import vacant.util.Page;
 
 @Controller
-@RequestMapping("/model1")
+@RequestMapping("/user")
 public class VacantUserController {
 
 	@Autowired
