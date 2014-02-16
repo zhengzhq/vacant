@@ -23,8 +23,8 @@ public class VacantResourceService {
 	@Autowired
 	private SessionFactory factory;
 	@Autowired
-	private DictionaryService dictionaryService;
-
+	private VacantDictionaryService dictionaryService;
+	
 	public List<VacantResource> getAllResourceList() {
 		return factory.getCurrentSession().createQuery("from VacantResource")
 				.list();

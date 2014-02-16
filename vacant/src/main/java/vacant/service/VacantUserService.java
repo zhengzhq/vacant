@@ -1,6 +1,10 @@
 package vacant.service;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
@@ -9,6 +13,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import vacant.constant.Global;
 import vacant.constant.YesOrNo;
 import vacant.domain.VacantUser;
 import vacant.util.DateUtil;
@@ -20,7 +25,25 @@ public class VacantUserService {
 	@Autowired
 	private SessionFactory factory;
 	@Autowired
-	private DictionaryService dictionaryService;
+	private VacantDictionaryService dictionaryService;
+
+	private Map<String, Set<String>> userMap = new HashMap<String, Set<String>>();
+
+	public void loadUserMap() {
+		String hql = "from VacantUser where isWrittenOff=:isWrittenOff ";
+		List<VacantUser> userList = factory.getCurrentSession()
+				.createSQLQuery(hql).setString("isWrittenOff", YesOrNo.NO)
+				.list();
+		String sql = "select url from vacant_resource r, vacant_resource_role rr";
+		sql += "where r.id=rr.resource_id and rr.role_id=:role_id ";
+		for (VacantUser user : userList) {
+			List<String> urlList = factory.getCurrentSession()
+					.createSQLQuery(sql).setString("role_id", user.getRoleId())
+					.list();
+			Set<String> urlSet = new HashSet<String>(urlList);
+			userMap.put(user.getId(), urlSet);
+		}
+	}
 
 	public VacantUser findUserByLoginName(String loginName) {
 		VacantUser user = null;
@@ -87,6 +110,21 @@ public class VacantUserService {
 				.setString("date", DateUtil.currentDate())
 				.setString("isWrittenOff", YesOrNo.YES).setString("id", id)
 				.executeUpdate();
+	}
+
+	public boolean isUserCanAccessResource(String userId, String url) {
+		if (Global.IS_USE_CACHE.equals(YesOrNo.YES)) {
+			return userMap.get(userId).contains(url);
+		} else {
+			String sql = "SELECT 1 FROM vacant_user u, vacant_resource_role rr,vacant_resource r ";
+			sql += "WHERE u.role_id = rr.role_id AND rr.resource_id = r.id ";
+			sql += "AND u.id=:userId AND r.url=:url ";
+
+			List<Integer> list = factory.getCurrentSession()
+					.createSQLQuery(sql).setString("userId", userId)
+					.setString("url", url).setMaxResults(1).list();
+			return !list.isEmpty();
+		}
 	}
 
 }

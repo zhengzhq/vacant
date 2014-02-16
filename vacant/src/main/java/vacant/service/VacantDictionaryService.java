@@ -11,12 +11,14 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import vacant.constant.Global;
+import vacant.constant.YesOrNo;
 import vacant.domain.VacantDictionary;
 import vacant.domain.VacantDictionaryItem;
 import vacant.util.DictCode;
 
 @Service
-public class DictionaryService {
+public class VacantDictionaryService {
 
 	@Autowired
 	private SessionFactory factory;
@@ -80,7 +82,16 @@ public class DictionaryService {
 	}
 
 	public String decode(String dictType, String dictCode) {
-		return dicts.get(dictType).get(dictCode);
+		if(Global.IS_USE_CACHE.equals(YesOrNo.YES)) {
+			return dicts.get(dictType).get(dictCode);
+		} else {
+			String sql = "select di.value from vacant_dictionary d, vacant_dictionary_item di ";
+			sql += "where d.id=di.dictionary_id and d.type=:dictType and di.code=:dictCode";
+			List<String> list = factory.getCurrentSession().createSQLQuery(sql)
+					.setString("dictType", dictType)
+					.setString("dictCode", dictCode).setMaxResults(1).list();
+			return list.get(0);
+		}
 	}
 
 }

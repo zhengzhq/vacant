@@ -1,7 +1,6 @@
 package vacant;
 
 import java.io.IOException;
-import java.util.Set;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -14,9 +13,12 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import vacant.constant.Global;
 import vacant.domain.VacantUser;
+import vacant.service.VacantUserService;
 
 public class SecurityFilter implements Filter {
 
@@ -65,8 +67,15 @@ public class SecurityFilter implements Filter {
 		}
 		VacantUser user = (VacantUser) session
 				.getAttribute(Global.SESSION_ATTRIBUTE_USER);
-		Set<String> resourceUrlSet = user.getResourceUrlSet();
-		if (!resourceUrlSet.contains(requestURI)) {
+		// Set<String> resourceUrlSet = user.getResourceUrlSet();
+		WebApplicationContext webApplicationContext = WebApplicationContextUtils
+				.getWebApplicationContext(httpRequest.getSession()
+						.getServletContext());
+		VacantUserService userService = webApplicationContext
+				.getBean(VacantUserService.class);
+		if (userService.isUserCanAccessResource(user.getId(), requestURI)) {
+			chain.doFilter(httpRequest, response);
+		} else {
 			if (log.isErrorEnabled()) {
 				log.error(String.format(
 						"User %s don't have permission to visit \"%s\"",
@@ -76,9 +85,20 @@ public class SecurityFilter implements Filter {
 			script += httpRequest.getContextPath() + "/error/no_privilege";
 			script += "'</script>";
 			response.getWriter().write(script);
-		} else {
-			chain.doFilter(httpRequest, response);
 		}
+		// if (!resourceUrlSet.contains(requestURI)) {
+		// if (log.isErrorEnabled()) {
+		// log.error(String.format(
+		// "User %s don't have permission to visit \"%s\"",
+		// user.getLoginName(), requestURI));
+		// }
+		// String script = "<script type='text/javascript'>top.location.href='";
+		// script += httpRequest.getContextPath() + "/error/no_privilege";
+		// script += "'</script>";
+		// response.getWriter().write(script);
+		// } else {
+		// chain.doFilter(httpRequest, response);
+		// }
 	}
 
 	public void destroy() {

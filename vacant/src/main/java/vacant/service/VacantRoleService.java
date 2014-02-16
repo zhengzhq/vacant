@@ -20,7 +20,7 @@ public class VacantRoleService {
 	@Autowired
 	private SessionFactory factory;
 	@Autowired
-	private DictionaryService dictionaryService;
+	private VacantDictionaryService dictionaryService;
 
 	public Page<VacantUser> getPage(String loginName, String name, int page,
 			int rows) throws NoSuchFieldException {
