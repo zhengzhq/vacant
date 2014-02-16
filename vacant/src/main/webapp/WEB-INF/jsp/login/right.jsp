@@ -6,7 +6,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>空虚的心灵</title>
 </head>
 <body style="height: 100%">
 	<div style="font: 48px italic;text-align: center">Welcome to vacant!</div>

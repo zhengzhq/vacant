@@ -3,10 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta charset="UTF-8">
-<title>空灵</title>
 <%@ include file="/include.jsp"%>
-</head>
 <body>
 	<div class="easyui-tabs" fit="true">
 		<div title="资源管理" style="padding: 5px;">

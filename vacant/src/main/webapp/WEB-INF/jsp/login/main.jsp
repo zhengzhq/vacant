@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>空灵</title>
+<title>虚怀若谷</title>
 </head>
 	<!--cols定义了浏览器中frame的列数，可以用百分比，像素，*代表余下部分来设定，
         border表示设定frame之间的距离，framespacing也可以设定frame之间的宽度,
