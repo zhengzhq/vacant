@@ -65,6 +65,9 @@
 					iconCls="icon-cancel"
 					onclick="javascript:$('#dlgEdit').dialog('close')">取消</a>
 			</div>
+			<form id="fmRemove" method="post">
+				<input type="hidden" id="remove_id" name="id">
+			</form>
 		</div>
 	</div>
 	<script type="text/javascript">
@@ -150,18 +153,37 @@
 			}
 			if (node) {
 				if (confirm('确定要删除资源' + node.name + '吗？')) {
-					$.post(modelPath + 'ajax/remove_resource', {
-						id : node.id
-					}, function(result) {
-						if (result.message) {
-							$.messager.show({
-								title : '错误',
-								msg : result.message
-							});
-						} else {
-							$('#tg').treegrid('reload');
+					$('#remove_id').val(node.id);
+					$('#fmRemove').form('submit', {
+						url : modelPath + 'ajax/remove_resource',
+						method : 'post',
+						onSubmit : function() {
+							return $(this).form('validate');
+						},
+						success : function(result) {
+							result = $.parseJSON(result);
+							if (result.message) {
+								$.messager.show({
+									title : '错误',
+									msg : result.message
+								});
+							} else {
+								$('#tg').treegrid('reload');
+							}
 						}
 					});
+					// 					$.post(modelPath + 'ajax/remove_resource', {
+					// 						id : node.id
+					// 					}, function(result) {
+					// 						if (result.message) {
+					// 							$.messager.show({
+					// 								title : '错误',
+					// 								msg : result.message
+					// 							});
+					// 						} else {
+					// 							$('#tg').treegrid('reload');
+					// 						}
+					// 					});
 				}
 			} else {
 				$.messager.show({
