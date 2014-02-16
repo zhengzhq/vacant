@@ -86,19 +86,6 @@ public class SecurityFilter implements Filter {
 			script += "'</script>";
 			response.getWriter().write(script);
 		}
-		// if (!resourceUrlSet.contains(requestURI)) {
-		// if (log.isErrorEnabled()) {
-		// log.error(String.format(
-		// "User %s don't have permission to visit \"%s\"",
-		// user.getLoginName(), requestURI));
-		// }
-		// String script = "<script type='text/javascript'>top.location.href='";
-		// script += httpRequest.getContextPath() + "/error/no_privilege";
-		// script += "'</script>";
-		// response.getWriter().write(script);
-		// } else {
-		// chain.doFilter(httpRequest, response);
-		// }
 	}
 
 	public void destroy() {

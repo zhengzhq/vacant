@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import vacant.domain.VacantUser;
+import vacant.domain.VacantRole;
 import vacant.service.VacantRoleService;
 import vacant.util.AjaxResult;
 import vacant.util.Page;
@@ -28,7 +28,7 @@ public class VacantRoleController {
 
 	@RequestMapping(value = "/query_page")
 	@ResponseBody
-	public Page<VacantUser> queryUserByPage(
+	public Page<VacantRole> queryRoleByPage(
 			@RequestParam(value = "loginName", required = false) String loginName,
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "page", required = false, defaultValue = "1") int page,
@@ -38,16 +38,16 @@ public class VacantRoleController {
 		return roleService.getPage(loginName, name, page, rows);
 	}
 
-	@RequestMapping(value = "/save_user", method = POST)
+	@RequestMapping(value = "/save_role", method = POST)
 	@ResponseBody
-	public AjaxResult saveUser(VacantUser user) {
-		roleService.save(user);
+	public AjaxResult saveRole(VacantRole role) {
+		roleService.save(role);
 		return AjaxResult.success();
 	}
 
-	@RequestMapping(value = "/ajax/remove_user", method = POST)
+	@RequestMapping(value = "/ajax/remove_role", method = POST)
 	@ResponseBody
-	public AjaxResult removeUser(@RequestParam("id") String id,
+	public AjaxResult removeRole(@RequestParam("id") String id,
 			@RequestParam("writtenOffReason") String writtenOffReason) {
 		roleService.remove(id, writtenOffReason);
 		return AjaxResult.success();

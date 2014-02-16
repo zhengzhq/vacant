@@ -17,52 +17,32 @@
 			</div>
 			<div id="buttons">
 				<a href="#" plain="true" class="easyui-linkbutton"
-					onclick="newUser()" iconCls="icon-add">增加</a>
+					onclick="newRole()" iconCls="icon-add">增加</a>
 				<a href="#" plain="true" class="easyui-linkbutton"
-					onclick="editUser()" iconCls="icon-edit">修改</a>
+					onclick="editRole()" iconCls="icon-edit">修改</a>
 				<a href="#" plain="true" class="easyui-linkbutton"
-					onclick="removeUser()" iconCls="icon-remove">注销</a>
+					onclick="removeRole()" iconCls="icon-remove">注销</a>
 				<a href="#" plain="true" class="easyui-linkbutton"
-					onclick="removeUser()" iconCls="icon-remove">删除</a>
+					onclick="removeRole()" iconCls="icon-remove">删除</a>
 			</div>
 			<div id="dlg" class="easyui-dialog" fit="true"
 				style="padding: 10px 20px" closed="true" buttons="#dlg-buttons">
-				<div class="ftitle">用户信息</div>
 				<form id="fm" method="post">
 					<input type="hidden" name="id">
 					<div class="fitem">
-						<label>部门:</label>
-						<input id="departmentId" name="departmentId"
-							data-options="required:true">
-					</div>
-					<div class="fitem">
-						<label>登录名:</label>
-						<input name="loginName" class="easyui-validatebox"
-							data-options="required:true">
-					</div>
-					<div class="fitem">
-						<label>密码:</label>
-						<input name="password" class="easyui-validatebox"
-							data-options="required:true">
-					</div>
-					<div class="fitem">
-						<label>姓名:</label>
+						<label>名称:</label>
 						<input name="name" class="easyui-validatebox"
 							data-options="required:true">
 					</div>
 					<div class="fitem">
-						<label>性别:</label>
-						<input id="gender" name="gender" data-options="required:true">
-					</div>
-					<div class="fitem">
-						<label>角色:</label>
-						<input id="roleId" name="roleId" data-options="required:true">
+						<label>描述:</label>
+						<input name="description" data-options="required:true">
 					</div>
 				</form>
 			</div>
 			<div id="dlg-buttons">
 				<a href="javascript:void(0)" class="easyui-linkbutton"
-					iconCls="icon-ok" onclick="saveUser()">确定</a>
+					iconCls="icon-ok" onclick="saveRole()">确定</a>
 				<a href="javascript:void(0)" class="easyui-linkbutton"
 					iconCls="icon-cancel"
 					onclick="javascript:$('#dlg').dialog('close')">取消</a>
@@ -70,7 +50,6 @@
 			<!-- 注销 -->
 			<div id="dlgRemove" class="easyui-dialog" fit="true"
 				style="padding: 10px 20px" closed="true" buttons="#btnsRemove">
-				<div class="ftitle">注销用户信息</div>
 				<form id="fmRemove" method="post">
 					<input type="hidden" name="id">
 					<div class="fitem">
@@ -106,7 +85,7 @@
 			</div>
 			<div id="btnsRemove">
 				<a href="javascript:void(0)" class="easyui-linkbutton"
-					iconCls="icon-ok" onclick="doRemoveUser()">确定</a>
+					iconCls="icon-ok" onclick="doRemoveRole()">确定</a>
 				<a href="javascript:void(0)" class="easyui-linkbutton"
 					iconCls="icon-cancel"
 					onclick="javascript:$('#dlgRemove').dialog('close')">取消</a>
@@ -146,7 +125,7 @@
 										halign : 'center',
 										align : 'center',
 										formatter : function(value, data, index) {
-											return '<a href="#" onclick="edit2('
+											return '<a href="#" onclick="editRole2('
 													+ index
 													+ ')">修改</a>';
 										}
@@ -170,29 +149,29 @@
 			layout : [ 'prev', 'next' ],
 			displayMsg : ''
 		});
-		function newUser() {
-			$('#dlg').dialog('open').dialog('setTitle', '添加用户');
+		function newRole() {
+			$('#dlg').dialog('open').dialog('setTitle', '添加角色');
 			$('#fm').form('clear');
 		}
-		function editUser() {
+		function editRole() {
 			var row = $('#dg').datagrid('getSelected');
 			if (row) {
-				$('#dlg').dialog('open').dialog('setTitle', '编辑用户');
+				$('#dlg').dialog('open').dialog('setTitle', '编辑角色');
 				$('#fm').form('load', row);
 			} else {
 				$.messager.show({
 					title : '提示',
-					msg : '请选择要修改的用户'
+					msg : '请选择要修改的角色'
 				});
 			}
 		}
-		function editUser2(index) {
+		function editRole2(index) {
 			$('#dg').datagrid('selectRow', index);
-			editUser();
+			editRole();
 		}
-		function saveUser() {
+		function saveRole() {
 			$('#fm').form('submit', {
-				url : modelPath + 'save_user',
+				url : modelPath + 'save_role',
 				method : 'post',
 				onSubmit : function() {
 					return $(this).form('validate');
@@ -211,10 +190,10 @@
 				}
 			});
 		}
-		function removeUser() {
+		function removeRole() {
 			var row = $('#dg').datagrid('getSelected');
 			if (row) {
-				$('#dlgRemove').dialog('open').dialog('setTitle', '注销用户');
+				$('#dlgRemove').dialog('open').dialog('setTitle', '注销角色');
 				$('#fmRemove').form('clear');
 				$('#fmRemove').form('load', row);
 				$('#remove_department').val(row.department.name);
@@ -222,17 +201,17 @@
 			} else {
 				$.messager.show({
 					title : '提示',
-					msg : '请选择要注销的用户'
+					msg : '请选择要注销的角色'
 				});
 			}
 		}
-		function removeUser2(index) {
+		function removeRole2(index) {
 			$('#dg').datagrid('selectRow', index);
-			removeUser();
+			removeRole();
 		}
-		function doRemoveUser() {
+		function doRemoveRole() {
 			$('#fmRemove').form('submit', {
-				url : modelPath + 'ajax/remove_user',
+				url : modelPath + 'ajax/remove_role',
 				method : 'post',
 				onSubmit : function() {
 					return $(this).form('validate');

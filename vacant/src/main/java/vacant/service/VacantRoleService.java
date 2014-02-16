@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import vacant.constant.YesOrNo;
-import vacant.domain.VacantUser;
+import vacant.domain.VacantRole;
 import vacant.util.DateUtil;
 import vacant.util.Page;
 
@@ -22,9 +22,9 @@ public class VacantRoleService {
 	@Autowired
 	private VacantDictionaryService dictionaryService;
 
-	public Page<VacantUser> getPage(String loginName, String name, int page,
+	public Page<VacantRole> getPage(String loginName, String name, int page,
 			int rows) throws NoSuchFieldException {
-		Page<VacantUser> result = new Page<VacantUser>();
+		Page<VacantRole> result = new Page<VacantRole>();
 		int offset = (page - 1) * rows;
 		String sql = "from VacantRole ";
 		sql += "where isWrittenOff=:isWrittenOff ";
@@ -37,7 +37,7 @@ public class VacantRoleService {
 		if (StringUtils.isNotBlank(name)) {
 			query.setParameter("name", "%" + name + "%");
 		}
-		List<VacantUser> list = query.setMaxResults(rows + 1)
+		List<VacantRole> list = query.setMaxResults(rows + 1)
 				.setFirstResult(offset).list();
 		result.setRows(list);
 		result.setTotal(offset + list.size());
@@ -48,7 +48,7 @@ public class VacantRoleService {
 		return result;
 	}
 
-	public void save(VacantUser user) {
+	public void save(VacantRole user) {
 		if ("".equals(user.getId())) {
 			user.setId(null);
 		}
@@ -57,7 +57,7 @@ public class VacantRoleService {
 	}
 
 	public void remove(String id, String writtenOffReason) {
-		String hql = "update VacantUser set writtenOffReason=:reason, ";
+		String hql = "update VacantRole set writtenOffReason=:reason, ";
 		hql += "writtenOffDate=:date,";
 		hql += "isWrittenOff=:isWrittenOff ";
 		hql += "where id=:id";
