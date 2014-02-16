@@ -129,4 +129,18 @@ public class VacantResourceService {
 				.executeUpdate();
 	}
 
+	public void grantToAllRols(String id) {
+		String sql = "delete from vacant_resource_role where resource_id=:resource_id ";
+
+		factory.getCurrentSession().createSQLQuery(sql)
+				.setString("resource_id", id).executeUpdate();
+
+		sql = "insert into vacant_resource_role (id, resource_id, role_id) ";
+		sql += "select uuid(), :resource_id, id FROM vacant_role ";
+		sql += "WHERE is_written_off = :is_written_off";
+		factory.getCurrentSession().createSQLQuery(sql)
+				.setString("resource_id", id)
+				.setString("is_written_off", YesOrNo.NO).executeUpdate();
+	}
+
 }

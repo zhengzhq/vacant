@@ -24,7 +24,7 @@
 		function login() {
 			var data = {
 				loginName : $('#loginName').val(),
-				password : $('#password').val(),
+				password : $('#password').val()
 			};
 			$.ajax({
 				type : "POST",

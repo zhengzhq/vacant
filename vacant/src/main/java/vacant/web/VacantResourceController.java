@@ -46,4 +46,10 @@ public class VacantResourceController {
 		return AjaxResult.success();
 	}
 
+	@RequestMapping("/ajax/grant_resource_to_all_roles")
+	@ResponseBody
+	public AjaxResult grantResourceToAllRoles(@RequestParam("id") String id) {
+		resourceService.grantToAllRols(id);
+		return AjaxResult.success();
+	}
 }

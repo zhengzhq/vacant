@@ -18,11 +18,11 @@
 				<thead>
 					<tr>
 						<th data-options="field:'name',width:100,halign:'center'">名称</th>
-						<th data-options="field:'url',width:100,halign:'center'">Url</th>
-						<th data-options="field:'isDisplayValue',width:100,align:'center'">是否是菜单项</th>
-						<th data-options="field:'displayOrder',width:100,align:'center'">顺序</th>
+						<th data-options="field:'url',width:100,halign:'center'">URL</th>
+						<th data-options="field:'isDisplayValue',width:50,align:'center'">是否是菜单项</th>
+						<th data-options="field:'displayOrder',width:50,align:'center'">顺序</th>
 						<th
-							data-options="field:'progress',width:120,formatter:operationFmtr,align:'center'">操作</th>
+							data-options="field:'progress',width:50,formatter:operationFmtr,align:'center'">操作</th>
 					</tr>
 				</thead>
 			</table>
@@ -32,7 +32,7 @@
 				<div onclick="editResource()" data-options="iconCls:'icon-add'">修改</div>
 				<div onclick="removeResource()" data-options="iconCls:'icon-remove'">删除</div>
 				<div class="menu-sep"></div>
-				<div onclick="grantToAllRoles()">將此资源分配给所有角色</div>
+				<div onclick="grantResourceToAllRoles()">將此资源分配给所有角色</div>
 			</div>
 			<div id="dlgEdit" class="easyui-dialog" fit="true"
 				style="padding: 10px 20px" closed="true" buttons="#btnsEdit">
@@ -144,7 +144,7 @@
 		// 如果存在下级资源，则不能删除
 		function removeResource() {
 			var node = $('#tg').treegrid('getSelected');
-			if(node.children.length>0) {
+			if (node.children.length > 0) {
 				$.messager.show({
 					title : '错误',
 					msg : '存在下级资源，则不能删除'
@@ -153,8 +153,9 @@
 			}
 			if (node) {
 				if (confirm('确定要删除资源' + node.name + '吗？')) {
-					$.post(modelPath + 'ajax/remove_resource',{id:node.id},
-							function(result) {
+					$.post(modelPath + 'ajax/remove_resource', {
+						id : node.id
+					}, function(result) {
 						if (result.message) {
 							$.messager.show({
 								title : '错误',
@@ -175,6 +176,27 @@
 		function removeResource2(id) {
 			$('#tg').treegrid('select', id);
 			removeResource();
+		}
+
+		function grantResourceToAllRoles() {
+			var node = $('#tg').treegrid('getSelected');
+			if (confirm('确定要将资源[' + node.name + ']授权给所有角色吗？')) {
+				$.post(modelPath + 'ajax/grant_resource_to_all_roles', {
+					id : node.id
+				}, function(result) {
+					if (result.success) {
+						$.messager.show({
+							title : '信息',
+							msg : OPERATION_SUCCESS
+						});
+					} else if (result.message) {
+						$.messager.show({
+							title : '错误',
+							msg : result.message
+						});
+					}
+				});
+			}
 		}
 	</script>
 </body>
