@@ -80,7 +80,7 @@ CREATE TABLE `vacant_dictionary` (
 
 /*Data for the table `vacant_dictionary` */
 
-insert  into `vacant_dictionary`(`id`,`type`,`name`) values ('f4061295-9252-11e3-894c-00215d2e38e8','gender','性别');
+insert  into `vacant_dictionary`(`id`,`type`,`name`) values ('b227cb15-96b5-11e3-9ea5-00215d2e38e8','yes_or_no','是、否'),('f4061295-9252-11e3-894c-00215d2e38e8','gender','性别');
 
 /*Table structure for table `vacant_dictionary_item` */
 
@@ -96,7 +96,7 @@ CREATE TABLE `vacant_dictionary_item` (
 
 /*Data for the table `vacant_dictionary_item` */
 
-insert  into `vacant_dictionary_item`(`id`,`dictionary_id`,`code`,`value`) values ('141711fe-9253-11e3-894c-00215d2e38e8','f4061295-9252-11e3-894c-00215d2e38e8','1','男'),('1abdc642-9253-11e3-894c-00215d2e38e8','f4061295-9252-11e3-894c-00215d2e38e8','2','女');
+insert  into `vacant_dictionary_item`(`id`,`dictionary_id`,`code`,`value`) values ('141711fe-9253-11e3-894c-00215d2e38e8','f4061295-9252-11e3-894c-00215d2e38e8','1','男'),('1abdc642-9253-11e3-894c-00215d2e38e8','f4061295-9252-11e3-894c-00215d2e38e8','2','女'),('2e23014e-96b6-11e3-9ea5-00215d2e38e8','b227cb15-96b5-11e3-9ea5-00215d2e38e8','1','是'),('2ed9e3c1-96b6-11e3-9ea5-00215d2e38e8','b227cb15-96b5-11e3-9ea5-00215d2e38e8','0','否');
 
 /*Table structure for table `vacant_operation_log` */
 
@@ -119,17 +119,18 @@ DROP TABLE IF EXISTS `vacant_resource`;
 
 CREATE TABLE `vacant_resource` (
   `id` varchar(36) NOT NULL,
-  `url` varchar(50) DEFAULT NULL,
-  `is_display` varchar(1) DEFAULT NULL COMMENT '是否显示',
-  `display_order` int(2) DEFAULT NULL COMMENT '显示顺序，不显示不用填',
-  `display_name` varchar(20) DEFAULT NULL COMMENT '显示名称，不显示不用填',
   `parent_id` varchar(36) DEFAULT NULL COMMENT '上级id，不显示不用填',
+  `name` varchar(20) DEFAULT NULL COMMENT '显示名称，不显示不用填',
+  `url` varchar(50) DEFAULT NULL,
+  `display_order` int(2) DEFAULT NULL COMMENT '显示顺序，不显示不用填',
+  `is_display` varchar(1) DEFAULT NULL COMMENT '是否显示',
+  `is_top` varchar(1) DEFAULT NULL COMMENT '是否是顶级资源',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `vacant_resource` */
 
-insert  into `vacant_resource`(`id`,`url`,`is_display`,`display_order`,`display_name`,`parent_id`) values ('427f6e2c-932e-11e3-82ac-00215d2e38e8','/model1/ajax/remove_user','0',NULL,NULL,'5cfdfc40-87b6-11e3-b558-08606e729ccc'),('57c46197-87b6-11e3-b558-08606e729ccc','#','1',1,'系统管理',NULL),('5cfdfc40-87b6-11e3-b558-08606e729ccc','/model1/main','1',3,'用户管理','57c46197-87b6-11e3-b558-08606e729ccc'),('6894e5b0-90a1-11e3-8f33-08606e729ccc','/model1/save_user','0',NULL,'保存用户','5cfdfc40-87b6-11e3-b558-08606e729ccc'),('77410bbd-87b6-11e3-b558-08606e729ccc','/resource/main','1',1,'资源管理','57c46197-87b6-11e3-b558-08606e729ccc'),('cf4ac3ec-870c-11e3-a27f-08606e729ccc','/login','0',NULL,NULL,NULL),('df64d0e5-93f7-11e3-a33e-00215d2e38e8','/role/main','1',2,'角色管理','57c46197-87b6-11e3-b558-08606e729ccc'),('e023c0a6-8f40-11e3-b8e7-00215d2e38e8','/model1/query_page','0',NULL,NULL,'5cfdfc40-87b6-11e3-b558-08606e729ccc');
+insert  into `vacant_resource`(`id`,`parent_id`,`name`,`url`,`display_order`,`is_display`,`is_top`) values ('0362f96f-0c5e-4410-a2d8-1f4e60bdfc6e','82095426-0ced-4f18-8c7f-67b86a27bb6e','sub','sub',1,'1','0'),('0c9e8ef5-9581-11e3-a8fe-00215d2e38e8','77410bbd-87b6-11e3-b558-08606e729ccc','添加资源','/resource/ajax/save_resource',2,'0','0'),('0dd6ef63-4bed-4f57-b28a-343364576325','82095426-0ced-4f18-8c7f-67b86a27bb6e','a','a',2,'1',NULL),('427f6e2c-932e-11e3-82ac-00215d2e38e8','5cfdfc40-87b6-11e3-b558-08606e729ccc','删除用户','/model1/ajax/remove_user',3,'0','0'),('47a8979f-862e-4ce7-a260-8b0ffdc8f474','82095426-0ced-4f18-8c7f-67b86a27bb6e','z','z',3,'0','0'),('57c46197-87b6-11e3-b558-08606e729ccc','','系统管理','#',2,'1','1'),('5cfdfc40-87b6-11e3-b558-08606e729ccc','57c46197-87b6-11e3-b558-08606e729ccc','用户管理','/model1/main',3,'1','0'),('6894e5b0-90a1-11e3-8f33-08606e729ccc','5cfdfc40-87b6-11e3-b558-08606e729ccc','保存用户','/model1/save_user',2,'0','0'),('77410bbd-87b6-11e3-b558-08606e729ccc','57c46197-87b6-11e3-b558-08606e729ccc','资源管理','/resource/main',1,'1','0'),('82095426-0ced-4f18-8c7f-67b86a27bb6e','','top','top',1,'0','1'),('bbad5e6b-94b7-11e3-8841-00215d2e38e8','77410bbd-87b6-11e3-b558-08606e729ccc','获取所有的资源','/resource/ajax/get_all_resources',1,'0','0'),('c98c7920-9583-11e3-a8fe-00215d2e38e8','77410bbd-87b6-11e3-b558-08606e729ccc','删除资源','/resource/ajax/remove_resource',3,'0','0'),('df64d0e5-93f7-11e3-a33e-00215d2e38e8','57c46197-87b6-11e3-b558-08606e729ccc','角色管理','/role/main',2,'1','0'),('e023c0a6-8f40-11e3-b8e7-00215d2e38e8','5cfdfc40-87b6-11e3-b558-08606e729ccc','查询','/model1/query_page',1,'0','0');
 
 /*Table structure for table `vacant_resource_role` */
 
@@ -144,7 +145,7 @@ CREATE TABLE `vacant_resource_role` (
 
 /*Data for the table `vacant_resource_role` */
 
-insert  into `vacant_resource_role`(`id`,`resource_id`,`role_id`) values ('0f6dacef-93f8-11e3-a33e-00215d2e38e8','df64d0e5-93f7-11e3-a33e-00215d2e38e8','6f913757-870d-11e3-a27f-08606e729ccc'),('4f4247ff-8f42-11e3-b8e7-00215d2e38e8','e023c0a6-8f40-11e3-b8e7-00215d2e38e8','6f913757-870d-11e3-a27f-08606e729ccc'),('5521d639-932e-11e3-82ac-00215d2e38e8','427f6e2c-932e-11e3-82ac-00215d2e38e8','6f913757-870d-11e3-a27f-08606e729ccc'),('57c46197-87b6-11e3-b558-08606e729ccc','57c46197-87b6-11e3-b558-08606e729ccc','6f913757-870d-11e3-a27f-08606e729ccc'),('acdc355c-90a1-11e3-8f33-08606e729ccc','6894e5b0-90a1-11e3-8f33-08606e729ccc','6f913757-870d-11e3-a27f-08606e729ccc'),('bd8d4e18-870d-11e3-a27f-08606e729ccc','cf4ac3ec-870c-11e3-a27f-08606e729ccc','6f913757-870d-11e3-a27f-08606e729ccc'),('d49ea829-87b6-11e3-b558-08606e729ccc','77410bbd-87b6-11e3-b558-08606e729ccc','6f913757-870d-11e3-a27f-08606e729ccc'),('e6443fce-87b6-11e3-b558-08606e729ccc','5cfdfc40-87b6-11e3-b558-08606e729ccc','6f913757-870d-11e3-a27f-08606e729ccc');
+insert  into `vacant_resource_role`(`id`,`resource_id`,`role_id`) values ('0f6dacef-93f8-11e3-a33e-00215d2e38e8','df64d0e5-93f7-11e3-a33e-00215d2e38e8','6f913757-870d-11e3-a27f-08606e729ccc'),('2f17f84f-94b8-11e3-8841-00215d2e38e8','bbad5e6b-94b7-11e3-8841-00215d2e38e8','6f913757-870d-11e3-a27f-08606e729ccc'),('4f4247ff-8f42-11e3-b8e7-00215d2e38e8','e023c0a6-8f40-11e3-b8e7-00215d2e38e8','6f913757-870d-11e3-a27f-08606e729ccc'),('5521d639-932e-11e3-82ac-00215d2e38e8','427f6e2c-932e-11e3-82ac-00215d2e38e8','6f913757-870d-11e3-a27f-08606e729ccc'),('57c46197-87b6-11e3-b558-08606e729ccc','57c46197-87b6-11e3-b558-08606e729ccc','6f913757-870d-11e3-a27f-08606e729ccc'),('90018ab6-9581-11e3-a8fe-00215d2e38e8','0c9e8ef5-9581-11e3-a8fe-00215d2e38e8','6f913757-870d-11e3-a27f-08606e729ccc'),('acdc355c-90a1-11e3-8f33-08606e729ccc','6894e5b0-90a1-11e3-8f33-08606e729ccc','6f913757-870d-11e3-a27f-08606e729ccc'),('bd8d4e18-870d-11e3-a27f-08606e729ccc','cf4ac3ec-870c-11e3-a27f-08606e729ccc','6f913757-870d-11e3-a27f-08606e729ccc'),('d49ea829-87b6-11e3-b558-08606e729ccc','77410bbd-87b6-11e3-b558-08606e729ccc','6f913757-870d-11e3-a27f-08606e729ccc'),('dcaa6b6d-9651-11e3-a6c1-00215d2e38e8','c98c7920-9583-11e3-a8fe-00215d2e38e8','6f913757-870d-11e3-a27f-08606e729ccc'),('e6443fce-87b6-11e3-b558-08606e729ccc','5cfdfc40-87b6-11e3-b558-08606e729ccc','6f913757-870d-11e3-a27f-08606e729ccc');
 
 /*Table structure for table `vacant_role` */
 
@@ -162,7 +163,7 @@ CREATE TABLE `vacant_role` (
 
 /*Data for the table `vacant_role` */
 
-insert  into `vacant_role`(`id`,`name`,`description`,`is_written_off`,`written_off_date`,`written_off_reason`) values ('6f913757-870d-11e3-a27f-08606e729ccc','管理员','拥有系统所有权限',NULL,NULL,NULL);
+insert  into `vacant_role`(`id`,`name`,`description`,`is_written_off`,`written_off_date`,`written_off_reason`) values ('6f913757-870d-11e3-a27f-08606e729ccc','管理员','拥有系统所有权限','0',NULL,NULL);
 
 /*Table structure for table `vacant_user` */
 
@@ -185,7 +186,7 @@ CREATE TABLE `vacant_user` (
 
 /*Data for the table `vacant_user` */
 
-insert  into `vacant_user`(`id`,`area_code`,`department_id`,`login_name`,`password`,`name`,`gender`,`role_id`,`is_written_off`,`written_off_date`,`written_off_reason`) values ('04ff082a-4600-4ca2-bb86-ddb29e3babaa',NULL,'1','add','add','add','1','6f913757-870d-11e3-a27f-08606e729ccc','1','2014-02-12','删除功能测试'),('267b01ac-a596-4fd6-b3d5-9d32d4110550',NULL,'1','combobox','combobox','combobox','1','6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL),('2b689697-8f93-11e3-b984-08606e729ccc',NULL,'2','vacant','1','vacant','2','6f913757-870d-11e3-a27f-08606e729ccc','1','2014-02-12','删除功能测试'),('42aa560d-525f-4d01-a70c-046f021a17fb',NULL,NULL,'add',NULL,'add',NULL,NULL,'1','2014-02-11',''),('5f9ad8ae-5cf9-4477-b017-259295e2be2d',NULL,'1','1','1','1',NULL,'6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL),('a0f5e677-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user1','1','user1',NULL,NULL,'1','2014-02-11','删除功能测试'),('a0fa7b46-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user2','1','user2',NULL,NULL,'1','2014-02-11','删除功能测试'),('a0ff0c5d-8f93-11e3-b984-08606e729ccc',NULL,'1','user3','1','user3',NULL,NULL,'1','2014-02-12','删除功能测试'),('a104c4c8-8f93-11e3-b984-08606e729ccc',NULL,'1','user4','1','user4',NULL,'6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL),('a10a8105-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user5','1','user5',NULL,NULL,'1','2014-02-12','删除功能测试'),('a10ef91b-8f93-11e3-b984-08606e729ccc',NULL,'1','user6','1','user6','1','6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL),('a1138b0c-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user77',NULL,'user7',NULL,NULL,NULL,NULL,NULL),('a117e882-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user88',NULL,'user8',NULL,NULL,NULL,NULL,NULL),('a11c828e-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user99',NULL,'user9',NULL,NULL,'1','2014-02-12','删除功能测试'),('a120e93f-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user1',NULL,'user1',NULL,NULL,'1','2014-02-12','删除功能测试'),('a125664d-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user1','11','user11',NULL,NULL,'1','2014-02-12','删除功能测试'),('fd27a7bd-870d-11e3-a27f-08606e729ccc',NULL,'1','scott','1','正','1','6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL);
+insert  into `vacant_user`(`id`,`area_code`,`department_id`,`login_name`,`password`,`name`,`gender`,`role_id`,`is_written_off`,`written_off_date`,`written_off_reason`) values ('04ff082a-4600-4ca2-bb86-ddb29e3babaa',NULL,'1','add','add','add','1','6f913757-870d-11e3-a27f-08606e729ccc','1','2014-02-12','删除功能测试'),('267b01ac-a596-4fd6-b3d5-9d32d4110550',NULL,'1','combobox','combobox','combobox','1','6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL),('2b689697-8f93-11e3-b984-08606e729ccc',NULL,'2','vacant','1','vacant','2','6f913757-870d-11e3-a27f-08606e729ccc','1','2014-02-12','删除功能测试'),('42aa560d-525f-4d01-a70c-046f021a17fb',NULL,NULL,'add',NULL,'add',NULL,NULL,'1','2014-02-11',''),('5f9ad8ae-5cf9-4477-b017-259295e2be2d',NULL,'1','1','1','1',NULL,'6f913757-870d-11e3-a27f-08606e729ccc','1','2014-02-15','删除功能测试'),('a0f5e677-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user1','1','user1',NULL,NULL,'1','2014-02-11','删除功能测试'),('a0fa7b46-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user2','1','user2',NULL,NULL,'1','2014-02-11','删除功能测试'),('a0ff0c5d-8f93-11e3-b984-08606e729ccc',NULL,'1','user3','1','user3',NULL,NULL,'1','2014-02-12','删除功能测试'),('a104c4c8-8f93-11e3-b984-08606e729ccc',NULL,'1','user4','1','user4',NULL,'6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL),('a10a8105-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user5','1','user5',NULL,NULL,'1','2014-02-12','删除功能测试'),('a10ef91b-8f93-11e3-b984-08606e729ccc',NULL,'1','user6','1','user6','1','6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL),('a1138b0c-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user77',NULL,'user7',NULL,NULL,NULL,NULL,NULL),('a117e882-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user88',NULL,'user8',NULL,NULL,NULL,NULL,NULL),('a11c828e-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user99',NULL,'user9',NULL,NULL,'1','2014-02-12','删除功能测试'),('a120e93f-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user1',NULL,'user1',NULL,NULL,'1','2014-02-12','删除功能测试'),('a125664d-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user1','11','user11',NULL,NULL,'1','2014-02-12','删除功能测试'),('fd27a7bd-870d-11e3-a27f-08606e729ccc',NULL,'1','scott','1','正','1','6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

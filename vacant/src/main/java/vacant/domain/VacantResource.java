@@ -1,17 +1,34 @@
 package vacant.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import vacant.util.DictCode;
 
 @Entity
 @Table(name="vacant_resource")
 public class VacantResource extends BaseDomain {
+	@Transient
+	private String isDisplayValue;
+	
+	@Transient
+	private List<VacantResource> children = new ArrayList<VacantResource>();
+	
+	//--------------------------------
+	
+	@Column(name="is_top")
+	private String isTop;
 	
 	@Column(name="url")
 	private String url;
 	
 	@Column(name="is_display")
+	@DictCode(type="yes_or_no")
 	private String isDisplay;
 	
 	@Column(name="display_order")
@@ -62,9 +79,29 @@ public class VacantResource extends BaseDomain {
 	public void setParentId(String parentId) {
 		this.parentId = parentId;
 	}
-	
-	public String get_parentId() {
-		return parentId;
+
+	public String getIsDisplayValue() {
+		return isDisplayValue;
+	}
+
+	public void setIsDisplayValue(String isDisplayValue) {
+		this.isDisplayValue = isDisplayValue;
+	}
+
+	public String getIsTop() {
+		return isTop;
+	}
+
+	public void setIsTop(String isTop) {
+		this.isTop = isTop;
+	}
+
+	public List<VacantResource> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<VacantResource> children) {
+		this.children = children;
 	}
 	
 }

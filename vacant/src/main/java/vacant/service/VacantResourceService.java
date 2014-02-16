@@ -7,6 +7,7 @@ import java.util.Set;
 
 import net.sf.json.JSONArray;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ public class VacantResourceService {
 
 	@Autowired
 	private SessionFactory factory;
+	@Autowired
+	private DictionaryService dictionaryService;
 
 	public List<VacantResource> getAllResourceList() {
 		return factory.getCurrentSession().createQuery("from VacantResource")
@@ -49,20 +52,20 @@ public class VacantResourceService {
 		List<EasyuiTreeNode> rootNodeList = new ArrayList<EasyuiTreeNode>();
 
 		for (VacantResource resource : resourceList) {
-			if (resource.getParentId() == null
-					&& resource.getIsDisplay().equals(YesOrNo.YES)) {
+			if ((resource.getParentId() == null || resource.getParentId()
+					.equals("")) && resource.getIsDisplay().equals(YesOrNo.YES)) {
 				String id = resource.getId();
 				String text = resource.getName();
 				String url = resource.getUrl();
 				EasyuiTreeNode rootNode = new EasyuiTreeNode(id, text, url);
-				attachChildren(rootNode, resourceList);
+				attachChildrenNode(rootNode, resourceList);
 				rootNodeList.add(rootNode);
 			}
 		}
 		return JSONArray.fromObject(rootNodeList).toString();
 	}
 
-	protected void attachChildren(EasyuiTreeNode node,
+	protected void attachChildrenNode(EasyuiTreeNode node,
 			List<VacantResource> resourceList) {
 		List<EasyuiTreeNode> children = new ArrayList<EasyuiTreeNode>();
 		String nodeId = node.getId();
@@ -71,16 +74,48 @@ public class VacantResourceService {
 					&& resource.getIsDisplay().equals(YesOrNo.YES)) {
 				EasyuiTreeNode childNode = new EasyuiTreeNode(resource.getId(),
 						resource.getName(), resource.getUrl());
-				attachChildren(childNode, resourceList);
+				attachChildrenNode(childNode, resourceList);
 				children.add(childNode);
 			}
 		}
 		node.setChildren(children.toArray(new EasyuiTreeNode[children.size()]));
 	}
 
+	public String getTreeDataByRole() {
+		// TODO
+		return null;
+	}
+
+	public List<VacantResource> getTopResourceListWithChildren() {
+		String hql = "from VacantResource where isTop=:isTop order by displayOrder ";
+		List<VacantResource> topResourceList = factory.getCurrentSession()
+				.createQuery(hql).setString("isTop", YesOrNo.YES).list();
+		dictionaryService.decodeBeans(topResourceList);
+		for (VacantResource resource : topResourceList) {
+			attachChildrenResource(resource);
+		}
+		return topResourceList;
+	}
+
+	private void attachChildrenResource(VacantResource parent) {
+		String hql = "from VacantResource where parentId=:parentId order by displayOrder ";
+		List<VacantResource> children = factory.getCurrentSession()
+				.createQuery(hql).setString("parentId", parent.getId()).list();
+		if (!children.isEmpty()) {
+			dictionaryService.decodeBeans(children);
+			parent.setChildren(children);
+			for (VacantResource child : children) {
+				attachChildrenResource(child);
+			}
+		}
+	}
+
 	public void save(VacantResource resource) {
 		if ("".equals(resource.getId())) {
 			resource.setId(null);
+		}
+		if (StringUtils.isBlank(resource.getParentId())) {
+			resource.setIsTop(YesOrNo.YES);
 		}
 		factory.getCurrentSession().saveOrUpdate(resource);
 	}

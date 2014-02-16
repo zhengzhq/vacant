@@ -19,7 +19,7 @@
 					<tr>
 						<th data-options="field:'name',width:100,halign:'center'">名称</th>
 						<th data-options="field:'url',width:100,halign:'center'">Url</th>
-						<th data-options="field:'isDisplay',width:100,align:'center'">是否是菜单项</th>
+						<th data-options="field:'isDisplayValue',width:100,align:'center'">是否是菜单项</th>
 						<th data-options="field:'displayOrder',width:100,align:'center'">顺序</th>
 						<th
 							data-options="field:'progress',width:120,formatter:operationFmtr,align:'center'">操作</th>
@@ -92,14 +92,13 @@
 				top : e.pageY
 			});
 		}
-		// 添加顶级资源
 		function addTopResource() {
-			$('#dlgEdit').dialog('open').dialog('setTitle', '添加资源');
+			$('#dlgEdit').dialog('open').dialog('setTitle', '添加顶级资源');
 			$('#fmEdit').form('clear');
 		}
 		function addSubResource() {
 			var node = $('#tg').treegrid('getSelected');
-			$('#dlgEdit').dialog('open').dialog('setTitle', '添加资源');
+			$('#dlgEdit').dialog('open').dialog('setTitle', '添加下级资源');
 			$('#fmEdit').form('clear');
 			$('#parentId').val(node.id);
 		}
