@@ -22,7 +22,7 @@ public class VacantResourceController {
 	private VacantResourceService resourceService;
 
 	@RequestMapping(value = "/main", method = GET)
-	public String page1() {
+	public String main() {
 		return "/resource";
 	}
 

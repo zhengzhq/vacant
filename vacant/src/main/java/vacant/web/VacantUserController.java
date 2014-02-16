@@ -23,12 +23,7 @@ public class VacantUserController {
 
 	@RequestMapping(value = "/main", method = GET)
 	public String page1() {
-		return "/model1/model1_main";
-	}
-
-	@RequestMapping(value = "/page2", method = GET)
-	public String page2() {
-		return "/model1/model1_page2";
+		return "/user";
 	}
 
 	@RequestMapping(value = "/query_page")
