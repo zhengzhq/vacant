@@ -21,8 +21,6 @@
 				<a href="#" plain="true" class="easyui-linkbutton"
 					onclick="editRole()" iconCls="icon-edit">修改</a>
 				<a href="#" plain="true" class="easyui-linkbutton"
-					onclick="removeRole()" iconCls="icon-remove">注销</a>
-				<a href="#" plain="true" class="easyui-linkbutton"
 					onclick="removeRole()" iconCls="icon-remove">删除</a>
 			</div>
 			<div id="dlg" class="easyui-dialog" fit="true"
@@ -47,90 +45,49 @@
 					iconCls="icon-cancel"
 					onclick="javascript:$('#dlg').dialog('close')">取消</a>
 			</div>
-			<!-- 注销 -->
-			<div id="dlgRemove" class="easyui-dialog" fit="true"
-				style="padding: 10px 20px" closed="true" buttons="#btnsRemove">
-				<form id="fmRemove" method="post">
-					<input type="hidden" name="id">
-					<div class="fitem">
-						<label>部门:</label>
-						<input id="remove_department" readonly>
-					</div>
-					<div class="fitem">
-						<label>登录名:</label>
-						<input name="loginName" class="easyui-validatebox" readonly>
-					</div>
-					<div class="fitem">
-						<label>密码:</label>
-						<input name="password" class="easyui-validatebox" readonly>
-					</div>
-					<div class="fitem">
-						<label>姓名:</label>
-						<input name="name" class="easyui-validatebox" readonly>
-					</div>
-					<div class="fitem">
-						<label>性别:</label>
-						<input name="genderValue" readonly>
-					</div>
-					<div class="fitem">
-						<label>角色:</label>
-						<input id="remove_role" readonly>
-					</div>
-					<div class="fitem">
-						<label>注销原因:</label>
-						<input name="writtenOffReason" class="easyui-validatebox"
-							data-options="required:true">
-					</div>
-				</form>
-			</div>
-			<div id="btnsRemove">
-				<a href="javascript:void(0)" class="easyui-linkbutton"
-					iconCls="icon-ok" onclick="doRemoveRole()">确定</a>
-				<a href="javascript:void(0)" class="easyui-linkbutton"
-					iconCls="icon-cancel"
-					onclick="javascript:$('#dlgRemove').dialog('close')">取消</a>
-			</div>
+			<!-- 删除 -->
+			<form id="fmRemove" method="post">
+				<input id="remove_id" type="hidden" name="id">
+			</form>
 		</div>
 		<!-- 第二个选项卡 -->
 		<div title="已注销的角色" style="padding: 5px;"></div>
 	</div>
 	<script type="text/javascript">
 		var modelPath = contextPath + '/role/';
-		$('#dg')
-				.datagrid(
-						{
-							url : modelPath + 'query_page',
-							toolbar : '#toolbar',
-							pagination : true,
-							rownumbers : true,
-							singleSelect : true,
-							fitColumns : true,
-							loadMsg : '正在处理，请稍候...',
-							columns : [ [
-									{
-										field : 'name',
-										width : 1,
-										title : '名称',
-										halign : 'center'
-									},
-									{
-										field : 'description',
-										width : 1,
-										title : '描述',
-										halign : 'center'
-									},
-									{
-										field : 'operate',
-										title : '操作',
-										halign : 'center',
-										align : 'center',
-										formatter : function(value, data, index) {
-											return '<a href="#" onclick="editRole2('
-													+ index
-													+ ')">修改</a>';
-										}
-									} ] ]
-						});
+		$('#dg').datagrid(
+				{
+					url : modelPath + 'query_page',
+					toolbar : '#toolbar',
+					pagination : true,
+					rownumbers : true,
+					singleSelect : true,
+					fitColumns : true,
+					loadMsg : '正在处理，请稍候...',
+					columns : [ [
+							{
+								field : 'name',
+								width : 1,
+								title : '名称',
+								halign : 'center'
+							},
+							{
+								field : 'description',
+								width : 1,
+								title : '描述',
+								halign : 'center'
+							},
+							{
+								field : 'operate',
+								title : '操作',
+								halign : 'center',
+								align : 'center',
+								formatter : function(value, data, index) {
+									return '<a href="#" onclick="editRole2('
+											+ index + ')">修改</a>';
+								}
+							} ] ]
+				});
 		// handlers begin
 		function doSearch() {
 			$('#dg').datagrid('load', {
@@ -191,44 +148,32 @@
 			});
 		}
 		function removeRole() {
-			var row = $('#dg').datagrid('getSelected');
+			var row = $('#dg').treegrid('getSelected');
 			if (row) {
-				$('#dlgRemove').dialog('open').dialog('setTitle', '注销角色');
-				$('#fmRemove').form('clear');
-				$('#fmRemove').form('load', row);
-				$('#remove_department').val(row.department.name);
-				$('#remove_role').val(row.role.name);
+				if (confirm('确定要删除角色[' + row.name + ']吗？')) {
+					$('#remove_id').val(row.id);
+					$('#fmRemove').form('submit', {
+						url : modelPath + 'remove_role',
+						method : 'post',
+						success : function(result) {
+							result = $.parseJSON(result);
+							if (result.message) {
+								$.messager.show({
+									title : '错误',
+									msg : result.message
+								});
+							} else {
+								$('#dg').datagrid('reload');
+							}
+						}
+					});
+				}
 			} else {
 				$.messager.show({
 					title : '提示',
-					msg : '请选择要注销的角色'
+					msg : '请选择要删除的角色'
 				});
 			}
-		}
-		function removeRole2(index) {
-			$('#dg').datagrid('selectRow', index);
-			removeRole();
-		}
-		function doRemoveRole() {
-			$('#fmRemove').form('submit', {
-				url : modelPath + 'ajax/remove_role',
-				method : 'post',
-				onSubmit : function() {
-					return $(this).form('validate');
-				},
-				success : function(result) {
-					result = $.parseJSON(result);
-					if (result.message) {
-						$.messager.show({
-							title : '错误',
-							msg : result.message
-						});
-					} else {
-						$('#dlgRemove').dialog('close');
-						$('#dg').datagrid('reload');
-					}
-				}
-			});
 		}
 	</script>
 </body>

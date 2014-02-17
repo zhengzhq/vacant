@@ -5,7 +5,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "vacant_role")
-public class VacantRole extends WrittenOffable {
+public class VacantRole extends BaseDomain {
 
 	private String name;
 	private String description;

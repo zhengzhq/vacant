@@ -16,7 +16,7 @@
 					<tr>
 						<th data-options="field:'name',width:100,halign:'center'">名称</th>
 						<th data-options="field:'url',width:100,halign:'center'">URL</th>
-						<th data-options="field:'isDisplayValue',width:50,align:'center'">是否是菜单项</th>
+						<th data-options="field:'isPageValue',width:50,align:'center'">是否是菜单项</th>
 						<th data-options="field:'displayOrder',width:50,align:'center'">顺序</th>
 						<th
 							data-options="field:'progress',width:50,formatter:operationFmtr,align:'center'">操作</th>
@@ -53,7 +53,7 @@
 					</div>
 					<div class="fitem">
 						<label>是否是菜单项:</label>
-						<input id="isDisplay" name="isDisplay"
+						<input id="isPage" name="isPage"
 							data-options="required:true">
 					</div>
 				</form>
@@ -72,7 +72,7 @@
 	</div>
 	<script type="text/javascript">
 		var modelPath = contextPath + '/resource/';
-		$('#isDisplay').combobox({
+		$('#isPage').combobox({
 			required : true,
 			editable : false,
 			url : contextPath + '/json/yes_or_no.json',
@@ -199,6 +199,13 @@
 
 		function grantResourceToAllRoles() {
 			var node = $('#tg').treegrid('getSelected');
+			if(node.isPage=='0') {
+				$.messager.show({
+					title : '信息',
+					msg : '只能将来页面资源授权给角色'
+				});
+				return;
+			}
 			if (confirm('确定要将资源[' + node.name + ']授权给所有角色吗？')) {
 				$.post(modelPath + 'ajax/grant_resource_to_all_roles', {
 					id : node.id

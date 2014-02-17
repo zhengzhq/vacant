@@ -9,9 +9,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import vacant.constant.YesOrNo;
 import vacant.domain.VacantRole;
-import vacant.util.DateUtil;
 import vacant.util.Page;
 
 @Service
@@ -27,13 +25,12 @@ public class VacantRoleService {
 		Page<VacantRole> result = new Page<VacantRole>();
 		int offset = (page - 1) * rows;
 		String sql = "from VacantRole ";
-		sql += "where isWrittenOff=:isWrittenOff ";
+		sql += "where 1=1 ";
 		if (StringUtils.isNotBlank(name)) {
 			sql += "and name like :name ";
 		}
 		Session session = factory.getCurrentSession();
-		Query query = session.createQuery(sql).setParameter("isWrittenOff",
-				YesOrNo.NO);
+		Query query = session.createQuery(sql);
 		if (StringUtils.isNotBlank(name)) {
 			query.setParameter("name", "%" + name + "%");
 		}
@@ -52,20 +49,26 @@ public class VacantRoleService {
 		if ("".equals(user.getId())) {
 			user.setId(null);
 		}
-		user.setIsWrittenOff(YesOrNo.NO);
 		factory.getCurrentSession().saveOrUpdate(user);
 	}
 
-	public void remove(String id, String writtenOffReason) {
-		String hql = "update VacantRole set writtenOffReason=:reason, ";
-		hql += "writtenOffDate=:date,";
-		hql += "isWrittenOff=:isWrittenOff ";
-		hql += "where id=:id";
-		factory.getCurrentSession().createQuery(hql)
-				.setString("reason", writtenOffReason)
-				.setString("date", DateUtil.currentDate())
-				.setString("isWrittenOff", YesOrNo.YES).setString("id", id)
+	public void remove(String id) {
+		String sql = "delete from vacant_role where id=:id ";
+		factory.getCurrentSession().createSQLQuery(sql).setString("id", id)
 				.executeUpdate();
+
+		sql = "delete from vacant_resource_role where role_id=:role_id";
+		factory.getCurrentSession().createSQLQuery(sql)
+				.setString("role_id", id).executeUpdate();
+
+		sql = "update vacant_user set role_id=null where role_id=:role_id";
+		factory.getCurrentSession().createSQLQuery(sql)
+				.setString("role_id", id).executeUpdate();
+	}
+
+	public List<VacantRole> getAllRoleList() {
+		return factory.getCurrentSession().createQuery("from VacantRole")
+				.list();
 	}
 
 }

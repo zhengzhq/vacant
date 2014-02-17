@@ -1,7 +1,5 @@
 package vacant.web;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +19,7 @@ public class VacantResourceController {
 	@Autowired
 	private VacantResourceService resourceService;
 
-	@RequestMapping(value = "/main", method = GET)
+	@RequestMapping
 	public String main() {
 		return "/resource";
 	}

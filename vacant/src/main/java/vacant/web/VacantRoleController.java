@@ -1,7 +1,6 @@
 package vacant.web;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +20,7 @@ public class VacantRoleController {
 	@Autowired
 	private VacantRoleService roleService;
 
-	@RequestMapping(value = "/main", method = GET)
+	@RequestMapping
 	public String page1() {
 		return "/role";
 	}
@@ -38,18 +37,23 @@ public class VacantRoleController {
 		return roleService.getPage(loginName, name, page, rows);
 	}
 
-	@RequestMapping(value = "/save_role", method = POST)
+	@RequestMapping("/save_role")
 	@ResponseBody
 	public AjaxResult saveRole(VacantRole role) {
 		roleService.save(role);
 		return AjaxResult.success();
 	}
 
-	@RequestMapping(value = "/ajax/remove_role", method = POST)
+	@RequestMapping("/remove_role")
 	@ResponseBody
-	public AjaxResult removeRole(@RequestParam("id") String id,
-			@RequestParam("writtenOffReason") String writtenOffReason) {
-		roleService.remove(id, writtenOffReason);
+	public AjaxResult removeRole(@RequestParam("id") String id) {
+		roleService.remove(id);
 		return AjaxResult.success();
+	}
+
+	@RequestMapping("/get_all_role")
+	@ResponseBody
+	public List<VacantRole> getAllRoleList() {
+		return roleService.getAllRoleList();
 	}
 }

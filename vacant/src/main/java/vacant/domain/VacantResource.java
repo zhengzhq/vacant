@@ -14,7 +14,7 @@ import vacant.util.DictCode;
 @Table(name="vacant_resource")
 public class VacantResource extends BaseDomain {
 	@Transient
-	private String isDisplayValue;
+	private String isPageValue;
 	
 	@Transient
 	private List<VacantResource> children = new ArrayList<VacantResource>();
@@ -27,9 +27,9 @@ public class VacantResource extends BaseDomain {
 	@Column(name="url")
 	private String url;
 	
-	@Column(name="is_display")
+	@Column(name="is_page")
 	@DictCode(type="yes_or_no")
-	private String isDisplay;
+	private String isPage;
 	
 	@Column(name="display_order")
 	private String displayOrder;
@@ -48,12 +48,12 @@ public class VacantResource extends BaseDomain {
 		this.url = url;
 	}
 
-	public String getIsDisplay() {
-		return isDisplay;
+	public String getIsPage() {
+		return isPage;
 	}
 
-	public void setIsDisplay(String isDisplay) {
-		this.isDisplay = isDisplay;
+	public void setIsPage(String isPage) {
+		this.isPage = isPage;
 	}
 
 	public String getDisplayOrder() {
@@ -80,12 +80,12 @@ public class VacantResource extends BaseDomain {
 		this.parentId = parentId;
 	}
 
-	public String getIsDisplayValue() {
-		return isDisplayValue;
+	public String getIsPageValue() {
+		return isPageValue;
 	}
 
-	public void setIsDisplayValue(String isDisplayValue) {
-		this.isDisplayValue = isDisplayValue;
+	public void setIsPageValue(String isPageValue) {
+		this.isPageValue = isPageValue;
 	}
 
 	public String getIsTop() {

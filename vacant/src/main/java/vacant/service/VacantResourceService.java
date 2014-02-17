@@ -24,7 +24,7 @@ public class VacantResourceService {
 	private SessionFactory factory;
 	@Autowired
 	private VacantDictionaryService dictionaryService;
-	
+
 	public List<VacantResource> getAllResourceList() {
 		return factory.getCurrentSession().createQuery("from VacantResource")
 				.list();
@@ -52,8 +52,7 @@ public class VacantResourceService {
 		List<EasyuiTreeNode> rootNodeList = new ArrayList<EasyuiTreeNode>();
 
 		for (VacantResource resource : resourceList) {
-			if ((resource.getParentId() == null || resource.getParentId()
-					.equals("")) && resource.getIsDisplay().equals(YesOrNo.YES)) {
+			if (resource.getIsTop().equals(YesOrNo.YES)) {
 				String id = resource.getId();
 				String text = resource.getName();
 				String url = resource.getUrl();
@@ -70,8 +69,7 @@ public class VacantResourceService {
 		List<EasyuiTreeNode> children = new ArrayList<EasyuiTreeNode>();
 		String nodeId = node.getId();
 		for (VacantResource resource : resourceList) {
-			if (nodeId.equals(resource.getParentId())
-					&& resource.getIsDisplay().equals(YesOrNo.YES)) {
+			if (nodeId.equals(resource.getParentId())) {
 				EasyuiTreeNode childNode = new EasyuiTreeNode(resource.getId(),
 						resource.getName(), resource.getUrl());
 				attachChildrenNode(childNode, resourceList);
@@ -116,6 +114,8 @@ public class VacantResourceService {
 		}
 		if (StringUtils.isBlank(resource.getParentId())) {
 			resource.setIsTop(YesOrNo.YES);
+		} else {
+			resource.setIsTop(YesOrNo.NO);
 		}
 		factory.getCurrentSession().saveOrUpdate(resource);
 	}

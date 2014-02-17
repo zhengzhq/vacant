@@ -1,6 +1,5 @@
 package vacant.web;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,7 @@ public class VacantUserController {
 	@Autowired
 	private VacantUserService userService;
 
-	@RequestMapping(value = "/main", method = GET)
+	@RequestMapping
 	public String page1() {
 		return "/user";
 	}

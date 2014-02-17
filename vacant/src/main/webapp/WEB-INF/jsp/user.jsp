@@ -205,7 +205,9 @@
 		$('#roleId').combobox({
 			required : true,
 			editable : false,
-			url : contextPath + '/json/role.json',
+			valueField:'id',
+			textField:'name',
+			url : contextPath + '/role/get_all_role',
 			panelHeight : 'auto'
 		});
 		// handlers begin

@@ -2,10 +2,12 @@ package vacant.service;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,7 @@ public class VacantDictionaryService {
 	@Autowired
 	private SessionFactory factory;
 
-	private Map<String, Map<String, String>> dicts = new HashMap<String, Map<String, String>>();
+	private Map<String, Map<String, VacantDictionaryItem>> dicts = new HashMap<String, Map<String, VacantDictionaryItem>>();
 
 	public void loadDicts() {
 		String hql = "from VacantDictionary d join fetch d.items ";
@@ -31,9 +33,9 @@ public class VacantDictionaryService {
 				.createQuery(hql).list();
 		for (VacantDictionary dict : list) {
 			List<VacantDictionaryItem> items = dict.getItems();
-			Map<String, String> itemMap = new HashMap<String, String>();
+			Map<String, VacantDictionaryItem> itemMap = new HashMap<String, VacantDictionaryItem>();
 			for (VacantDictionaryItem item : items) {
-				itemMap.put(item.getCode(), item.getValue());
+				itemMap.put(item.getCode(), item);
 			}
 			dicts.put(dict.getType(), itemMap);
 		}
@@ -58,7 +60,7 @@ public class VacantDictionaryService {
 					continue;
 				}
 				try {
-					// 重要:避免java虚拟机检查对私有成员的访问权限
+					// 閲嶈:閬垮厤java铏氭嫙鏈烘鏌ュ绉佹湁鎴愬憳鐨勮闂潈闄�
 					field.setAccessible(true);
 					String dictCode = (String) field.get(obj);
 					if (dictCode == null || dictCode.equals("")) {
@@ -82,8 +84,8 @@ public class VacantDictionaryService {
 	}
 
 	public String decode(String dictType, String dictCode) {
-		if(Global.IS_USE_CACHE.equals(YesOrNo.YES)) {
-			return dicts.get(dictType).get(dictCode);
+		if (Global.IS_USE_CACHE.equals(YesOrNo.YES)) {
+			return dicts.get(dictType).get(dictCode).getValue();
 		} else {
 			String sql = "select di.value from vacant_dictionary d, vacant_dictionary_item di ";
 			sql += "where d.id=di.dictionary_id and d.type=:dictType and di.code=:dictCode";
@@ -94,4 +96,22 @@ public class VacantDictionaryService {
 		}
 	}
 
+	public List<VacantDictionaryItem> getDictionaryItemList(String dictType) {
+
+		if (Global.IS_USE_CACHE.equals(YesOrNo.YES)) {
+			List<VacantDictionaryItem> list = new ArrayList<VacantDictionaryItem>();
+			Map<String, VacantDictionaryItem> itemMap = dicts.get(dictType);
+			Set<String> dictCodeSet = itemMap.keySet();
+			for (String dictCode : dictCodeSet) {
+				list.add(itemMap.get(dictCode));
+			}
+			return list;
+		} else {
+			String sql = "select di.* from vacant_dictionary_item di, vacant_dictionary d ";
+			sql += "where di.dictionary_id=d.id and d.type=:dict_type";
+			return factory.getCurrentSession().createSQLQuery(sql)
+					.addEntity(VacantDictionaryItem.class)
+					.setString("dict_type", dictType).list();
+		}
+	}
 }
