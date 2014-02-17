@@ -199,7 +199,9 @@
 		$('#gender').combobox({
 			required : true,
 			editable : false,
-			url : contextPath + '/json/gender.json',
+			valueField:'code',
+			textField:'value',
+			url : contextPath + '/dict/get_by_type?type=gender',
 			panelHeight : 'auto'
 		});
 		$('#roleId').combobox({

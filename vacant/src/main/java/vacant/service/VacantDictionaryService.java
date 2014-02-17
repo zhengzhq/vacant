@@ -96,7 +96,7 @@ public class VacantDictionaryService {
 		}
 	}
 
-	public List<VacantDictionaryItem> getDictionaryItemList(String dictType) {
+	public List<VacantDictionaryItem> getItemListByType(String dictType) {
 
 		if (Global.IS_USE_CACHE.equals(YesOrNo.YES)) {
 			List<VacantDictionaryItem> list = new ArrayList<VacantDictionaryItem>();
