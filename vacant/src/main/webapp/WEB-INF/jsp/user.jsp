@@ -2,13 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>空灵</title>
 <%@ include file="/include.jsp"%>
-</head>
 <body>
 	<div class="easyui-tabs" fit="true">
 		<div title="用户管理" style="padding: 5px;">
@@ -36,6 +30,11 @@
 				<div class="ftitle">用户信息</div>
 				<form id="fm" method="post">
 					<input type="hidden" name="id">
+					<div class="fitem">
+						<label>部门:</label>
+						<input id="organId" name="organId"
+							data-options="required:true">
+					</div>
 					<div class="fitem">
 						<label>部门:</label>
 						<input id="departmentId" name="departmentId"
@@ -190,12 +189,18 @@
 										}
 									} ] ]
 						});
-		$('#departmentId').combobox({
+		$('#organId').combotree({
 			required : true,
 			editable : false,
-			url : contextPath + '/json/department.json',
+			url : contextPath + '/organ/tree',
 			panelHeight : 'auto'
 		});
+// 		$('#departmentId').combobox({
+// 			required : true,
+// 			editable : false,
+// 			url : contextPath + '/json/department.json',
+// 			panelHeight : 'auto'
+// 		});
 		$('#gender').combobox({
 			required : true,
 			editable : false,

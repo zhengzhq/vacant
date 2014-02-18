@@ -33,7 +33,7 @@ public class SecurityFilter implements Filter {
 		String requestURI = httpRequest.getRequestURI().replaceFirst(
 				httpRequest.getContextPath(), "");
 
-		if (requestURI.startsWith("/login") || requestURI.startsWith("/dict/get/")
+		if (requestURI.startsWith("/login") || requestURI.startsWith("/dict/get/")|| requestURI.equals("/organ/tree")
 				|| requestURI.equals("/") || requestURI.endsWith(".js")
 				|| requestURI.endsWith(".css") || requestURI.endsWith(".gif")
 				|| requestURI.endsWith(".png") || requestURI.endsWith(".html")

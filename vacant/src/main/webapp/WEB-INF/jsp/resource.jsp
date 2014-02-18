@@ -75,7 +75,7 @@
 		$('#isPage').combobox({
 			required : true,
 			editable : false,
-			url : contextPath + '/json/yes_or_no.json',
+			url : contextPath + '/dict/get/yes_or_no',
 			panelHeight : 'auto'
 		});
 		function operationFmtr(value, data, index) {

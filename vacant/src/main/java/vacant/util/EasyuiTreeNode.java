@@ -35,6 +35,12 @@ public class EasyuiTreeNode {
 		this.attributes.put("url", url);
 		this.state = STATE_CLOSED;
 	}
+	
+	public EasyuiTreeNode(String id, String text, EasyuiTreeNode[] children) {
+		this.id = id;
+		this.text = text;
+		this.children = children;
+	}
 
 	public String getId() {
 		return id;
