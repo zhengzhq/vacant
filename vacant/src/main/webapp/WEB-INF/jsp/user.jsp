@@ -201,7 +201,7 @@
 			editable : false,
 			valueField:'code',
 			textField:'value',
-			url : contextPath + '/dict/get_by_type?type=gender',
+			url : contextPath + '/dict/get/gender',
 			panelHeight : 'auto'
 		});
 		$('#roleId').combobox({

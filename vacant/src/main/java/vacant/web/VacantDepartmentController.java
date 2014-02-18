@@ -14,7 +14,7 @@ import vacant.util.AjaxResult;
 import vacant.util.Page;
 
 @Controller
-@RequestMapping("/role")
+@RequestMapping("/department")
 public class VacantDepartmentController {
 
 	@Autowired
