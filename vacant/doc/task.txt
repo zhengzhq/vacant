@@ -1,6 +1,6 @@
 一次只作一件事情
 ================
-根据配置确定是否使用缓存
+工作流
 
 
 没有权限不跳页，但是好像曾经跳过
@@ -8,4 +8,135 @@
 地区字典
 设置easyui控件字体大小
 操作日志
-将writtenOff换成removed
+
+
+
+马文明：
+1、预算总表
+2、根据参数、标准项目、优抚对象的改动修改优抚科预算
+3、修改社会事务科预算：按照养老机构表中的老人数计算建设经费和运营经费
+
+朱元斌：
+1、根据参数、标准项目、优抚对象的改动修改优抚对象医疗保险和门诊费发放
+门诊费一年一次，时间不固定，如果优抚对象发放医疗保险，
+则门诊费中的1500由财务打给医院，由医院打给个人的门诊卡（绿卡）中，另外的1500
+打入个人账户；门诊费3000元全部打入个人账户；
+2、修改资金发放：按照养老机构表中的老人数计算建设经费和运营经费
+
+赵振国：
+1、修改优抚对象：
+增加是否发放优抚金，默认发放（1）
+增加是否发放门诊费，修改是否发放医疗保险时，同时修改本字段，使二者保持一致；
+但是直接设置本字段时，不影响是否发放医疗保险字段的值
+增加是否发放大病医疗救助字段，同是否发放门诊费
+2、补录无军籍职工
+
+郑志强：
+
+*标准项目
+insert into `lg_finance_standard_item` (`rid`, `type`, `issue_form`, `item_name`, `is_budget_item`, `is_routine_item`, `issue_period`, `apply_for_date`, `apply_end_date`, `issue_date`, `is_street_detail`, `AREA_CODE`, `USE_DICT_TYPE`, `CROWD_SCOPE`, `DEPARTMENT_FID`, `DEPARTMENT_NAME`, `DEPARTMENT_TYPE`, `FINANCE_ACCOUNT`, `FINANCE_ACCOUNT_UPDATE_DATE`, `FINANCE_ACCOUNT_UPDATE_USER_FID`, `FINANCE_ACCOUNT_FID`) values('9839e598-9776-11e3-abfb-003067f3663b','BZXM_YFDXMZF','SHHFF','优抚对象门诊费','1','1','ND','1101','1110','1120','0','220104',NULL,'QB','4','二道民政局优抚科','44','4200221709000101634','2013-10-16 11:10:31','b78eebd7-15f3-11e3-968b-08606e729ccc','1787b24d-1743-42e5-a75f-114f5ea29489');
+1、修改参数表
+增加一个优抚对象大病医疗救助：100元/年
+优抚对象医疗保险费：改为231.36元/月
+优抚对象门诊费：1500元/年
+优抚对象门诊费绿卡：1500元/年
+优抚对象门诊费无医保：3000元/年
+
+delete from `cons_department_parameter` where id in('418a845a-92f0-11e3-9b3b-003067f3663b','87bd41c7-4cd1-11e3-9777-003067f3663b');
+insert into `cons_department_parameter` (`department_fid`, `rid`, `year`, `code`, `object_name`, `item_name`, `level1`, `level2`, `unit`, `money`, `last_year_money`,`append_year`, `append_last_year_money`, `conty_append_money`, `city_append_money`, `policy`, `finance_standard_item_type`, `AREA_CODE`, `money_months`) values ('4','418a845a-92f0-11e3-9b3b-003067f3663b','2014','YFDX_MZF','优抚对象','MZF','','','元/年','1500','0.000','0','0.000','0.000','0.000','','BZXM_YFDXMZF','220104','12');
+insert into `cons_department_parameter` (`department_fid`, `rid`, `year`, `code`, `object_name`, `item_name`, `level1`, `level2`, `unit`, `money`, `last_year_money`,`append_year`, `append_last_year_money`, `conty_append_money`, `city_append_money`, `policy`, `finance_standard_item_type`, `AREA_CODE`, `money_months`) values ('4','fef4412d-9543-11e3-ab88-003067f3663b','2014','YFDX_MZF_LK','优抚对象','MZF_LK','','','元/年','1500','0.000','0','0.000','0.000','0.000','','BZXM_YFDXMZF','220104','12');
+insert into `cons_department_parameter` (`department_fid`, `rid`, `year`, `code`, `object_name`, `item_name`, `level1`, `level2`, `unit`, `money`, `last_year_money`,`append_year`, `append_last_year_money`, `conty_append_money`, `city_append_money`, `policy`, `finance_standard_item_type`, `AREA_CODE`, `money_months`) values ('4','34cdba81-9544-11e3-ab88-003067f3663b','2014','YFDX_MZF_WYB','优抚对象','MZF_WYB','','','元/年','3000','0.000','0','0.000','0.000','0.000','','BZXM_YFDXMZF','220104','12');
+insert into `cons_department_parameter` (`department_fid`, `rid`, `year`, `code`, `object_name`, `item_name`, `level1`, `level2`, `unit`, `money`, `last_year_money`, `append_year`, `append_last_year_money`, `conty_append_money`, `city_append_money`, `policy`, `finance_standard_item_type`, `AREA_CODE`, `money_months`) values ('4','87bd41c7-4cd1-11e3-9777-003067f3663b','2014','YFDX_YLBX','优抚对象','YLBX',NULL,NULL,'元/月','231.36','231.36','0','0.000','0.000','0.000','长府办发[2005]34号','BZXM_YLBX','220104','1');
+insert into `cons_department_parameter` (`department_fid`, `rid`, `year`, `code`, `object_name`, `item_name`, `level1`, `level2`, `unit`, `money`, `last_year_money`, `append_year`, `append_last_year_money`, `conty_append_money`, `city_append_money`, `policy`, `finance_standard_item_type`, `AREA_CODE`, `money_months`) values ('4','5f47c042-9544-11e3-ab88-003067f3663b','2014','YFDX_DBYLJZ','优抚对象','DBYLJZ',NULL,NULL,'元/年','100','100','0','0.000','0.000','0.000','长府办发[2005]34号','BZXM_YLBX','220104','12');
+
+2、修改优抚对象表：
+增加是否发放优抚金字段：is_issue_care_money，默认值=1
+增加是否发放门诊费字段：is_issue_diagnosis_money，默认值=0
+增加是否大病医疗救助：is_issue_seriouse_money，默认值=0
+
+ALTER TABLE `minzheng`.`lg_care_person`
+  ADD COLUMN `is_issue_care_money` VARCHAR(1) DEFAULT '1'   NULL  COMMENT '是否发放优抚金' AFTER `hurt_object_type`,
+  ADD COLUMN `is_issue_diagnosis_money` VARCHAR(1) DEFAULT '0'   NULL  COMMENT '是否发放门诊费' AFTER `is_issue_care_money`;
+ALTER TABLE `minzheng`.`lg_care_person` ADD COLUMN `is_issue_seriouse_money` VARCHAR(1) DEFAULT '0'   NULL  COMMENT '是否大病医疗救助' AFTER `is_issue_diagnosis_money`;
+
+根据医疗保险名单更新is_issue_medical_security
+update lg_care_person set is_issue_medical_security='0' where is_issue_medical_security is null;
+update lg_care_person set is_issue_diagnosis_money = is_issue_medical_security;
+update lg_care_person set is_issue_seriouse_money = is_issue_medical_security;
+
+
+3、处理优抚对象数据：
+李东松：按照老烈士子女录入-郑志强
+候东昌：按照在想复员军人录入，不享受优抚金，但是享受医疗保险（含大病救助），不享受门诊费
+伤残辛德东，两参孙明月，在乡复员军人刘福恩：有优抚金，没有医疗保险（含大病救助），有门诊费
+
+INSERT INTO lg_care_person
+(rid, type_level1,type_level2,type_level3,area_code,NAME, name_simple_spell,gender,dob,id_card_number,honour,is_issue_medical_security,rural_important_care_person,is_out_of_care,is_issue_care_money,is_issue_diagnosis_money,is_issue_seriouse_money)
+VALUES('aa96f24f-9771-11e3-abfb-003067f3663b','32','02','02','220104','侯德昌','HDC','1','1927-08-22','220105192708220015','0','1','0','0','0','0','1');
+UPDATE lg_care_person
+SET is_issue_medical_security='1',rural_important_care_person='0',is_issue_diagnosis_money='1',is_issue_seriouse_money='1'
+WHERE rid='d80836a0-778f-41e4-8b38-8ce1941624f0';
+update lg_care_person set is_issue_medical_security='0',is_issue_seriouse_money='0',is_issue_diagnosis_money='1' where name in('辛德东','孙明月','刘福恩');
+
+4、义务兵数据处理
+
+5、核对预算
+
+
+
+
+
+
+
+===============================================================
+
+郑志强：
+添加参数：爱心圆梦慈善助学
+
+2014-02-17
+
+救灾科：
+缺少爱心圆梦预算
+低保家庭和孤儿考生，每人5000
+低保边缘考生每人2500
+
+爱心圆梦由低保科（救灾科？）代发，分为农村和城市（？），分为两个批次...
+
+
+标准项目中的“五保金”改成“五保对象供养经费”
+集中供养：4300元/年，分散供养：3300元/年
+其中区里面出1050，省里面出500，市里面出210，其余由乡镇解决(???)
+
+做预算的时候按照每人1050元/年做
+发钱的时候一般省、市、区作为一笔钱进行发放；特殊情况下，区里面的可以单独发放
+
+2年左右会有一次提标
+
+
+
+五保对象联络员工资：--加参数，改造标准项目
+最低工资：1320/月
+交通补助：50/月
+
+农村福利服务中心工作人员工资：
+增加了一个人，需要录入系统
+
+60年代精简老职工：
+预算缺少医药费、数据缺少身份证导致预算不能统计人数（少8K）
+
+精神病人托管费：
+数据缺少身份证导致预算不能统计人数
+
+
+社会救助科：
+以奖代补=>低保办公经费
+设立节日救助资金
+设立应急救助资金
+低保专干交通费
+“幸福惠民卡”购物补贴预算
+
+政建科：
+三个临时预算...
+
+
+
