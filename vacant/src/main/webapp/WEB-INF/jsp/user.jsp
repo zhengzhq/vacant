@@ -31,14 +31,12 @@
 				<form id="fm" method="post">
 					<input type="hidden" name="id">
 					<div class="fitem">
-						<label>部门:</label>
-						<input id="organId" name="organId"
-							data-options="required:true">
+						<label>组织机构:</label>
+						<input id="organId" name="organId">
 					</div>
 					<div class="fitem">
 						<label>部门:</label>
-						<input id="departmentId" name="departmentId"
-							data-options="required:true">
+						<input id="departmentId" name="departmentId">
 					</div>
 					<div class="fitem">
 						<label>登录名:</label>
@@ -193,14 +191,20 @@
 			required : true,
 			editable : false,
 			url : contextPath + '/organ/tree',
+			panelHeight : 'auto',
+			onChange : function(newValue, oldValue) {
+				 var url = contextPath + '/department/in/organ/'+newValue;
+				 $('#departmentId').combobox('clear');
+				 $('#departmentId').combobox('reload', url);
+			}
+		});
+		$('#departmentId').combobox({
+			required : true,
+			editable : false,
+			valueField:'id',
+			textField:'name',
 			panelHeight : 'auto'
 		});
-// 		$('#departmentId').combobox({
-// 			required : true,
-// 			editable : false,
-// 			url : contextPath + '/json/department.json',
-// 			panelHeight : 'auto'
-// 		});
 		$('#gender').combobox({
 			required : true,
 			editable : false,
