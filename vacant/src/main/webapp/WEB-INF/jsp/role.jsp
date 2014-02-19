@@ -36,6 +36,10 @@
 						<label>描述:</label>
 						<input name="description" data-options="required:true">
 					</div>
+					<div class="fitem">
+						<label>资源:</label>
+						<ul id="resourceTree" style="display:inline;"></ul>
+					</div>
 				</form>
 			</div>
 			<div id="dlg-buttons">
@@ -109,11 +113,22 @@
 		function newRole() {
 			$('#dlg').dialog('open').dialog('setTitle', '添加角色');
 			$('#fm').form('clear');
+			$('#resourceTree').tree({
+				url : contextPath + '/resource/tree',
+				checkbox : true,
+				multiple : true
+			});
 		}
 		function editRole() {
 			var row = $('#dg').datagrid('getSelected');
 			if (row) {
 				$('#dlg').dialog('open').dialog('setTitle', '编辑角色');
+
+				$('#resourceTree').combotree({
+					url :  contextPath + '/resource/tree/of/user/' + row.id,
+					checkbox : true
+				});
+
 				$('#fm').form('load', row);
 			} else {
 				$.messager.show({

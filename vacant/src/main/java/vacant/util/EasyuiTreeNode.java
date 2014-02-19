@@ -42,6 +42,11 @@ public class EasyuiTreeNode {
 		this.children = children;
 	}
 
+	public EasyuiTreeNode(String id, String text) {
+		this.id = id;
+		this.text = text;
+	}
+	
 	public String getId() {
 		return id;
 	}

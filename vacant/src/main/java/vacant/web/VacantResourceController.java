@@ -1,5 +1,6 @@
 package vacant.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import vacant.domain.VacantResource;
 import vacant.service.VacantResourceService;
 import vacant.util.AjaxResult;
+import vacant.util.EasyuiTreeNode;
 
 @Controller
 @RequestMapping("/resource")
@@ -49,5 +51,15 @@ public class VacantResourceController {
 	public AjaxResult grantResourceToAllRoles(@RequestParam("id") String id) {
 		resourceService.grantToAllRols(id);
 		return AjaxResult.success();
+	}
+
+	@RequestMapping("/tree")
+	@ResponseBody
+	public List<EasyuiTreeNode> getResourceTree() {
+		List<EasyuiTreeNode> list = new ArrayList<EasyuiTreeNode>();
+		EasyuiTreeNode node = new EasyuiTreeNode("1", "系同管理",
+				new EasyuiTreeNode[] { new EasyuiTreeNode("2", "业务员"),new EasyuiTreeNode("3", "业务sss员") });
+		list.add(node);
+		return list;
 	}
 }

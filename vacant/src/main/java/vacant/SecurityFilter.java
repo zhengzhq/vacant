@@ -36,10 +36,12 @@ public class SecurityFilter implements Filter {
 		if (requestURI.startsWith("/login")
 				|| requestURI.startsWith("/dict/get/")
 				|| requestURI.startsWith("/department/in/organ/")
-				|| requestURI.equals("/organ/tree") || requestURI.equals("/")
-				|| requestURI.endsWith(".js") || requestURI.endsWith(".css")
-				|| requestURI.endsWith(".gif") || requestURI.endsWith(".png")
-				|| requestURI.endsWith(".html") || requestURI.endsWith(".json")
+				|| requestURI.equals("/organ/tree")
+				|| requestURI.equals("/resource/tree")
+				|| requestURI.equals("/") || requestURI.endsWith(".js")
+				|| requestURI.endsWith(".css") || requestURI.endsWith(".gif")
+				|| requestURI.endsWith(".png") || requestURI.endsWith(".html")
+				|| requestURI.endsWith(".json")
 				|| requestURI.endsWith("validation")
 				|| requestURI.startsWith("/error")) {
 			chain.doFilter(httpRequest, response);
