@@ -16,6 +16,10 @@ import vacant.util.DictCode;
 public class VacantUser extends WrittenOffable {
 
 	@ManyToOne
+	@JoinColumn(name = "organ_id", insertable = false, updatable = false, nullable = true)
+	private VacantOrgan organ;
+	
+	@ManyToOne
 	@JoinColumn(name = "department_id", insertable = false, updatable = false, nullable = true)
 	private VacantDepartment department;
 
@@ -49,6 +53,9 @@ public class VacantUser extends WrittenOffable {
 
 	@Column(name = "area_code")
 	private String areaCode;
+
+	@Column(name = "organ_id")
+	private String organId;
 
 	@Column(name = "department_id")
 	private String departmentId;
@@ -139,6 +146,22 @@ public class VacantUser extends WrittenOffable {
 
 	public void setGender(String gender) {
 		this.gender = gender;
+	}
+
+	public VacantOrgan getOrgan() {
+		return organ;
+	}
+
+	public void setOrgan(VacantOrgan organ) {
+		this.organ = organ;
+	}
+
+	public String getOrganId() {
+		return organId;
+	}
+
+	public void setOrganId(String organId) {
+		this.organId = organId;
 	}
 
 }

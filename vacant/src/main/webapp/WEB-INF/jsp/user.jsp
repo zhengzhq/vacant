@@ -77,6 +77,10 @@
 				<form id="fmRemove" method="post">
 					<input type="hidden" name="id">
 					<div class="fitem">
+						<label>组织机构:</label>
+						<input id="remove_organ" readonly>
+					</div>
+					<div class="fitem">
 						<label>部门:</label>
 						<input id="remove_department" readonly>
 					</div>
@@ -130,6 +134,17 @@
 							fitColumns : true,
 							loadMsg : '正在处理，请稍候...',
 							columns : [ [
+									{
+										field : 'organ',
+										width : 1,
+										title : '组织机构',
+										halign : 'center',
+										formatter : function(value, data) {
+											if (value) {
+												return value.name;
+											}
+										}
+									},
 									{
 										field : 'department',
 										width : 1,
@@ -193,31 +208,30 @@
 			url : contextPath + '/organ/tree',
 			panelHeight : 'auto',
 			onChange : function(newValue, oldValue) {
-				 var url = contextPath + '/department/in/organ/'+newValue;
-				 $('#departmentId').combobox('clear');
-				 $('#departmentId').combobox('reload', url);
+				var url = contextPath + '/department/in/organ/' + newValue;
+				$('#departmentId').combobox('clear');
+				$('#departmentId').combobox('reload', url);
 			}
 		});
 		$('#departmentId').combobox({
-			required : true,
 			editable : false,
-			valueField:'id',
-			textField:'name',
+			valueField : 'id',
+			textField : 'name',
 			panelHeight : 'auto'
 		});
 		$('#gender').combobox({
 			required : true,
 			editable : false,
-			valueField:'code',
-			textField:'value',
+			valueField : 'code',
+			textField : 'value',
 			url : contextPath + '/dict/get/gender',
 			panelHeight : 'auto'
 		});
 		$('#roleId').combobox({
 			required : true,
 			editable : false,
-			valueField:'id',
-			textField:'name',
+			valueField : 'id',
+			textField : 'name',
 			url : contextPath + '/role/get_all_role',
 			panelHeight : 'auto'
 		});
@@ -248,7 +262,14 @@
 			var row = $('#dg').datagrid('getSelected');
 			if (row) {
 				$('#dlg').dialog('open').dialog('setTitle', '编辑用户');
+				if(row.organ) {
+					var url = contextPath + '/department/in/organ/' + row.organ.id;
+					$('#departmentId').combobox('reload', url);
+				}
+				
+				$('#fm').form('clear');
 				$('#fm').form('load', row);
+
 			} else {
 				$.messager.show({
 					title : '提示',
@@ -287,6 +308,7 @@
 				$('#dlgRemove').dialog('open').dialog('setTitle', '注销用户');
 				$('#fmRemove').form('clear');
 				$('#fmRemove').form('load', row);
+				$('#remove_organ').val(row.organ.name);
 				$('#remove_department').val(row.department.name);
 				$('#remove_role').val(row.role.name);
 			} else {

@@ -59,7 +59,8 @@ public class VacantUserService {
 			int rows) throws NoSuchFieldException {
 		Page<VacantUser> result = new Page<VacantUser>();
 		int offset = (page - 1) * rows;
-		String sql = "from VacantUser u left join fetch u.department ";
+		String sql = "from VacantUser u left join fetch u.organ o ";
+		sql += "left join fetch u.department d ";
 		sql += "left join fetch u.role ";
 		sql += "where u.isWrittenOff=:isWrittenOff ";
 		if (StringUtils.isNotBlank(loginName)) {
@@ -93,6 +94,9 @@ public class VacantUserService {
 	public void save(VacantUser user) {
 		if ("".equals(user.getId())) {
 			user.setId(null);
+		}
+		if("".equals(user.getDepartmentId())) {
+			user.setDepartmentId(null);
 		}
 		user.setIsWrittenOff(YesOrNo.NO);
 		factory.getCurrentSession().saveOrUpdate(user);

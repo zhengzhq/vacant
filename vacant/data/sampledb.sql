@@ -50,22 +50,39 @@ CREATE TABLE `t_user` (
 
 insert  into `t_user`(`user_id`,`user_name`,`credits`,`password`,`last_visit`,`last_ip`) values (1,'admin',15,'123456','2014-01-16 14:03:33','192.168.12.7');
 
+/*Table structure for table `vacant_area` */
+
+DROP TABLE IF EXISTS `vacant_area`;
+
+CREATE TABLE `vacant_area` (
+  `id` varchar(36) NOT NULL,
+  `code` varchar(15) DEFAULT NULL COMMENT '区划代码',
+  `name` varchar(45) DEFAULT NULL COMMENT '区划名称',
+  `is_written_off` varchar(1) DEFAULT NULL,
+  `written_off_date` varchar(10) DEFAULT NULL,
+  `written_off_reason` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政区划';
+
+/*Data for the table `vacant_area` */
+
 /*Table structure for table `vacant_department` */
 
 DROP TABLE IF EXISTS `vacant_department`;
 
 CREATE TABLE `vacant_department` (
   `id` varchar(36) NOT NULL,
-  `name` varchar(45) DEFAULT NULL,
+  `organ_id` varchar(36) DEFAULT NULL COMMENT '组织机构id',
+  `name` varchar(45) DEFAULT NULL COMMENT '部门名称',
   `is_written_off` varchar(1) DEFAULT NULL,
   `written_off_date` varchar(10) DEFAULT NULL,
   `written_off_reason` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='部门，从属于部门';
 
 /*Data for the table `vacant_department` */
 
-insert  into `vacant_department`(`id`,`name`,`is_written_off`,`written_off_date`,`written_off_reason`) values ('1','二道区民政局','0',NULL,NULL),('2','社会救助科','0',NULL,NULL);
+insert  into `vacant_department`(`id`,`organ_id`,`name`,`is_written_off`,`written_off_date`,`written_off_reason`) values ('1','99714b2b-98af-11e3-853b-00215d2e38e8','优抚科','0',NULL,NULL),('2','99714b2b-98af-11e3-853b-00215d2e38e8','社会救助科','0',NULL,NULL);
 
 /*Table structure for table `vacant_dictionary` */
 
@@ -113,6 +130,27 @@ CREATE TABLE `vacant_operation_log` (
 
 /*Data for the table `vacant_operation_log` */
 
+/*Table structure for table `vacant_organ` */
+
+DROP TABLE IF EXISTS `vacant_organ`;
+
+CREATE TABLE `vacant_organ` (
+  `id` varchar(36) NOT NULL,
+  `parent_id` varchar(36) DEFAULT NULL COMMENT '上级单位id',
+  `area_code` varchar(15) DEFAULT NULL COMMENT '区划代码',
+  `level` varchar(1) DEFAULT NULL COMMENT '单位级别，organ_level',
+  `name` varchar(45) DEFAULT NULL COMMENT '名称',
+  `is_top` varchar(1) DEFAULT '0' COMMENT '是否是顶级组织机构',
+  `is_written_off` varchar(1) DEFAULT '0',
+  `written_off_date` varchar(10) DEFAULT NULL,
+  `written_off_reason` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组织机构';
+
+/*Data for the table `vacant_organ` */
+
+insert  into `vacant_organ`(`id`,`parent_id`,`area_code`,`level`,`name`,`is_top`,`is_written_off`,`written_off_date`,`written_off_reason`) values ('99714b2b-98af-11e3-853b-00215d2e38e8',NULL,'220105','3','二道区民政局','1','0',NULL,NULL),('c22c5a59-98af-11e3-853b-00215d2e38e8','99714b2b-98af-11e3-853b-00215d2e38e8','220105001','4','八里堡','0','0',NULL,NULL);
+
 /*Table structure for table `vacant_resource` */
 
 DROP TABLE IF EXISTS `vacant_resource`;
@@ -123,14 +161,14 @@ CREATE TABLE `vacant_resource` (
   `name` varchar(20) DEFAULT NULL COMMENT '显示名称，不显示不用填',
   `url` varchar(50) DEFAULT NULL,
   `display_order` int(2) DEFAULT NULL COMMENT '显示顺序，不显示不用填',
-  `is_display` varchar(1) DEFAULT NULL COMMENT '是否显示',
+  `is_page` varchar(1) DEFAULT NULL COMMENT '是否是页面',
   `is_top` varchar(1) DEFAULT NULL COMMENT '是否是顶级资源',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `vacant_resource` */
 
-insert  into `vacant_resource`(`id`,`parent_id`,`name`,`url`,`display_order`,`is_display`,`is_top`) values ('0362f96f-0c5e-4410-a2d8-1f4e60bdfc6e','82095426-0ced-4f18-8c7f-67b86a27bb6e','sub','sub',1,'1','0'),('0c9e8ef5-9581-11e3-a8fe-00215d2e38e8','77410bbd-87b6-11e3-b558-08606e729ccc','添加资源','/resource/ajax/save_resource',2,'0','0'),('0dd6ef63-4bed-4f57-b28a-343364576325','82095426-0ced-4f18-8c7f-67b86a27bb6e','a','a',2,'1',NULL),('427f6e2c-932e-11e3-82ac-00215d2e38e8','5cfdfc40-87b6-11e3-b558-08606e729ccc','删除用户','/model1/ajax/remove_user',3,'0','0'),('47a8979f-862e-4ce7-a260-8b0ffdc8f474','82095426-0ced-4f18-8c7f-67b86a27bb6e','z','z',3,'0','0'),('57c46197-87b6-11e3-b558-08606e729ccc','','系统管理','#',2,'1','1'),('5cfdfc40-87b6-11e3-b558-08606e729ccc','57c46197-87b6-11e3-b558-08606e729ccc','用户管理','/model1/main',3,'1','0'),('6894e5b0-90a1-11e3-8f33-08606e729ccc','5cfdfc40-87b6-11e3-b558-08606e729ccc','保存用户','/model1/save_user',2,'0','0'),('77410bbd-87b6-11e3-b558-08606e729ccc','57c46197-87b6-11e3-b558-08606e729ccc','资源管理','/resource/main',1,'1','0'),('82095426-0ced-4f18-8c7f-67b86a27bb6e','','top','top',1,'0','1'),('bbad5e6b-94b7-11e3-8841-00215d2e38e8','77410bbd-87b6-11e3-b558-08606e729ccc','获取所有的资源','/resource/ajax/get_all_resources',1,'0','0'),('c98c7920-9583-11e3-a8fe-00215d2e38e8','77410bbd-87b6-11e3-b558-08606e729ccc','删除资源','/resource/ajax/remove_resource',3,'0','0'),('df64d0e5-93f7-11e3-a33e-00215d2e38e8','57c46197-87b6-11e3-b558-08606e729ccc','角色管理','/role/main',2,'1','0'),('e023c0a6-8f40-11e3-b8e7-00215d2e38e8','5cfdfc40-87b6-11e3-b558-08606e729ccc','查询','/model1/query_page',1,'0','0');
+insert  into `vacant_resource`(`id`,`parent_id`,`name`,`url`,`display_order`,`is_page`,`is_top`) values ('57c46197-87b6-11e3-b558-08606e729ccc','','系统管理','#',2,'0','1'),('5cfdfc40-87b6-11e3-b558-08606e729ccc','57c46197-87b6-11e3-b558-08606e729ccc','用户管理','/user',3,'1','0'),('77410bbd-87b6-11e3-b558-08606e729ccc','57c46197-87b6-11e3-b558-08606e729ccc','资源管理','/resource',1,'1','0'),('df64d0e5-93f7-11e3-a33e-00215d2e38e8','57c46197-87b6-11e3-b558-08606e729ccc','角色管理','/role',2,'1','0');
 
 /*Table structure for table `vacant_resource_role` */
 
@@ -145,7 +183,7 @@ CREATE TABLE `vacant_resource_role` (
 
 /*Data for the table `vacant_resource_role` */
 
-insert  into `vacant_resource_role`(`id`,`resource_id`,`role_id`) values ('0f6dacef-93f8-11e3-a33e-00215d2e38e8','df64d0e5-93f7-11e3-a33e-00215d2e38e8','6f913757-870d-11e3-a27f-08606e729ccc'),('2f17f84f-94b8-11e3-8841-00215d2e38e8','bbad5e6b-94b7-11e3-8841-00215d2e38e8','6f913757-870d-11e3-a27f-08606e729ccc'),('4f4247ff-8f42-11e3-b8e7-00215d2e38e8','e023c0a6-8f40-11e3-b8e7-00215d2e38e8','6f913757-870d-11e3-a27f-08606e729ccc'),('5521d639-932e-11e3-82ac-00215d2e38e8','427f6e2c-932e-11e3-82ac-00215d2e38e8','6f913757-870d-11e3-a27f-08606e729ccc'),('57c46197-87b6-11e3-b558-08606e729ccc','57c46197-87b6-11e3-b558-08606e729ccc','6f913757-870d-11e3-a27f-08606e729ccc'),('90018ab6-9581-11e3-a8fe-00215d2e38e8','0c9e8ef5-9581-11e3-a8fe-00215d2e38e8','6f913757-870d-11e3-a27f-08606e729ccc'),('acdc355c-90a1-11e3-8f33-08606e729ccc','6894e5b0-90a1-11e3-8f33-08606e729ccc','6f913757-870d-11e3-a27f-08606e729ccc'),('bd8d4e18-870d-11e3-a27f-08606e729ccc','cf4ac3ec-870c-11e3-a27f-08606e729ccc','6f913757-870d-11e3-a27f-08606e729ccc'),('d49ea829-87b6-11e3-b558-08606e729ccc','77410bbd-87b6-11e3-b558-08606e729ccc','6f913757-870d-11e3-a27f-08606e729ccc'),('dcaa6b6d-9651-11e3-a6c1-00215d2e38e8','c98c7920-9583-11e3-a8fe-00215d2e38e8','6f913757-870d-11e3-a27f-08606e729ccc'),('e6443fce-87b6-11e3-b558-08606e729ccc','5cfdfc40-87b6-11e3-b558-08606e729ccc','6f913757-870d-11e3-a27f-08606e729ccc');
+insert  into `vacant_resource_role`(`id`,`resource_id`,`role_id`) values ('0f6dacef-93f8-11e3-a33e-00215d2e38e8','df64d0e5-93f7-11e3-a33e-00215d2e38e8','6f913757-870d-11e3-a27f-08606e729ccc'),('57c46197-87b6-11e3-b558-08606e729ccc','57c46197-87b6-11e3-b558-08606e729ccc','6f913757-870d-11e3-a27f-08606e729ccc'),('bd8d4e18-870d-11e3-a27f-08606e729ccc','cf4ac3ec-870c-11e3-a27f-08606e729ccc','6f913757-870d-11e3-a27f-08606e729ccc'),('d49ea829-87b6-11e3-b558-08606e729ccc','77410bbd-87b6-11e3-b558-08606e729ccc','6f913757-870d-11e3-a27f-08606e729ccc'),('e6443fce-87b6-11e3-b558-08606e729ccc','5cfdfc40-87b6-11e3-b558-08606e729ccc','6f913757-870d-11e3-a27f-08606e729ccc');
 
 /*Table structure for table `vacant_role` */
 
@@ -155,15 +193,12 @@ CREATE TABLE `vacant_role` (
   `id` varchar(36) NOT NULL COMMENT '主键',
   `name` varchar(20) DEFAULT NULL COMMENT '名称',
   `description` varchar(50) DEFAULT NULL COMMENT '描述',
-  `is_written_off` varchar(1) DEFAULT NULL,
-  `written_off_date` varchar(10) DEFAULT NULL,
-  `written_off_reason` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `vacant_role` */
 
-insert  into `vacant_role`(`id`,`name`,`description`,`is_written_off`,`written_off_date`,`written_off_reason`) values ('6f913757-870d-11e3-a27f-08606e729ccc','管理员','拥有系统所有权限','0',NULL,NULL);
+insert  into `vacant_role`(`id`,`name`,`description`) values ('6f913757-870d-11e3-a27f-08606e729ccc','管理员','拥有系统所有权限'),('7cd0f80b-4623-423c-a06c-cc6b520c4ef9','啊啊','小学校');
 
 /*Table structure for table `vacant_user` */
 
@@ -172,6 +207,7 @@ DROP TABLE IF EXISTS `vacant_user`;
 CREATE TABLE `vacant_user` (
   `id` varchar(36) NOT NULL COMMENT '主键',
   `area_code` varchar(12) DEFAULT NULL COMMENT '区划代码',
+  `organ_id` varchar(36) DEFAULT NULL COMMENT '组织机构id',
   `department_id` varchar(36) DEFAULT NULL COMMENT '部门id',
   `login_name` varchar(24) DEFAULT NULL COMMENT '登录名',
   `password` varchar(160) DEFAULT NULL COMMENT '密码',
@@ -186,7 +222,7 @@ CREATE TABLE `vacant_user` (
 
 /*Data for the table `vacant_user` */
 
-insert  into `vacant_user`(`id`,`area_code`,`department_id`,`login_name`,`password`,`name`,`gender`,`role_id`,`is_written_off`,`written_off_date`,`written_off_reason`) values ('04ff082a-4600-4ca2-bb86-ddb29e3babaa',NULL,'1','add','add','add','1','6f913757-870d-11e3-a27f-08606e729ccc','1','2014-02-12','删除功能测试'),('267b01ac-a596-4fd6-b3d5-9d32d4110550',NULL,'1','combobox','combobox','combobox','1','6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL),('2b689697-8f93-11e3-b984-08606e729ccc',NULL,'2','vacant','1','vacant','2','6f913757-870d-11e3-a27f-08606e729ccc','1','2014-02-12','删除功能测试'),('42aa560d-525f-4d01-a70c-046f021a17fb',NULL,NULL,'add',NULL,'add',NULL,NULL,'1','2014-02-11',''),('5f9ad8ae-5cf9-4477-b017-259295e2be2d',NULL,'1','1','1','1',NULL,'6f913757-870d-11e3-a27f-08606e729ccc','1','2014-02-15','删除功能测试'),('a0f5e677-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user1','1','user1',NULL,NULL,'1','2014-02-11','删除功能测试'),('a0fa7b46-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user2','1','user2',NULL,NULL,'1','2014-02-11','删除功能测试'),('a0ff0c5d-8f93-11e3-b984-08606e729ccc',NULL,'1','user3','1','user3',NULL,NULL,'1','2014-02-12','删除功能测试'),('a104c4c8-8f93-11e3-b984-08606e729ccc',NULL,'1','user4','1','user4',NULL,'6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL),('a10a8105-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user5','1','user5',NULL,NULL,'1','2014-02-12','删除功能测试'),('a10ef91b-8f93-11e3-b984-08606e729ccc',NULL,'1','user6','1','user6','1','6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL),('a1138b0c-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user77',NULL,'user7',NULL,NULL,NULL,NULL,NULL),('a117e882-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user88',NULL,'user8',NULL,NULL,NULL,NULL,NULL),('a11c828e-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user99',NULL,'user9',NULL,NULL,'1','2014-02-12','删除功能测试'),('a120e93f-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user1',NULL,'user1',NULL,NULL,'1','2014-02-12','删除功能测试'),('a125664d-8f93-11e3-b984-08606e729ccc',NULL,NULL,'user1','11','user11',NULL,NULL,'1','2014-02-12','删除功能测试'),('fd27a7bd-870d-11e3-a27f-08606e729ccc',NULL,'1','scott','1','正','1','6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL);
+insert  into `vacant_user`(`id`,`area_code`,`organ_id`,`department_id`,`login_name`,`password`,`name`,`gender`,`role_id`,`is_written_off`,`written_off_date`,`written_off_reason`) values ('04ff082a-4600-4ca2-bb86-ddb29e3babaa',NULL,NULL,'1','add','add','add','1','6f913757-870d-11e3-a27f-08606e729ccc','1','2014-02-12','删除功能测试'),('267b01ac-a596-4fd6-b3d5-9d32d4110550',NULL,'c22c5a59-98af-11e3-853b-00215d2e38e8',NULL,'combobox','combobox','combobox','1','6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL),('27d35122-cc3a-48b7-8f10-baefbe9fb80c',NULL,'c22c5a59-98af-11e3-853b-00215d2e38e8',NULL,'联动测试','1','联动测试','1','6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL),('2b689697-8f93-11e3-b984-08606e729ccc',NULL,NULL,'2','vacant','1','vacant','2','6f913757-870d-11e3-a27f-08606e729ccc','1','2014-02-12','删除功能测试'),('42aa560d-525f-4d01-a70c-046f021a17fb',NULL,NULL,NULL,'add',NULL,'add',NULL,NULL,'1','2014-02-11',''),('5f9ad8ae-5cf9-4477-b017-259295e2be2d',NULL,NULL,'1','1','1','1',NULL,'6f913757-870d-11e3-a27f-08606e729ccc','1','2014-02-15','删除功能测试'),('a0f5e677-8f93-11e3-b984-08606e729ccc',NULL,NULL,NULL,'user1','1','user1',NULL,NULL,'1','2014-02-11','删除功能测试'),('a0fa7b46-8f93-11e3-b984-08606e729ccc',NULL,NULL,NULL,'user2','1','user2',NULL,NULL,'1','2014-02-11','删除功能测试'),('a0ff0c5d-8f93-11e3-b984-08606e729ccc',NULL,NULL,'1','user3','1','user3',NULL,NULL,'1','2014-02-12','删除功能测试'),('a104c4c8-8f93-11e3-b984-08606e729ccc',NULL,'c22c5a59-98af-11e3-853b-00215d2e38e8',NULL,'user4','1','user4','2','6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL),('a10a8105-8f93-11e3-b984-08606e729ccc',NULL,NULL,NULL,'user5','1','user5',NULL,NULL,'1','2014-02-12','删除功能测试'),('a10ef91b-8f93-11e3-b984-08606e729ccc',NULL,'99714b2b-98af-11e3-853b-00215d2e38e8','1','user6','1','user6','1','6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL),('a1138b0c-8f93-11e3-b984-08606e729ccc',NULL,NULL,NULL,'user77',NULL,'user7',NULL,NULL,NULL,NULL,NULL),('a117e882-8f93-11e3-b984-08606e729ccc',NULL,NULL,NULL,'user88',NULL,'user8',NULL,NULL,NULL,NULL,NULL),('a11c828e-8f93-11e3-b984-08606e729ccc',NULL,NULL,NULL,'user99',NULL,'user9',NULL,NULL,'1','2014-02-12','删除功能测试'),('a120e93f-8f93-11e3-b984-08606e729ccc',NULL,NULL,NULL,'user1',NULL,'user1',NULL,NULL,'1','2014-02-12','删除功能测试'),('a125664d-8f93-11e3-b984-08606e729ccc',NULL,NULL,NULL,'user1','11','user11',NULL,NULL,'1','2014-02-12','删除功能测试'),('d5e2f868-603e-4159-8fb9-004587a356f9',NULL,'99714b2b-98af-11e3-853b-00215d2e38e8',NULL,'啊啊','爸爸','a此次','2','7cd0f80b-4623-423c-a06c-cc6b520c4ef9','0',NULL,NULL),('fd27a7bd-870d-11e3-a27f-08606e729ccc',NULL,'99714b2b-98af-11e3-853b-00215d2e38e8','2','scott','1','正','1','6f913757-870d-11e3-a27f-08606e729ccc','0',NULL,NULL);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
