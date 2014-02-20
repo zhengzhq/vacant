@@ -143,4 +143,24 @@ public class VacantResourceService {
 				.setString("is_written_off", YesOrNo.NO).executeUpdate();
 	}
 
+	public List<EasyuiTreeNode> tree() {
+		List<VacantResource> resourceList = getAllResourceList();
+		List<EasyuiTreeNode> rootNodeList = new ArrayList<EasyuiTreeNode>();
+
+		for (VacantResource resource : resourceList) {
+			if (resource.getIsTop().equals(YesOrNo.YES)) {
+				String id = resource.getId();
+				String text = resource.getName();
+				String url = resource.getUrl();
+				EasyuiTreeNode rootNode = new EasyuiTreeNode(id, text, url);
+				attachChildrenNode(rootNode, resourceList);
+				rootNodeList.add(rootNode);
+			}
+		}
+		return rootNodeList;
+	}
+
+	public List<EasyuiTreeNode> treeOfRole(String roleId) {
+		return null;
+	}
 }

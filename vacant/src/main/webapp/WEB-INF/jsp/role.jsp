@@ -145,7 +145,13 @@
 			$('#fm').form('submit', {
 				url : modelPath + 'save_role',
 				method : 'post',
-				onSubmit : function() {
+				onSubmit : function(param) {
+					var nodes = $('#resourceTree').tree('getChecked', ['checked','indeterminate']);
+					var resourceIds = [];
+					for(var i=0;i<nodes.length;i++) {
+						resourceIds[i]=nodes[i].id;
+					}
+					param.resourceIds = resourceIds.join(",");
 					return $(this).form('validate');
 				},
 				success : function(result) {

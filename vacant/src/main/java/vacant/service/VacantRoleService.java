@@ -45,11 +45,24 @@ public class VacantRoleService {
 		return result;
 	}
 
-	public void save(VacantRole user) {
-		if ("".equals(user.getId())) {
-			user.setId(null);
+	public void save(VacantRole role, String resourceIds) {
+		if ("".equals(role.getId())) {
+			role.setId(null);
 		}
-		factory.getCurrentSession().saveOrUpdate(user);
+		factory.getCurrentSession().saveOrUpdate(role);
+
+		String sql = "delete from vacant_resource_role where role_id=:role_id ";
+		factory.getCurrentSession().createSQLQuery(sql)
+				.setString("role_id", role.getId()).executeUpdate();
+
+		sql = "insert into vacant_resource_role (id,resource_id,role_id) ";
+		sql += "values(uuid(), :resource_id, :role_id)";
+		String[] resourceIdArray = resourceIds.split(",");
+		for (String resourceId : resourceIdArray) {
+			factory.getCurrentSession().createSQLQuery(sql)
+					.setString("resource_id", resourceId)
+					.setString("role_id", role.getId()).executeUpdate();
+		}
 	}
 
 	public void remove(String id) {

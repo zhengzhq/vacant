@@ -39,8 +39,9 @@ public class VacantRoleController {
 
 	@RequestMapping("/save_role")
 	@ResponseBody
-	public AjaxResult saveRole(VacantRole role) {
-		roleService.save(role);
+	public AjaxResult saveRole(VacantRole role,
+			@RequestParam("resourceIds") String resourceIds) {
+		roleService.save(role, resourceIds);
 		return AjaxResult.success();
 	}
 

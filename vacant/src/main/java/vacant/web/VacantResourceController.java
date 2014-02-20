@@ -1,6 +1,5 @@
 package vacant.web;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,11 +54,13 @@ public class VacantResourceController {
 
 	@RequestMapping("/tree")
 	@ResponseBody
-	public List<EasyuiTreeNode> getResourceTree() {
-		List<EasyuiTreeNode> list = new ArrayList<EasyuiTreeNode>();
-		EasyuiTreeNode node = new EasyuiTreeNode("1", "系同管理",
-				new EasyuiTreeNode[] { new EasyuiTreeNode("2", "业务员"),new EasyuiTreeNode("3", "业务sss员") });
-		list.add(node);
-		return list;
+	public List<EasyuiTreeNode> tree() {
+		return resourceService.tree();
+	}
+
+	@RequestMapping("/tree/of/role")
+	@ResponseBody
+	public List<EasyuiTreeNode> treeOfRole(String roleId) {
+		return null;
 	}
 }
