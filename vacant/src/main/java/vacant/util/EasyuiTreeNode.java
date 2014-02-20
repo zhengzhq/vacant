@@ -1,6 +1,8 @@
 package vacant.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,8 +15,8 @@ public class EasyuiTreeNode {
 	private String id;
 	private String text;
 	private String state;
-	private String checked;
-	private EasyuiTreeNode[] children;
+	private boolean checked;
+	private List<EasyuiTreeNode> children = new ArrayList<EasyuiTreeNode>();
 	private Map<String, String> attributes = new HashMap<String, String>();
 
 	public static final String STATE_CLOSED = "closed";
@@ -28,7 +30,7 @@ public class EasyuiTreeNode {
 	}
 
 	public EasyuiTreeNode(String id, String text, String url,
-			EasyuiTreeNode[] children) {
+			List<EasyuiTreeNode> children) {
 		this.id = id;
 		this.text = text;
 		this.children = children;
@@ -36,7 +38,7 @@ public class EasyuiTreeNode {
 		this.state = STATE_CLOSED;
 	}
 	
-	public EasyuiTreeNode(String id, String text, EasyuiTreeNode[] children) {
+	public EasyuiTreeNode(String id, String text, List<EasyuiTreeNode> children) {
 		this.id = id;
 		this.text = text;
 		this.children = children;
@@ -71,19 +73,19 @@ public class EasyuiTreeNode {
 		this.state = state;
 	}
 
-	public String getChecked() {
+	public boolean getChecked() {
 		return checked;
 	}
 
-	public void setChecked(String checked) {
+	public void setChecked(boolean checked) {
 		this.checked = checked;
 	}
 
-	public EasyuiTreeNode[] getChildren() {
+	public List<EasyuiTreeNode> getChildren() {
 		return children;
 	}
 
-	public void setChildren(EasyuiTreeNode[] children) {
+	public void setChildren(List<EasyuiTreeNode> children) {
 		this.children = children;
 	}
 

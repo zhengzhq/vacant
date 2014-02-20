@@ -124,8 +124,8 @@
 			if (row) {
 				$('#dlg').dialog('open').dialog('setTitle', '编辑角色');
 
-				$('#resourceTree').combotree({
-					url :  contextPath + '/resource/tree/of/user/' + row.id,
+				$('#resourceTree').tree({
+					url :  contextPath + '/resource/tree/of/role/' + row.id,
 					checkbox : true
 				});
 

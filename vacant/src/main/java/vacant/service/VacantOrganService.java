@@ -32,17 +32,15 @@ public class VacantOrganService {
 		return nodeList;
 	}
 
-	private EasyuiTreeNode[] getTreeNodes(VacantOrgan parent) {
+	private List<EasyuiTreeNode> getTreeNodes(VacantOrgan parent) {
 		String hql = "from VacantOrgan where parentId=:parentId";
 		List<VacantOrgan> organList = factory.getCurrentSession()
 				.createQuery(hql).setString("parentId", parent.getId()).list();
-		EasyuiTreeNode[] childrenNodes = new EasyuiTreeNode[organList.size()];
-		int i = 0;
+		List<EasyuiTreeNode> childrenNodes = new ArrayList<EasyuiTreeNode>();
 		for (VacantOrgan child : organList) {
 			EasyuiTreeNode node = new EasyuiTreeNode(child.getId(),
 					child.getName(), getTreeNodes(child));
-			childrenNodes[i] = node;
-			i++;
+			childrenNodes.add(node);
 		}
 		return childrenNodes;
 	}

@@ -3,6 +3,7 @@ package vacant.service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import net.sf.json.JSONArray;
@@ -10,6 +11,7 @@ import net.sf.json.JSONArray;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -76,7 +78,7 @@ public class VacantResourceService {
 				children.add(childNode);
 			}
 		}
-		node.setChildren(children.toArray(new EasyuiTreeNode[children.size()]));
+		node.setChildren(children);
 	}
 
 	public String getTreeDataByRole() {
@@ -161,6 +163,44 @@ public class VacantResourceService {
 	}
 
 	public List<EasyuiTreeNode> treeOfRole(String roleId) {
-		return null;
+		String sql = "select r.id, r.name, r.url, r.is_top, r.parent_id, rr.role_id ";
+		sql += "from vacant_resource r left join (select * from vacant_resource_role ";
+		sql += "where role_id=:role_id) rr on r.id=rr.resource_id ";
+		List list = factory.getCurrentSession().createSQLQuery(sql)
+				.setString("role_id", roleId)
+				.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+		List<EasyuiTreeNode> rootNodeList = new ArrayList<EasyuiTreeNode>();
+
+		for (Object object : list) {
+			Map<String, String> map = (Map) object;
+			if (map.get("is_top").equals(YesOrNo.YES)) {
+				String id = map.get("id");
+				String text = map.get("name");
+				String url = map.get("url");
+				EasyuiTreeNode rootNode = new EasyuiTreeNode(id, text, url);
+				rootNode.setChecked(roleId.equals(map.get("role_id")));
+				attachChildrenResource(list, rootNode, roleId);
+				rootNodeList.add(rootNode);
+			}
+		}
+		return rootNodeList;
+	}
+
+	private void attachChildrenResource(List list, EasyuiTreeNode parent,
+			String roleId) {
+		for (Object object : list) {
+			Map<String, String> map = (Map) object;
+			if (parent.getId().equals(map.get("parent_id"))) {
+				String id = map.get("id");
+				String text = map.get("name");
+				String url = map.get("url");
+				EasyuiTreeNode node = new EasyuiTreeNode(id, text, url);
+				node.setChecked(roleId.equals(map.get("role_id")));
+				parent.setChecked(false);
+				parent.getChildren().add(node);
+				attachChildrenResource(list, node, roleId);
+			}
+
+		}
 	}
 }
