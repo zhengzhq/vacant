@@ -1,0 +1,2 @@
+# 说明
+作为整个项目中的唯一一个project，或者作为多project项目中的父project
