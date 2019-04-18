@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.util.StringUtils;
 
 @Service
 public class PageService {
@@ -59,20 +60,42 @@ public class PageService {
 		List<String> list = new ArrayList<String>();
 		for (Entry<String, String> e : conditions.entrySet()) {
 			String key = e.getKey();
+			if(StringUtils.isEmptyOrWhitespace(key)
+					) {
+				continue;
+			}
+			String value = e.getValue();
 			condition += " and";
 			condition += key;
 			if(key.endsWith(OP_LK)) {
 				condition += " like ?";
-				list.add(e.getValue() + "%");
+				list.add(value + "%");
 			} else if(key.endsWith(OP_EQ)) {
 				condition += " = ?";
+				list.add(value);
+			} else if(key.endsWith(OP_GT)) {
+				condition += " > ?";
+				list.add(value);
+			} else if(key.endsWith(OP_GE)) {
+				condition += " >= ?";
+				list.add(value);
+			} else if(key.endsWith(OP_LT)) {
+				condition += " < ?";
+				list.add(value);
+			} else if(key.endsWith(OP_LE)) {
+				condition += " <= ?";
 				list.add(e.getValue());
-			} else if(key.endsWith(OP_EQ)) {
-				condition += " = ?";
-				list.add(e.getValue());
-			} else if(key.endsWith(OP_EQ)) {
-				condition += " = ?";
-				list.add(e.getValue());
+			} else if(key.endsWith(OP_IN)) {
+				condition += " in(";
+				String[] vs = value.split(",");
+				for (int i=0;i<vs.length;i++) {
+					if(i>0) {
+						condition += ",";
+					}
+					condition += "?";
+					list.add(vs[i]);
+				}
+				condition += ")";
 			}
 		}
 		cp.setCondition(condition);
