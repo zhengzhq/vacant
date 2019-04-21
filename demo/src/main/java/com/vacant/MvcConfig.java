@@ -1,4 +1,4 @@
-package com.vacant.demo;
+package com.vacant;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -11,7 +11,7 @@ public class MvcConfig implements WebMvcConfigurer {
     	registry.addViewController("/").setViewName("index");
     	registry.addViewController("/index").setViewName("index");
     	registry.addViewController("/login").setViewName("login");
-        registry.addViewController("/main").setViewName("main");
+//        registry.addViewController("/main").setViewName("main");
         registry.addViewController("/hello").setViewName("hello");
         registry.addViewController("/error").setViewName("error");
     }

@@ -13,7 +13,7 @@ import org.thymeleaf.util.StringUtils;
 @Service
 public class PageService {
 	
-	private static final int NUM_PER_PAGE = 10;
+	public static final int NUM_PER_PAGE = 10;
 	
 	private static final String OP_EQ = "_EQ";
 	private static final String OP_LK = "_LK";

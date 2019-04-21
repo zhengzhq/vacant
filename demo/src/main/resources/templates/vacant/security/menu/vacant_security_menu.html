@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<script th:inline="javascript">
+$(function(){
+	
+	var $p = navTab.getCurrentPanel();
+	
+	$('#addChild',$p).click(function(){
+		var parentId = $('#id', $p).val();
+		var url = [[@{'/vacant/security/menu/add'}]];
+		$.pdialog.open(url, "addMenu", "添加子菜单",{mask:true,data:{parentId:parentId},width:800,height:450});
+	});
+	$('#add',$p).click(function(){
+		var url = [[@{'/vacant/security/menu/add'}]];
+		$.pdialog.open(url, "addMenu", "添加子菜单",{mask:true,data:{parentId:'root'},width:800,height:450});
+	});
+	
+	$('#tree a', $p).each(function(){
+		var $this = $(this);
+		$this.click(function(){
+			$("#id", $p).val($this.attr('id'))
+		});
+	});
+});
+</script>
+<input type="hidden" id="id" value="root" />
+<div class="pageContent">
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a id="addChild" class="add"><span>添加子节点</span></a></li>
+			<li><a id="add" class="add"><span>添加根结点</span></a></li>
+			<li><a class="delete" href="demo/common/ajaxDone.html?uid={sid_user}" target="ajaxTodo" title="确定要删除吗?"><span>删除</span></a></li>
+			<li><a class="edit" href="demo_page4.html?uid={sid_user}" target="navTab"><span>修改</span></a></li>
+			<li class="line">line</li>
+			<li><a class="icon" href="demo/common/dwz-team.xls" target="dwzExport" targetType="navTab" title="实要导出这些记录吗?"><span>导出EXCEL</span></a></li>
+		</ul>
+	</div>
+	<ul id="tree" class="tree treeFolder">
+		<li th:each="menu:${menuList}">
+			<a th:id="${menu.id}" th:text="${menu.xssx + ' ' + menu.name}">最低生活保障</a>
+			<ul>
+				<li th:each="model:${menu.children}">
+					<a th:id="${model.id}" th:text="${model.xssx + ' ' + model.name}">低保户管理</a>
+					<ul>
+						<li th:each="resource:${model.children}">
+							<a class="resource" th:id="${resource.id}"
+									th:text="${resource.xssx + ' ' + resource.name + ',path=' + resource.path + ',rel=' + resource.rel + ',gybz=' + gybz}">低保户申请登记</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</div>
+</html>

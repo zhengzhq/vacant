@@ -1,4 +1,4 @@
-package com.vacant.demo;
+package com.vacant;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
