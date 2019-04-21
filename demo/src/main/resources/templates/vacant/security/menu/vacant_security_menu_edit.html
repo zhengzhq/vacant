@@ -2,7 +2,7 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	
 	<form class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone)" 
-			th:object="${menu}" th:action="@{/vacant/security/menu/add}" method="post">
+			th:object="${menu}" th:action="@{/vacant/security/menu/save}" method="post">
 		<input type="hidden" th:field="*{id}" />
 		<input type="hidden" th:field="*{parentId}" />
 		<div class="pageFormContent nowrap" layoutH="58">

@@ -1,8 +1,6 @@
 package com.vacant.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jackson.JsonObjectSerializer;
-import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.thymeleaf.util.StringUtils;
 
 import com.vacant.AjaxResponse;
 
@@ -32,7 +29,7 @@ public class MenuControl {
 
 	@RequestMapping
 	public String list(Model model) {
-		model.addAttribute("menuList", userService.zxlList());
+		model.addAttribute("menuList", menuService.zxlList());
 		return view;
 	}
 	
@@ -44,28 +41,28 @@ public class MenuControl {
 		return v("edit");
 	}
 	
-	@PostMapping(path = "add")
+	@PostMapping(path = "save")
 	@ResponseBody
-	public AjaxResponse add(VacantMenu menu) {
+	public AjaxResponse save(VacantMenu menu) {
 		menuService.save(menu);
 		return AjaxResponse.dialogOk("vacant_security_menu");
 	}
 
 	@GetMapping(path = "edit")
-	public String edit(String parentId, Model model) {
-		VacantMenu menu = new VacantMenu();
-		menu.setParentId(parentId);
+	public String edit(@RequestParam String id, Model model) {
+		VacantMenu menu = menuService.findByPk(id);
 		model.addAttribute("menu", menu);
 		return v("edit");
 	}
-	
-	@PostMapping(path = "edit")
-	public AjaxResponse edit(VacantMenu menu) {
-		return null;
+
+	@RequestMapping(path = "delete")
+	@ResponseBody
+	public AjaxResponse delete(@RequestParam String id, Model model) {
+		if(menuService.hasChild(id)) {
+			return AjaxResponse.error("存在子节点，不能删除！");
+		}
+		menuService.delete(id);
+		return AjaxResponse.ok();
 	}
 	
-	@RequestMapping(path = "menuList")
-	public AjaxResponse menuList(Model model) {
-		return null;
-	}
 }

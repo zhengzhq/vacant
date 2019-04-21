@@ -29,26 +29,4 @@ public class UserService {
 				});
 	}
 
-	public List<VacantMenu> zxlList() {
-		return menuList("root");
-	}
-
-	private List<VacantMenu> menuList(String parentId) {
-		return jdbcTemplate.query("select * from vacant_menu where parent_id=? order by xssx",
-				new String[] { parentId }, new RowMapper<VacantMenu>() {
-					@Override
-					public VacantMenu mapRow(ResultSet rs, int rowNum) throws SQLException {
-						VacantMenu menu = new VacantMenu();
-						String id = rs.getString("id");
-						menu.setId(id);
-						menu.setParentId(parentId);
-						menu.setXssx(rs.getInt("xssx"));
-						menu.setName(rs.getString("name"));
-						menu.setPath(rs.getString("path"));
-						menu.setRel(rs.getString("rel"));
-						menu.setChildren(menuList(id));
-						return menu;
-					}
-				});
-	}
 }

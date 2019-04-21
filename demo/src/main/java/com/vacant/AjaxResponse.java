@@ -19,6 +19,14 @@ public class AjaxResponse {
 		AjaxResponse r = new AjaxResponse();
 		r.setStatusCode(STATUS_CODE_OK);
 		r.setMessage("操作成功");
+		return r;
+	}
+	
+
+	public static AjaxResponse okAndClose() {
+		AjaxResponse r = new AjaxResponse();
+		r.setStatusCode(STATUS_CODE_OK);
+		r.setMessage("操作成功");
 		r.setCallbackType(CALLBACK_TYPE_CLOSE_CURRENT);
 		return r;
 	}

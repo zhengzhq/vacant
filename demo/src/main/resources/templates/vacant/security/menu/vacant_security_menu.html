@@ -5,33 +5,66 @@
 $(function(){
 	
 	var $p = navTab.getCurrentPanel();
+
+	$('#tree a', $p).each(function(){
+		var $this = $(this);
+		$this.click(function(){
+			$("#id", $p).val($this.attr('id'))
+			$('#name', $p).val($this.text());
+		});
+	});
 	
 	$('#addChild',$p).click(function(){
 		var parentId = $('#id', $p).val();
 		var url = [[@{'/vacant/security/menu/add'}]];
 		$.pdialog.open(url, "addMenu", "添加子菜单",{mask:true,data:{parentId:parentId},width:800,height:450});
 	});
+
 	$('#add',$p).click(function(){
 		var url = [[@{'/vacant/security/menu/add'}]];
 		$.pdialog.open(url, "addMenu", "添加子菜单",{mask:true,data:{parentId:'root'},width:800,height:450});
 	});
-	
-	$('#tree a', $p).each(function(){
-		var $this = $(this);
-		$this.click(function(){
-			$("#id", $p).val($this.attr('id'))
+
+	$('#delete',$p).click(function(){
+		var id = $('#id', $p).val();
+		if(id == 'root') {
+			alertMsg.error('请选择要删除的节点。');
+			return;
+		}
+		alertMsg.confirm('将从所有角色中删除当前选中的菜单，确定删除吗？'+$('#name',$p).val(), {
+			okCall: function(){
+				var url = [[@{'/vacant/security/menu/delete?id='}]]+id;
+				ajaxTodo(url, function(json){
+					if (json[DWZ.keys.statusCode] == DWZ.statusCode.ok){
+						alertMsg.correct(json.message);
+						navTab.reload($p.attr('url'));
+					} else {
+						alertMsg.error(json.message);
+					}
+				});
+			}
 		});
+
 	});
+
+	$('#edit',$p).click(function(){
+		var id = $('#id', $p).val();
+		var url = [[@{'/vacant/security/menu/edit'}]];
+		$.pdialog.open(url, "addMenu", "修改菜单"+$('#name',$p).val(),
+				{mask:true,data:{id:id},width:800,height:450});
+	});
+
 });
 </script>
 <input type="hidden" id="id" value="root" />
+<input type="hidden" id="name" />
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">
 			<li><a id="addChild" class="add"><span>添加子节点</span></a></li>
 			<li><a id="add" class="add"><span>添加根结点</span></a></li>
-			<li><a class="delete" href="demo/common/ajaxDone.html?uid={sid_user}" target="ajaxTodo" title="确定要删除吗?"><span>删除</span></a></li>
-			<li><a class="edit" href="demo_page4.html?uid={sid_user}" target="navTab"><span>修改</span></a></li>
+			<li><a id="delete" class="delete"><span>删除</span></a></li>
+			<li><a id="edit" class="edit"><span>修改</span></a></li>
 			<li class="line">line</li>
 			<li><a class="icon" href="demo/common/dwz-team.xls" target="dwzExport" targetType="navTab" title="实要导出这些记录吗?"><span>导出EXCEL</span></a></li>
 		</ul>

@@ -1,9 +1,14 @@
 package com.vacant.security;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.StringUtils;
@@ -32,7 +37,55 @@ public class MenuService {
 		} else {
 			String sql = "update vacant_menu set parent_id=?,xssx=?,name=?,path=?,";
 			sql += "rel=?,gybz=? where id=?";
-			jdbcTemplate.update(sql, id, parentId, xssx, name, path, rel, gybz);
+			jdbcTemplate.update(sql, parentId, xssx, name, path, rel, gybz, id);
 		}
 	}
+
+	public List<VacantMenu> zxlList() {
+		return menuList("root");
+	}
+
+	private List<VacantMenu> menuList(String parentId) {
+		return jdbcTemplate.query("select * from vacant_menu where parent_id=? order by xssx",
+				new String[] { parentId }, new MenuRowMapper());
+	}
+
+	public boolean hasChild(String id) {
+		String sql = "select 1 from vacant_menu where parent_id=? limit 1";
+		List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, id);
+		return list.size()>0;
+	}
+
+	@Transactional
+	public void delete(String id) {
+		jdbcTemplate.update("delete from vacant_menu where id=?", id);
+		jdbcTemplate.update("delete from vacant_role_menu where menu_id=?", id);
+	}
+
+	private class MenuRowMapper implements RowMapper<VacantMenu> {
+
+		@Override
+		public VacantMenu mapRow(ResultSet rs, int rowNum) throws SQLException {
+			VacantMenu menu = new VacantMenu();
+			String id = rs.getString("id");
+			menu.setId(id);
+			menu.setParentId(rs.getString("parent_id"));
+			menu.setXssx(rs.getInt("xssx"));
+			menu.setName(rs.getString("name"));
+			menu.setPath(rs.getString("path"));
+			menu.setRel(rs.getString("rel"));
+			menu.setChildren(menuList(id));
+			return menu;
+		}
+	}
+
+	public VacantMenu findByPk(String id) {
+		List<VacantMenu> list = jdbcTemplate.query("select * from vacant_menu where id=?",
+				new String[] { id }, new MenuRowMapper());
+		if (list.size()==1) {
+			return list.get(0);
+		}
+		throw new RuntimeException("vacant_menu表主键错误：" + id);
+	}
+
 }
