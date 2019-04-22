@@ -22,6 +22,13 @@ public class AjaxResponse {
 		return r;
 	}
 	
+	public static AjaxResponse reload(String navTabId) {
+		AjaxResponse r = new AjaxResponse();
+		r.setStatusCode(STATUS_CODE_OK);
+		r.setMessage("操作成功");
+		r.setNavTabId(navTabId);
+		return r;
+	}
 
 	public static AjaxResponse okAndClose() {
 		AjaxResponse r = new AjaxResponse();

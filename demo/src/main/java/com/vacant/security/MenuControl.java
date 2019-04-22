@@ -14,9 +14,6 @@ import com.vacant.AjaxResponse;
 @Controller
 @RequestMapping(path = "/vacant/security/menu")
 public class MenuControl {
-
-	@Autowired
-	private UserService userService;
 	
 	@Autowired
 	private MenuService menuService;

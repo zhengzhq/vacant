@@ -1,0 +1,26 @@
+<div class="pageContent">
+	<div class="panelBar">
+		<ul class="toolBar" th:with="p=@{/vacant/security/role}">
+			<li><a class="add" th:href="${p+'/add'}" target="dialog"><span>添加</span></a></li>
+			<li class="line">line</li>
+			<li><a class="delete" th:href="${p+'delete/{role_id}'}" 
+						target="ajaxTodo" title="确定要删除吗?"><span>删除</span></a></li>
+			<li class="line">line</li>
+			<li><a class="edit" th:href="${p+'edit/{role_id}'}" target="dialog"><span>修改</span></a></li>
+		</ul>
+	</div>
+	<table class="list" layoutH="138">
+		<thead>
+			<tr>
+				<th width="80">序号</th>
+				<th width="120">角色名称</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr target="role_id" th:rel="${role.id}" th:each="role,stat:${list}" th:object="${role}">
+				<td th:text="${stat.count}">1</td>
+				<td th:text="*{name}">低保专干</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
