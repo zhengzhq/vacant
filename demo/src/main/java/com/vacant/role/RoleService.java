@@ -40,7 +40,7 @@ public class RoleService {
 			sql = "insert into vacant_role (name, id) values(?,?)";
 			role.setId(id);
 		} else {
-			sql = "update vacant_menu set name=? where id=?";
+			sql = "update vacant_role set name=? where id=?";
 		}
 		jdbcTemplate.update(sql, name, id);
 	}
