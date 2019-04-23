@@ -1,7 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<script th:inline="javascript">
+$(function(){
+	var $p = $.pdialog.getCurrent();
+	
+	$('#s', $p).click(function(){
+		alert('a');
+// 		var menus;
+// 		$('#tree .chbox', $p).each(function(){
+// 			var $this = $(this);
+// 			if($this.hasClass('checked')){
+// 				menus[menus.length]=$this.next().next().attr('id');
+// 			}
+// 		});
+// 		var url = [[@{'/vacant/security/menu/delete?id='}]]+id;
+// 		ajaxTodo(url, function(json){
+// 			if (json[DWZ.keys.statusCode] == DWZ.statusCode.ok){
+// 				alertMsg.correct(json.message);
+// 				navTab.reload($p.attr('url'));
+// 			} else {
+// 				alertMsg.error(json.message);
+// 			}
+// 		});
+	});
+});
+</script>
+
 <div class="pageContent" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	
-	<form class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone)" 
+	<form id="pageForm" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone)" 
 			th:object="${role}" th:action="@{/vacant/role/save}" method="post">
 		<input type="hidden" th:field="*{id}" />
 		<div class="pageFormContent nowrap" layoutH="58">
@@ -11,13 +40,36 @@
 					<input type="text" th:field="*{name}" maxlength="50" class="required" />
 				</dd>
 			</dl>
+			<dl>
+				<dt>菜单：</dt>
+				<dd>
+					<div layoutH="100" style="overflow:auto; width:100%; border:solid 1px #CCC;">
+						<ul id="tree" class="tree treeFolder treeCheck" oncheck="test_check_tree">
+							<li th:each="menu:${menuList}">
+								<a th:id="${menu.id}" th:text="${menu.xssx + ' ' + menu.name}">最低生活保障</a>
+								<ul>
+									<li th:each="model:${menu.children}">
+										<a th:id="${model.id}" th:text="${model.xssx + ' ' + model.name}">低保户管理</a>
+										<ul>
+											<li th:each="resource:${model.children}">
+												<a class="resource" th:id="${resource.id}"
+														th:text="${resource.xssx + ' ' + resource.name + ',path=' + resource.path + ',rel=' + resource.rel + ',gybz=' + gybz}">低保户申请登记</a>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</dd>
+			</dl>
 		</div>
 		<div class="formBar">
 			<ul>
-				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">提交</button></div></div></li>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit" id="s">提交</button></div></div></li>
 				<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+
 			</ul>
 		</div>
 	</form>
-	
 </div>
