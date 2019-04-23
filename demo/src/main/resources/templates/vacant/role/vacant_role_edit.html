@@ -6,23 +6,16 @@ $(function(){
 	var $p = $.pdialog.getCurrent();
 	
 	$('#s', $p).click(function(){
-		alert('a');
-// 		var menus;
-// 		$('#tree .chbox', $p).each(function(){
-// 			var $this = $(this);
-// 			if($this.hasClass('checked')){
-// 				menus[menus.length]=$this.next().next().attr('id');
-// 			}
-// 		});
-// 		var url = [[@{'/vacant/security/menu/delete?id='}]]+id;
-// 		ajaxTodo(url, function(json){
-// 			if (json[DWZ.keys.statusCode] == DWZ.statusCode.ok){
-// 				alertMsg.correct(json.message);
-// 				navTab.reload($p.attr('url'));
-// 			} else {
-// 				alertMsg.error(json.message);
-// 			}
-// 		});
+		var menus;
+		$('#tree div.ckbox', $p).each(function(){
+			var $this = $(this);
+			if($this.hasClass('checked')){
+				var menu = $this.next().next().attr('id');
+				alert(menu);
+				menus[menus.length]=menu;
+			}
+		});
+		$('#menus', $p).val(menus.join());
 	});
 });
 </script>
@@ -33,6 +26,7 @@ $(function(){
 	<form id="pageForm" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone)" 
 			th:object="${role}" th:action="@{/vacant/role/save}" method="post">
 		<input type="hidden" th:field="*{id}" />
+		<input type="hidden" th:field="*{menus}" />
 		<div class="pageFormContent nowrap" layoutH="58">
 			<dl>
 				<dt>角色名称：</dt>
