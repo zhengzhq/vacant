@@ -1,5 +1,7 @@
 package com.vacant.role;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.vacant.AjaxResponse;
 import com.vacant.BaseControl;
 import com.vacant.security.MenuService;
+import com.vacant.security.VacantMenu;
 
 @Controller
 @RequestMapping(path = "/vacant/role")
@@ -38,15 +41,22 @@ public class RoleCtrl extends BaseControl{
 	public String add(Model model) {
 		VacantRole o = new VacantRole();
 		model.addAttribute("role",o);
-		model.addAttribute("menuList",menuService.zxlList());
+		//model.addAttribute("menuList",menuService.zxlList());
 		return v("edit");
 	}
 
 	@GetMapping(path = "edit/{id}")
 	public String edit(@PathVariable String id, Model model) {
 		VacantRole o = roleService.findByPk(id);
+		//model.addAttribute("menuList",menuService.menuListForRole(id, "root"));
 		model.addAttribute("role", o);
 		return v("edit");
+	}
+	
+	@RequestMapping(path="menu/{id}")
+	@ResponseBody
+	public List<VacantMenu> menuList(@PathVariable String id) {
+		return menuService.menuListForRole(id, "root");
 	}
 
 	@PostMapping(path = "save")

@@ -11,6 +11,7 @@ public class VacantMenu {
 	private String path;
 	private String rel;
 	private String gybz;
+	private String checked; // 是否选中
 	
 	private List<VacantMenu> children;
 
@@ -82,5 +83,19 @@ public class VacantMenu {
 	 */
 	public void setGybz(String gybz) {
 		this.gybz = gybz;
+	}
+
+	/**
+	 * @return the checked
+	 */
+	public String getChecked() {
+		return checked;
+	}
+
+	/**
+	 * @param checked the checked to set
+	 */
+	public void setChecked(String checked) {
+		this.checked = checked;
 	}
 }

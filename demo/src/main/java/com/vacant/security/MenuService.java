@@ -66,15 +66,8 @@ public class MenuService {
 
 		@Override
 		public VacantMenu mapRow(ResultSet rs, int rowNum) throws SQLException {
-			VacantMenu menu = new VacantMenu();
-			String id = rs.getString("id");
-			menu.setId(id);
-			menu.setParentId(rs.getString("parent_id"));
-			menu.setXssx(rs.getInt("xssx"));
-			menu.setName(rs.getString("name"));
-			menu.setPath(rs.getString("path"));
-			menu.setRel(rs.getString("rel"));
-			menu.setChildren(menuList(id));
+			VacantMenu menu = menu(rs);
+			menu.setChildren(menuList(rs.getString("id")));
 			return menu;
 		}
 	}
@@ -87,5 +80,39 @@ public class MenuService {
 		}
 		throw new RuntimeException("vacant_menu表主键错误：" + id);
 	}
+	
+	public List<VacantMenu> menuListForRole(String roleId, String parentMenuId) {
+		String sql = "select a.*, (case when b.id is null then 'false' else 'true' end) checked ";
+		sql += "from vacant_menu a left join vacant_role_menu b on a.id=b.menu_id and b.role_id=? ";
+		sql += "where a.parent_id=? order by a.xssx ";
+		return jdbcTemplate.query(sql, new Object[] {roleId, parentMenuId}, new TreeRowMapper(roleId));
+	}
+	private class TreeRowMapper implements RowMapper<VacantMenu> {
+		private String roleId;
+		
+		public TreeRowMapper(String roleId) {
+			this.roleId = roleId;
+		}
 
+		@Override
+		public VacantMenu mapRow(ResultSet rs, int rowNum) throws SQLException {
+			VacantMenu menu = menu(rs);
+			menu.setChecked(rs.getString("checked"));
+			menu.setChildren(menuListForRole(roleId, menu.getId()));
+			return menu;
+		}
+	}
+	
+	private VacantMenu menu(ResultSet rs) throws SQLException {
+		VacantMenu menu = new VacantMenu();
+		String id = rs.getString("id");
+		menu.setId(id);
+		menu.setParentId(rs.getString("parent_id"));
+		menu.setXssx(rs.getInt("xssx"));
+		menu.setName(rs.getString("name"));
+		menu.setPath(rs.getString("path"));
+		menu.setRel(rs.getString("rel"));
+		menu.setChecked("false");
+		return menu;
+	}
 }

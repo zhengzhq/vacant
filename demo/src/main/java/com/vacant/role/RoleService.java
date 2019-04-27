@@ -39,10 +39,21 @@ public class RoleService {
 			id = UUID.randomUUID().toString();
 			sql = "insert into vacant_role (name, id) values(?,?)";
 			role.setId(id);
+			jdbcTemplate.update(sql, name, id);
 		} else {
 			sql = "update vacant_role set name=? where id=?";
+			jdbcTemplate.update(sql, name, id);
+			// 删除原有的菜单
+			sql = "delete from vacant_role_menu where role_id=?";
+			jdbcTemplate.update(sql, id);
 		}
-		jdbcTemplate.update(sql, name, id);
+		// 插入本次的菜单
+		sql = "insert into vacant_role_menu values (uuid(),?,?,'0')";
+		String menus = role.getMenus();
+		String[] menuIds = menus.split(",");
+		for (String menuId : menuIds) {
+			jdbcTemplate.update(sql,id,menuId);
+		}
 	}
 
 	private class RoleMapper implements RowMapper<VacantRole> {
@@ -64,6 +75,7 @@ public class RoleService {
 	@Transactional
 	public void delete(String id) {
 		jdbcTemplate.update("delete from vacant_role where id=?", id);
+		jdbcTemplate.update("delete from vacant_role_menu where role_id=?", id);
 	}
 
 }

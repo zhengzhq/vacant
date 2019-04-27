@@ -6,17 +6,31 @@ $(function(){
 	var $p = $.pdialog.getCurrent();
 	
 	$('#s', $p).click(function(){
-		var menus;
-		$('#tree div.ckbox', $p).each(function(){
-			var $this = $(this);
-			if($this.hasClass('checked')){
-				var menu = $this.next().next().attr('id');
-				alert(menu);
-				menus[menus.length]=menu;
-			}
-		});
+		var menus=[];
+		var treeObj = $.fn.zTree.getZTreeObj("tree");
+		var nodes = treeObj.getCheckedNodes(true);
+		for(var i=0,len=nodes.length;i<len;i++) {
+			menus[i]=nodes[i].id;
+		}
 		$('#menus', $p).val(menus.join());
 	});
+	
+	var setting = {
+		check: {
+			enable: true,
+			chkboxType:{'Y':'ps','N':'ps'}
+		},
+		data: {
+			simpleData: {
+				enable: true
+			}
+		}
+	};
+	var url = [[@{/vacant/role/menu/}]]+$('#id',$p).val();
+	ajaxTodo(url,function(zNodes) {
+		$.fn.zTree.init($('#tree', $p), setting, zNodes);
+	});
+
 });
 </script>
 
@@ -38,22 +52,7 @@ $(function(){
 				<dt>菜单：</dt>
 				<dd>
 					<div layoutH="100" style="overflow:auto; width:100%; border:solid 1px #CCC;">
-						<ul id="tree" class="tree treeFolder treeCheck" oncheck="test_check_tree">
-							<li th:each="menu:${menuList}">
-								<a th:id="${menu.id}" th:text="${menu.xssx + ' ' + menu.name}">最低生活保障</a>
-								<ul>
-									<li th:each="model:${menu.children}">
-										<a th:id="${model.id}" th:text="${model.xssx + ' ' + model.name}">低保户管理</a>
-										<ul>
-											<li th:each="resource:${model.children}">
-												<a class="resource" th:id="${resource.id}"
-														th:text="${resource.xssx + ' ' + resource.name + ',path=' + resource.path + ',rel=' + resource.rel + ',gybz=' + gybz}">低保户申请登记</a>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</li>
-						</ul>
+						<ul id="tree" class="ztree"></ul>
 					</div>
 				</dd>
 			</dl>
