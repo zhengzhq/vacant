@@ -52,13 +52,19 @@ public class RoleCtrl extends BaseControl{
 		model.addAttribute("role", o);
 		return v("edit");
 	}
-	
-	@RequestMapping(path="menu/{id}")
+
+	@RequestMapping(path="menu")
 	@ResponseBody
-	public List<VacantMenu> menuList(@PathVariable String id) {
-		return menuService.menuListForRole(id, "root");
+	public List<VacantMenu> menuList() {
+		return menuService.zxtList();
 	}
 
+	@RequestMapping(path="menu/{id}")
+	@ResponseBody
+	public List<VacantMenu> menuListForRole(@PathVariable String id) {
+		return menuService.menuListForRole(id, "root");
+	}
+	
 	@PostMapping(path = "save")
 	@ResponseBody
 	public AjaxResponse save(VacantRole role) {

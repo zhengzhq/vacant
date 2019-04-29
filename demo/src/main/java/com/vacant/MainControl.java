@@ -18,7 +18,7 @@ public class MainControl {
 
 	@RequestMapping(path = "/main")
 	public String main(Model model) {
-		List<VacantMenu> zxtList = menuService.zxlList();
+		List<VacantMenu> zxtList = menuService.zxtList();
 		model.addAttribute("zxtList", zxtList);
 		return "main";
 	}

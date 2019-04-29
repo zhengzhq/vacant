@@ -41,7 +41,7 @@ public class MenuService {
 		}
 	}
 
-	public List<VacantMenu> zxlList() {
+	public List<VacantMenu> zxtList() {
 		return menuList("root");
 	}
 

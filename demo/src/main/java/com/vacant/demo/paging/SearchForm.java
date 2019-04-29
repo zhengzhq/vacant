@@ -1,12 +1,13 @@
 package com.vacant.demo.paging;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class SearchForm {
 
-	private int pageNum; // 页码
-	private int numPerPage;
-	private Map<String, String> conditions; // 条件
+	private int pageNum=1; // 页码
+	private int numPerPage=10;
+	private Map<String, String> conditions=new HashMap<String, String>(); // 条件
 	
 	public Map<String, String> getConditions() {
 		return conditions;

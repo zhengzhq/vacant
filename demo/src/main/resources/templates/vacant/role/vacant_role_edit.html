@@ -26,7 +26,12 @@ $(function(){
 			}
 		}
 	};
-	var url = [[@{/vacant/role/menu/}]]+$('#id',$p).val();
+	
+	var url = [[@{/vacant/role/menu}]];
+	var id = $('#id',$p).val();
+	if(id) {
+		url += '/' + id;
+	}
 	ajaxTodo(url,function(zNodes) {
 		$.fn.zTree.init($('#tree', $p), setting, zNodes);
 	});

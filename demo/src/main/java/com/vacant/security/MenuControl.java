@@ -26,7 +26,7 @@ public class MenuControl {
 
 	@RequestMapping
 	public String list(Model model) {
-		model.addAttribute("menuList", menuService.zxlList());
+		model.addAttribute("menuList", menuService.zxtList());
 		return view;
 	}
 	
