@@ -3,15 +3,15 @@ package com.vacant.demo.paging;
 import java.util.List;
 import java.util.Map;
 
-public class Page {
+public class Book {
 
-	private List<Map<String, Object>> rows; // 行集
+	private List<Map<String, Object>> page; // 行集
 	private Map<String, Object> stats; // 统计数据
-	public List<Map<String, Object>> getRows() {
-		return rows;
+	public List<Map<String, Object>> getPage() {
+		return page;
 	}
-	public void setRows(List<Map<String, Object>> rows) {
-		this.rows = rows;
+	public void setPage(List<Map<String, Object>> page) {
+		this.page = page;
 	}
 	public Map<String, Object> getStats() {
 		return stats;

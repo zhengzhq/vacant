@@ -13,8 +13,6 @@ import org.thymeleaf.util.StringUtils;
 @Service
 public class PageService {
 
-	public static final int NUM_PER_PAGE = 10;
-
 	private static final String OP_EQ = "_EQ";
 	private static final String OP_LK = "_LK";
 	private static final String OP_GE = "_LK";
@@ -46,13 +44,9 @@ public class PageService {
 	 * @param searchForm
 	 * @return
 	 */
-	public Page turnTo(String sql, SearchForm searchForm, String sql2) {
+	public Book turnTo(String sql, SearchForm searchForm, String sql2) {
 		int pageNum = searchForm.getPageNum();
-		searchForm.setPageNum(pageNum+1);
 		int numPerPage = searchForm.getNumPerPage();
-		if (numPerPage == 0) {
-			numPerPage = NUM_PER_PAGE;
-		}
 		ConditionAndParams cp = parseForm(searchForm);
 		sql += cp.getCondition();
 		sql += " limit ";
@@ -60,12 +54,12 @@ public class PageService {
 		sql += ",";
 		sql += numPerPage;
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, cp.getParams());
-		Page page = new Page();
-		page.setRows(rows);
+		Book book = new Book();
+		book.setPage(rows);
 		sql2 += cp.getCondition();
 		Map<String, Object> stats = jdbcTemplate.queryForMap(sql2, cp.getParams());
-		page.setStats(stats);
-		return page;
+		book.setStats(stats);
+		return book;
 	}
 
 	/**
@@ -80,12 +74,12 @@ public class PageService {
 		Map<String, String> conditions = searchForm.getConditions();
 		List<String> list = new ArrayList<String>();
 		for (Entry<String, String> e : conditions.entrySet()) {
-			String key = e.getKey().toUpperCase();
-			if (StringUtils.isEmptyOrWhitespace(key)) {
+			String value = e.getValue();
+			if (StringUtils.isEmptyOrWhitespace(value)) {
 				continue;
 			}
-			String value = e.getValue();
 			condition += " and ";
+			String key = e.getKey().toUpperCase();
 			if (key.endsWith(OP_LK)) {
 				condition += key.replace(OP_LK, "");
 				condition += " like ?";
