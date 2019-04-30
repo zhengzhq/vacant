@@ -69,4 +69,15 @@ public class DeptCtrl extends BaseControl{
 		model.addAttribute("o",o);
 		return v("edit");
 	}
+
+	@RequestMapping(path = "delete/{id}")
+	@ResponseBody
+	public AjaxResponse delete(@PathVariable String id, Model model) {
+		if(deptService.hasUser(id)) {
+			return AjaxResponse.error("该单位下已创建用户，不能删除！");
+		}
+		deptService.delete(id);
+		return AjaxResponse.ok();
+	}
+	
 }

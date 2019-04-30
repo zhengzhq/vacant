@@ -3,6 +3,7 @@ package com.vacant.dept;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,17 @@ public class DeptService {
 				return dept;
 			}
 		};
+	}
+
+	@Transactional
+	public void delete(String id) {
+		jdbcTemplate.update("delete from vacant_dept where id=?", id);
+	}
+
+	public boolean hasUser(String id) {
+		String sql = "select 1 from vacant_user where dept_id=? limit 1";
+		List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, id);
+		return list.size() > 0;
 	}
 
 }
