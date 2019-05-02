@@ -20,6 +20,7 @@ import com.vacant.Utils;
 import com.vacant.demo.paging.Book;
 import com.vacant.demo.paging.PageService;
 import com.vacant.demo.paging.SearchForm;
+import com.vacant.role.RoleService;
 import com.vacant.user.VacantUser;
 import com.vacant.user.UserService;
 
@@ -37,6 +38,9 @@ public class UserCtrl extends BaseControl {
 
 	@Autowired
 	private PageService pageService;
+	
+	@Autowired
+	private RoleService roleService;
 
 	@RequestMapping
 	public String list(@ModelAttribute SearchForm searchForm, Model model) {
@@ -58,14 +62,15 @@ public class UserCtrl extends BaseControl {
 		VacantUser o = new VacantUser();
 		o.setCreateTime(Utils.dateTime());
 		model.addAttribute("o", o);
+		model.addAttribute("roleList", roleService.all());
 		return v("add");
 	}
 
-	@PostMapping(path = "insert")
+	@PostMapping(path = "add")
 	@ResponseBody
-	public AjaxResponse insert(VacantUser user) {
+	public AjaxResponse add(VacantUser user) {
 		try {
-			userService.insert(user);
+			userService.add(user);
 		} catch (Exception e) {
 			return AjaxResponse.error(e.getMessage());
 		}
@@ -76,6 +81,7 @@ public class UserCtrl extends BaseControl {
 	public String edit(@PathVariable String id, Model model) {
 		VacantUser o = userService.findByPk(id);
 		model.addAttribute("o", o);
+		model.addAttribute("roleList", roleService.all());
 		return v("edit");
 	}
 

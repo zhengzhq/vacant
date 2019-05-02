@@ -27,7 +27,7 @@ public class UserService implements UserDetailsService{
 	private JdbcTemplate jdbcTemplate;
 
 	@Transactional
-	public void insert(VacantUser user) {
+	public void add(VacantUser user) {
 		String username = user.getUsername();
 		if (isUsernameExists(username)) {
 			throw new RuntimeException("与其他用户名冲突：" + username);

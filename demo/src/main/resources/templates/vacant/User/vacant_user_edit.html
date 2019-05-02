@@ -46,6 +46,16 @@
 					<input type="text" th:field="*{createTime}" maxlength="50" class="readonly" readonly />
 				</dd>
 			</dl>
+			<dl>
+				<dt>角色：</dt>
+				<dd>
+					<select class="combox required" th:field="*{roleId}" >
+						<option value="">请选择</option>
+						<option th:each="role:${roleList}" th:value="${role.id}" 
+								th:selected="${o.roleId==role.id}" th:text="${role.name}">管理员</option>
+					</select>
+				</dd>
+			</dl>
 		</div>
 		<div class="formBar">
 			<ul>

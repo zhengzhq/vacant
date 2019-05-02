@@ -2,7 +2,7 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	
 	<form class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone)" 
-			th:object="${o}" th:action="@{/vacant/user/insert}" method="post">
+			th:object="${o}" th:action="@{/vacant/user/add}" method="post">
 		<input type="hidden" th:field="*{id}" />
 		<input type="hidden" th:field="*{deptId}" />
 		<div class="pageFormContent nowrap" layoutH="58">
@@ -37,12 +37,12 @@
 				</dd>
 			</dl>
 			<dl>
-				<dt>是否启用：</dt>
+				<dt>状态：</dt>
 				<dd>
-					<select class="combox required" th:field="*{enabled}" >
+					<select class="combox required" th:field="*{state}" >
 						<option value="">请选择</option>
-						<option value="1" th:selected="*{enabled=='1'}">是</option>
-						<option value="0" th:selected="*{enabled=='0'}">否</option>
+						<option value="有效" th:selected="*{state=='有效'}">是</option>
+						<option value="无效" th:selected="*{state=='无效'}">否</option>
 					</select>
 				</dd>
 			</dl>
@@ -50,6 +50,16 @@
 				<dt>创建时间：</dt>
 				<dd>
 					<input type="text" th:field="*{createTime}" maxlength="50" class="readonly" readonly />
+				</dd>
+			</dl>
+			<dl>
+				<dt>角色：</dt>
+				<dd>
+					<select class="combox required" th:field="*{roleId}" >
+						<option value="">请选择</option>
+						<option th:each="role:${roleList}" th:value="${role.id}" 
+								th:selected="${o.roleId==role.id}" th:text="${role.name}"></option>
+					</select>
 				</dd>
 			</dl>
 		</div>

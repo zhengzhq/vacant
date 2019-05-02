@@ -30,8 +30,16 @@ public abstract class BaseControl {
 				params += ",";
 			}
 			params += param.getKey();
-			params += ":";
-			params += param.getValue();
+			params += ":[";
+			String[] values = param.getValue();
+			for (int i =0;i<values.length;i++) {
+				String value = values[i];
+				if(i>0) {
+					params += ",";
+				}
+				params += value;				
+			}
+			params += "]";
 		}
 		VacantUser user = (VacantUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String czrName = user.getName();
