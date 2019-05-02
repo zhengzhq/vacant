@@ -47,13 +47,15 @@ public class UserCtrl extends BaseControl {
 		Map<String, String> conditions = searchForm.getConditions();
 		if (conditions.isEmpty()) {
 			conditions.put("user.area_code_lk", "2201");
+			conditions.put("role_id_eq", "");
 		}
 		String from = "from vacant_user user join vacant_dept dept on user.dept_id=dept.id ";
-		String sql = "select user.*, dept.name dept_name " + from;
+		from += "left join vacant_role role on user.role_id=role.id ";
+		String sql = "select user.*, dept.name dept_name, role.name role_name " + from;
 		String sql2 = "select count(*) totalCount " + from;
 		Book book = pageService.turnTo(sql, searchForm, sql2);
 		model.addAttribute("book", book);
-
+		model.addAttribute("roleList", roleService.all());
 		return v();
 	}
 

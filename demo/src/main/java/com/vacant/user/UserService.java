@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.vacant.Utils;
 import com.vacant.dept.VacantDept;
-import com.vacant.security.RolePath;
 
 @Service
 @Transactional
@@ -39,13 +38,14 @@ public class UserService implements UserDetailsService{
 		String name = user.getName();
 		String password = new BCryptPasswordEncoder().encode(user.getPassword());
 		String state = user.getState();
+		String roleId = user.getRoleId();
 
 		id = UUID.randomUUID().toString();
 		String sql = "insert into vacant_user ";
-		sql += "(area_code, dept_id, name, username, password, state, create_time, id) ";
+		sql += "(area_code, dept_id, name, username, password, state, create_time, role_id, id) ";
 		sql += "values(?,?,?,?,?,?,?,?)";
 		String createTime = Utils.dateTime();
-		jdbcTemplate.update(sql, areaCode, deptId, name, username, password, state, createTime, id);
+		jdbcTemplate.update(sql, areaCode, deptId, name, username, password, state, createTime, roleId, id);
 
 		user.setId(id);
 
@@ -64,10 +64,11 @@ public class UserService implements UserDetailsService{
 		String deptId = user.getDeptId();
 		String name = user.getName();
 		String state = user.getState();
+		String roleId = user.getRoleId();
 
 		sql = "update vacant_user ";
-		sql += "set area_code=?, dept_id=?, name=?, username=?, state=? where id=?";
-		jdbcTemplate.update(sql, areaCode, deptId, name, username, state, id);
+		sql += "set area_code=?, dept_id=?, name=?, username=?, state=?, role_id=? where id=?";
+		jdbcTemplate.update(sql, areaCode, deptId, name, username, state, roleId, id);
 
 	}
 

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ public class PageService {
 	private static final String OP_LE = "_LE";
 	private static final String OP_LT = "_LT";
 	private static final String OP_IN = "_IN";
+	
+	private Logger logger = LoggerFactory.getLogger(PageService.class);
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -54,7 +58,16 @@ public class PageService {
 		sql += (pageNum-1) * numPerPage;
 		sql += ",";
 		sql += numPerPage;
-		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, cp.getParams());
+		Object[] params = cp.getParams();
+		String stmt = sql;
+		stmt += "(";
+		for(int i=0; i< params.length; i++) {
+			stmt += ",";
+			stmt += params[i];
+		}
+		stmt += ")";
+		logger.debug(stmt);
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, params);
 		Book book = new Book();
 		book.setPage(rows);
 		sql2 += cp.getCondition();
