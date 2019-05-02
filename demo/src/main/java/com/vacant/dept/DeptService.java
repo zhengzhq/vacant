@@ -16,12 +16,12 @@ import org.thymeleaf.util.StringUtils;
 import com.vacant.Utils;
 
 @Service
+@Transactional
 public class DeptService {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	@Transactional
 	public void save(VacantDept dept) {
 		String id = dept.getId();
 		String areaCode = dept.getAreaCode();
@@ -60,7 +60,6 @@ public class DeptService {
 		};
 	}
 
-	@Transactional
 	public void delete(String id) {
 		jdbcTemplate.update("delete from vacant_dept where id=?", id);
 	}

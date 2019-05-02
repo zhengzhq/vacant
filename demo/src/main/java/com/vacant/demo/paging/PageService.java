@@ -15,10 +15,11 @@ public class PageService {
 
 	private static final String OP_EQ = "_EQ";
 	private static final String OP_LK = "_LK";
-	private static final String OP_GE = "_LK";
-	private static final String OP_GT = "_LK";
-	private static final String OP_LE = "_LK";
-	private static final String OP_LT = "_LK";
+	private static final String OP_BLK = "_BLK";
+	private static final String OP_GE = "_GE";
+	private static final String OP_GT = "_GT";
+	private static final String OP_LE = "_LE";
+	private static final String OP_LT = "_LT";
 	private static final String OP_IN = "_IN";
 
 	@Autowired
@@ -84,7 +85,11 @@ public class PageService {
 				condition += key.replace(OP_LK, "");
 				condition += " like ?";
 				list.add(value + "%");
-			} else if (key.endsWith(OP_EQ)) {
+			} else if (key.endsWith(OP_BLK)) {
+				condition += key.replace(OP_BLK, "");
+				condition += " like ?";
+				list.add("%" + value + "%");
+			}  else if (key.endsWith(OP_EQ)) {
 				condition += key.replace(OP_EQ, "");
 				condition += " = ?";
 				list.add(value);

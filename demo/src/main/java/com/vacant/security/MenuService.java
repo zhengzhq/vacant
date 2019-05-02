@@ -14,12 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.StringUtils;
 
 @Service
+@Transactional
 public class MenuService {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	@Transactional
 	public void save(VacantMenu menu) {
 		String id = menu.getId();
 		String parentId = menu.getParentId();
@@ -56,7 +56,6 @@ public class MenuService {
 		return list.size()>0;
 	}
 
-	@Transactional
 	public void delete(String id) {
 		jdbcTemplate.update("delete from vacant_menu where id=?", id);
 		jdbcTemplate.update("delete from vacant_role_menu where menu_id=?", id);

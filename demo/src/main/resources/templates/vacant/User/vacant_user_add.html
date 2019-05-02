@@ -1,0 +1,64 @@
+<div class="pageContent" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+	
+	<form class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone)" 
+			th:object="${o}" th:action="@{/vacant/user/insert}" method="post">
+		<input type="hidden" th:field="*{id}" />
+		<input type="hidden" th:field="*{deptId}" />
+		<div class="pageFormContent nowrap" layoutH="58">
+			<dl>
+				<dt>行政区划：</dt>
+				<dd>
+					<input type="text" th:field="*{areaCode}" class="digits required" />
+				</dd>
+			</dl>
+			<dl>
+				<dt>单位名称：</dt>
+				<dd>
+					<input type="text" th:field="*{dept.name}" maxlength="50" class="required" />
+				</dd>
+			</dl>
+			<dl>
+				<dt>姓名：</dt>
+				<dd>
+					<input type="text" th:field="*{name}" maxlength="50" class="required" />
+				</dd>
+			</dl>
+			<dl>
+				<dt>用户名：</dt>
+				<dd>
+					<input type="text" th:field="*{username}" maxlength="50" class="required" />
+				</dd>
+			</dl>
+			<dl>
+				<dt>密码：</dt>
+				<dd>
+					<input type="text" th:field="*{password}" maxlength="100" class="required password" />
+				</dd>
+			</dl>
+			<dl>
+				<dt>是否启用：</dt>
+				<dd>
+					<select class="combox required" th:field="*{enabled}" >
+						<option value="">请选择</option>
+						<option value="1" th:selected="*{enabled=='1'}">是</option>
+						<option value="0" th:selected="*{enabled=='0'}">否</option>
+					</select>
+				</dd>
+			</dl>
+			<dl>
+				<dt>创建时间：</dt>
+				<dd>
+					<input type="text" th:field="*{createTime}" maxlength="50" class="readonly" readonly />
+				</dd>
+			</dl>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">提交</button></div></div></li>
+				<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+			</ul>
+		</div>
+	</form>
+	
+</div>

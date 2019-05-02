@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.StringUtils;
 
 @Service
+@Transactional
 public class RoleService {
 
 	@Autowired
@@ -29,7 +30,6 @@ public class RoleService {
 		return list.get(0);
 	}
 
-	@Transactional
 	public void save(VacantRole role) {
 		String id = role.getId();
 		String name = role.getName();
@@ -72,7 +72,6 @@ public class RoleService {
 		return list.size() > 0;
 	}
 
-	@Transactional
 	public void delete(String id) {
 		jdbcTemplate.update("delete from vacant_role where id=?", id);
 		jdbcTemplate.update("delete from vacant_role_menu where role_id=?", id);

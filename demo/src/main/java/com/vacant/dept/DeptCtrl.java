@@ -1,4 +1,4 @@
-package com.vacant.role;
+package com.vacant.dept;
 
 import java.util.Map;
 
@@ -17,8 +17,6 @@ import com.vacant.BaseControl;
 import com.vacant.demo.paging.Book;
 import com.vacant.demo.paging.PageService;
 import com.vacant.demo.paging.SearchForm;
-import com.vacant.dept.DeptService;
-import com.vacant.dept.VacantDept;
 
 @Controller
 @RequestMapping(path = "/vacant/dept")
