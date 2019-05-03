@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class LoginCtrl extends BaseControl {
+public class LoginCtrl extends BaseCtrl {
 
 	@RequestMapping(path = "/login")
 	public String login(HttpServletRequest req) {

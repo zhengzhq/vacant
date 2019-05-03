@@ -53,22 +53,12 @@ public class UserService implements UserDetailsService{
 
 	public void edit(VacantUser user) {
 		String id = user.getId();
-		String username = user.getUsername();
-		String sql = "select 1 from vacant_user where username=? and id!=? limit 1";
-		List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, username, id);
-		if (list.size()>0) {
-			throw new RuntimeException("用户名已存在：" + username);
-		}
-		
-		String areaCode = user.getAreaCode();
-		String deptId = user.getDeptId();
-		String name = user.getName();
 		String state = user.getState();
 		String roleId = user.getRoleId();
 
-		sql = "update vacant_user ";
-		sql += "set area_code=?, dept_id=?, name=?, username=?, state=?, role_id=? where id=?";
-		jdbcTemplate.update(sql, areaCode, deptId, name, username, state, roleId, id);
+		String sql = "update vacant_user ";
+		sql += "set state=?, role_id=? where id=?";
+		jdbcTemplate.update(sql, state, roleId, id);
 
 	}
 

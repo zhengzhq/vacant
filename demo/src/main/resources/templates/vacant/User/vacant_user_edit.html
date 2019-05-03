@@ -8,27 +8,19 @@
 		<div class="pageFormContent nowrap" layoutH="58">
 			<dl>
 				<dt>行政区划：</dt>
-				<dd>
-					<input type="text" th:field="*{areaCode}" class="digits required" />
-				</dd>
+				<dd th:text="*{areaCode}">2201</dd>
 			</dl>
 			<dl>
 				<dt>单位名称：</dt>
-				<dd>
-					<input type="text" th:field="*{dept.name}" maxlength="50" class="required" />
-				</dd>
+				<dd th:text="*{dept.name}">长春市民政局</dd>
 			</dl>
 			<dl>
 				<dt>姓名：</dt>
-				<dd>
-					<input type="text" th:field="*{name}" maxlength="50" class="required" />
-				</dd>
+				<dd th:text="*{name}">王琦</dd>
 			</dl>
 			<dl>
 				<dt>用户名：</dt>
-				<dd>
-					<input type="text" th:field="*{username}" maxlength="50" class="required" />
-				</dd>
+				<dd th:text="*{username}">cc-mz-wq</dd>
 			</dl>
 			<dl>
 				<dt>状态：</dt>
@@ -42,9 +34,7 @@
 			</dl>
 			<dl>
 				<dt>创建时间：</dt>
-				<dd>
-					<input type="text" th:field="*{createTime}" maxlength="50" class="readonly" readonly />
-				</dd>
+				<dd th:text="*{createTime}">2019-05-01 06:50:17</dd>
 			</dl>
 			<dl>
 				<dt>角色：</dt>

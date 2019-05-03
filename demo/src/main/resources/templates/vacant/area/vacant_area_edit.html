@@ -1,0 +1,52 @@
+<div class="pageContent">
+	
+	<form class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone)" 
+			th:object="${o}" th:action="@{/vacant/area/update}" method="post">
+		<input type="hidden" th:field="*{id}" />
+		<input type="hidden" th:field="*{parentId}" />
+		<div class="pageFormContent nowrap" layoutH="58">
+			<dl>
+				<dt>代码：</dt>
+				<dd>
+					<span th:text="*{parentCode}" style="float:left;padding: 5px;">2201</span>
+					<input type="text" th:field="*{subCode}" maxlength="12" class="required" />
+				</dd>
+			</dl>
+			<dl>
+				<dt>名称：</dt>
+				<dd>
+					<input type="text" th:field="*{name}" maxlength="30" class="required" />
+				</dd>
+			</dl>
+			<dl>
+				<dt>状态：</dt>
+				<dd>
+					<select class="combox required" th:field="*{state}" >
+						<option value="">请选择</option>
+						<option value="有效">有效</option>
+						<option value="无效">无效</option>
+					</select>
+				</dd>
+			</dl>
+			<dl>
+				<dt>创建时间：</dt>
+				<dd th:text="*{createTime}" >20190503 13:19:00</dd>
+			</dl>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">提交</button></div></div></li>
+				<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+			</ul>
+		</div>
+	</form>
+	
+</div>
+
+
+<script type="text/javascript">
+function customvalidXxx(element){
+	if ($(element).val() == "xxx") return false;
+	return true;
+}
+</script>

@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.vacant.AjaxResponse;
-import com.vacant.BaseControl;
+import com.vacant.BaseCtrl;
 import com.vacant.demo.paging.Book;
 import com.vacant.demo.paging.PageService;
 import com.vacant.demo.paging.SearchForm;
 
 @Controller
 @RequestMapping(path = "/vacant/dept")
-public class DeptCtrl extends BaseControl{
+public class DeptCtrl extends BaseCtrl{
 	
 	@Override
 	protected String v() {

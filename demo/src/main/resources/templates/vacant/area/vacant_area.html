@@ -1,0 +1,101 @@
+<script th:inline="javascript">
+$(function(){
+	var $p = navTab.getCurrentPanel();
+	
+	var setting = {
+		data: {
+			key: {
+				name: 'desc'
+			},
+			simpleData: {
+				enable: true,
+				pIdKey: 'parentId'
+			}
+		}
+	};
+
+	var url = [[@{'/vacant/area/tree'}]];
+	ajaxTodo(url,function(zNodes) {
+		$.fn.zTree.init($('#tree', $p), setting, zNodes);
+	});
+	
+	$('#add',$p).click(function(){
+		var treeObj = $.fn.zTree.getZTreeObj("tree");
+		var nodes = treeObj.getSelectedNodes();
+		if(nodes.length==0) {
+			alertMsg.error('请选择父节点');
+			return;
+		}
+		var id = nodes[0].id;
+		var code = nodes[0].code;
+		var fullName = nodes[0].name;
+		var url = [[@{'/vacant/area/add'}]];
+		$.pdialog.open(url, "add_area", "添加行政区划",
+				{
+					mask:true,
+					data:{id:id,code:code},
+					width:800,
+					height:450
+				});
+	});
+	
+	function getSelectedNode() {
+		var treeObj = $.fn.zTree.getZTreeObj("tree");
+		var nodes = treeObj.getSelectedNodes();
+		if(nodes.length==0) {
+			return null;
+		} else {
+			return nodes[0];
+		}
+	}
+
+	$('#delete',$p).click(function(){
+		var node = getSelectedNode();
+		if(node==null) {
+			alertMsg.error('请选择要删除的节点');
+			return;
+		}
+		alertMsg.confirm('确定删除吗？'+node.desc, {
+			okCall: function(){
+				var id = $('#id', $p).val();
+				var url = [[@{'/vacant/area/delete?id='}]]+node.id;
+				ajaxTodo(url, function(json){
+					if (json[DWZ.keys.statusCode] == DWZ.statusCode.ok){
+						alertMsg.correct(json.message);
+						navTab.reload($p.attr('url'));
+					} else {
+						alertMsg.error(json.message);
+					}
+				});
+			}
+		});
+
+	});
+
+	$('#edit',$p).click(function(){
+		var node = getSelectedNode();
+		if(node==null) {
+			alertMsg.error('请选择要修改的节点');
+			return;
+		}
+		var url = [[@{'/vacant/area/edit'}]];
+		$.pdialog.open(url, "edit_area", "修改行政区划"+node.name,
+				{mask:true,data:{id:node.id},width:800,height:450});
+	});
+
+});
+</script>
+<div class="pageContent">
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a id="add" class="add"><span>添加</span></a></li>
+			<li class="line">line</li>
+			<li><a id="delete" class="delete"><span>删除</span></a></li>
+			<li class="line">line</li>
+			<li><a id="edit" class="edit"><span>修改</span></a></li>
+		</ul>
+	</div>
+	<div layoutH="28">
+		<ul id="tree" class="ztree"></ul>
+	</div>
+</div>

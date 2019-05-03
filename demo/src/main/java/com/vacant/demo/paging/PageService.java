@@ -12,6 +12,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
+import com.vacant.Utils;
+
 @Service
 public class PageService {
 
@@ -59,14 +61,7 @@ public class PageService {
 		sql += ",";
 		sql += numPerPage;
 		Object[] params = cp.getParams();
-		String stmt = sql;
-		stmt += "(";
-		for(int i=0; i< params.length; i++) {
-			stmt += ",";
-			stmt += params[i];
-		}
-		stmt += ")";
-		logger.debug(stmt);
+		Utils.log(logger, sql2, params);
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, params);
 		Book book = new Book();
 		book.setPage(rows);

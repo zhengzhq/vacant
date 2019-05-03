@@ -8,6 +8,7 @@
 			<tr>
 				<td>
 					行政区划：<input type="text" th:field="*{conditions['area_code_lk']}" />
+					<a class="btnLook" th:href="${'/vacant/area/lookup'}" lookupGroup="">选择行政区划</a>	
 				</td>
 				<td>
 					单位名称：<input type="text" th:field="*{conditions['name_eq']}" />

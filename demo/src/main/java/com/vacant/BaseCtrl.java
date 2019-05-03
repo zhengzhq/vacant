@@ -10,7 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.vacant.user.VacantUser;
 
-public abstract class BaseControl {
+public abstract class BaseCtrl {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;

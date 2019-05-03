@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.vacant.AjaxResponse;
-import com.vacant.BaseControl;
+import com.vacant.BaseCtrl;
 import com.vacant.Utils;
 import com.vacant.demo.paging.Book;
 import com.vacant.demo.paging.PageService;
@@ -26,7 +26,7 @@ import com.vacant.user.UserService;
 
 @Controller
 @RequestMapping(path = "/vacant/user")
-public class UserCtrl extends BaseControl {
+public class UserCtrl extends BaseCtrl {
 
 	@Override
 	protected String v() {

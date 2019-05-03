@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.vacant.AjaxResponse;
-import com.vacant.BaseControl;
+import com.vacant.BaseCtrl;
 import com.vacant.security.MenuService;
 import com.vacant.security.VacantMenu;
 
 @Controller
 @RequestMapping(path = "/vacant/role")
-public class RoleCtrl extends BaseControl{
+public class RoleCtrl extends BaseCtrl{
 	
 	@Override
 	protected String v() {
