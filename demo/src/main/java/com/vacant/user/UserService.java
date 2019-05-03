@@ -43,7 +43,7 @@ public class UserService implements UserDetailsService{
 		id = UUID.randomUUID().toString();
 		String sql = "insert into vacant_user ";
 		sql += "(area_code, dept_id, name, username, password, state, create_time, role_id, id) ";
-		sql += "values(?,?,?,?,?,?,?,?)";
+		sql += "values(?,?,?,?,?,?,?,?,?)";
 		String createTime = Utils.dateTime();
 		jdbcTemplate.update(sql, areaCode, deptId, name, username, password, state, createTime, roleId, id);
 

@@ -32,12 +32,12 @@
 <div class="pageContent" th:with="p=@{/vacant/user}">
 	<div class="panelBar">
 		<ul class="toolBar">
-			<li><a class="add" th:href="${p+'/add'}" target="dialog" width="800" height="450"><span>添加</span></a></li>
+			<li><a class="add" th:href="${p+'/add'}" target="dialog" width="800" height="450" rel="user"><span>添加</span></a></li>
 			<li class="line">line</li>
 			<li><a class="delete" th:href="${p+'/delete/{row_id}'}" 
 						target="ajaxTodo" title="确定要删除吗?"><span>删除</span></a></li>
 			<li class="line">line</li>
-			<li><a class="edit" th:href="${p+'/edit/{row_id}'}" target="dialog" width="800" height="450"><span>修改</span></a></li>
+			<li><a class="edit" th:href="${p+'/edit/{row_id}'}" target="dialog" width="800" height="450" rel="user"><span>修改</span></a></li>
 		</ul>
 	</div>
 	<table class="list" style="width:100%;text-align: center" layoutH="90">

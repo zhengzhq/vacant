@@ -1,0 +1,71 @@
+<div class="pageHeader">
+	<form id="pagerForm" onsubmit="return dialogSearch(this);" th:action="@{/vacant/dept/lookup}" method="post" 
+			th:object="${searchForm}"
+			onreset="$(this).find('select.combox').comboxReset()">
+	<input type="hidden" th:field="*{pageNum}" />
+	<div class="searchBar">
+		<table class="searchContent">
+			<tr>
+				<td>
+					行政区划：<input type="text" th:field="*{conditions['area_code_lk']}" />
+				</td>
+				<td>
+					单位名称：<input type="text" th:field="*{conditions['name_eq']}" />
+				</td>
+				<td>
+					每页行数：<input type="text" th:field="*{numPerPage}" style="width:22px" />
+				</td>
+				<td>
+					<ul>
+						<li><div class="buttonActive"><div class="buttonContent"><button type="submit">检索</button></div></div></li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+	</div>
+	</form>
+</div>
+
+<div class="pageContent" th:with="p=@{/vacant/dept}">
+	<table class="list" layoutH="65" style="width:100%;text-align: center">
+		<thead>
+			<tr>
+				<th>序号</th>
+				<th>行政区划</th>
+				<th>单位名称</th>
+				<th>创建时间</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="row,stat:${book.page}" th:object="${row}" class="data" th:deptId="*{id}" th:deptName="*{name}"
+					th:areaCode="*{area_code}">
+				<td th:text="${stat.count}">1</td>
+				<td th:text="*{area_code}">2201</td>
+				<td th:text="*{name}">长春市民政局</td>
+				<td th:text="*{create_time}">2019-04-28 20:15:00</td>
+				<td>
+					<a th:href="'javascript:$.bringBack({deptId:\'' + *{id} + '\', \'dept.name\':\''+ *{name} +'\',areaCode:' + *{area_code} + '})'">选择</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="panelBar">
+		<div class="pages">
+			<span th:text="${'共'+book.stats['totalCount']+'条'}">共200条</span>
+		</div>
+		<div class="pagination" targetType="navTab" th:totalCount="${book.stats['totalCount']}" 
+				th:numPerPage="${searchForm.numPerPage}"
+				th:currentPage="${searchForm.pageNum}"></div>
+
+	</div>
+</div>
+<script>
+	var $p = $.pdialog.getCurrent();
+	$('tr.data', $p).dblclick(function(){
+		var $this = $(this);
+		$.bringBack({deptId:$this.attr('deptId'), 'dept.name':$this.attr('deptName'), 
+			areaCode:$this.attr('areaCode')})
+	});
+	
+</script>

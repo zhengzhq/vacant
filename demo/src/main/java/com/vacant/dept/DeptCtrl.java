@@ -35,15 +35,7 @@ public class DeptCtrl extends BaseControl{
 
 	@RequestMapping
 	public String list(@ModelAttribute SearchForm searchForm, Model model) {
-		Map<String, String> conditions = searchForm.getConditions();
-		if(conditions.isEmpty()) {
-			conditions.put("area_code_lk", "2201");
-		}
-		String sql = "select * from vacant_dept";
-		String sql2 = "select count(*) totalCount from vacant_dept";
-		Book book = pageService.turnTo(sql, searchForm, sql2);
-		model.addAttribute("book", book);
-		
+		search(searchForm, model);
 		return v();
 	}
 
@@ -77,5 +69,22 @@ public class DeptCtrl extends BaseControl{
 		deptService.delete(id);
 		return AjaxResponse.ok();
 	}
+
+	@RequestMapping(path = "lookup")
+	public String lookup(@ModelAttribute SearchForm searchForm, Model model) {
+		search(searchForm, model);
+		return v("lookup");
+	}
 	
+	private void search(SearchForm searchForm, Model model) {
+		Map<String, String> conditions = searchForm.getConditions();
+		if(conditions.isEmpty()) {
+			conditions.put("area_code_lk", "2201");
+		}
+		String sql = "select * from vacant_dept";
+		String sql2 = "select count(*) totalCount from vacant_dept";
+		Book book = pageService.turnTo(sql, searchForm, sql2);
+		model.addAttribute("book", book);
+	}
+
 }

@@ -7,20 +7,16 @@
 		<input type="hidden" th:field="*{deptId}" />
 		<div class="pageFormContent nowrap" layoutH="58">
 			<dl>
-				<dt>行政区划：</dt>
+				<dt>单位名称：</dt>
 				<dd>
-					<input type="text" th:field="*{areaCode}" class="digits required" />
+					<input type="text" th:field="*{dept.name}" maxlength="50" class="required readonly" readonly />
+					<a class="btnLook" th:href="${'/vacant/dept/lookup'}" lookupGroup="">查找带回</a>
 				</dd>
 			</dl>
 			<dl>
-				<dt>单位名称：</dt>
+				<dt>行政区划：</dt>
 				<dd>
-					<input type="text" th:field="*{dept.name}" maxlength="50" class="required" />
-					<input type="hidden" name="orgLookup.id" value="${orgLookup.id}"/>
-					<input type="text" class="required" name="orgLookup.orgName" value="" 
-						suggestFields="orgNum,orgName" suggestUrl="demo/database/db_lookupSuggest.html" 
-						lookupGroup="orgLookup" />
-					<a class="btnLook" href="demo/database/dwzOrgLookup.html" lookupGroup="orgLookup">查找带回</a>
+					<input type="text" th:field="*{areaCode}" class="digits required readonly" readonly />
 				</dd>
 			</dl>
 			<dl>
