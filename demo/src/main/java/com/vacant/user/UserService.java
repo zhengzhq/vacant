@@ -21,7 +21,7 @@ import com.vacant.dept.VacantDept;
 
 @Service
 @Transactional
-public class UserService implements UserDetailsService{
+public class UserService implements UserDetailsService {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
@@ -31,7 +31,7 @@ public class UserService implements UserDetailsService{
 		if (isUsernameExists(username)) {
 			throw new RuntimeException("与其他用户名冲突：" + username);
 		}
-		
+
 		String id = user.getId();
 		String areaCode = user.getAreaCode();
 		String deptId = user.getDeptId();
@@ -92,7 +92,7 @@ public class UserService implements UserDetailsService{
 			}
 		};
 	}
-	
+
 	public boolean isUsernameExists(String username) {
 		String sql = "select 1 from vacant_user where username=? limit 1";
 		List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, username);
@@ -100,16 +100,18 @@ public class UserService implements UserDetailsService{
 	}
 
 	// 判断用户是否已登录过系统
-	public boolean hasLoggedIn(String id) {
-		// TODO Auto-generated method stub
-		return true;
+	public boolean hasCzjl(String id) {
+		List<Map<String, Object>> list = jdbcTemplate.queryForList("select 1 from vacant_czjl where czr_id=? limit 1",
+				id);
+		return list.size() > 0;
 	}
 
 	public void delete(String id) {
-		if(hasLoggedIn(id)) {
+		if (hasCzjl(id)) {
 			throw new RuntimeException("用户已登录过系统，不能删除");
 		}
-		
+		jdbcTemplate.update("delete from vacant_user where id=?", id);
+
 	}
 
 	@Override
