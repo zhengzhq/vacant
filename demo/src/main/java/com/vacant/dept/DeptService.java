@@ -61,6 +61,9 @@ public class DeptService {
 	}
 
 	public void delete(String id) {
+		if(hasUser(id)) {
+			throw new RuntimeException("该单位下已创建用户，不能删除！");
+		}
 		jdbcTemplate.update("delete from vacant_dept where id=?", id);
 	}
 

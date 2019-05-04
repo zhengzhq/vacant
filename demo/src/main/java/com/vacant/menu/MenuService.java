@@ -1,4 +1,4 @@
-package com.vacant.security;
+package com.vacant.menu;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -57,6 +57,9 @@ public class MenuService {
 	}
 
 	public void delete(String id) {
+		if(hasChild(id)) {
+			throw new RuntimeException("存在子节点，不能删除！");
+		}
 		jdbcTemplate.update("delete from vacant_menu where id=?", id);
 		jdbcTemplate.update("delete from vacant_role_menu where menu_id=?", id);
 	}

@@ -2,6 +2,8 @@ package com.vacant.area;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -58,12 +60,13 @@ public class AreaCtrl extends BaseCtrl{
 	
 	@PostMapping(path = "insert")
 	@ResponseBody
-	public AjaxResponse insert(Area area) {
+	public AjaxResponse insert(Area area, HttpServletRequest req) {
 		try {
 			areaService.insert(area);
 		} catch (Exception e) {
 			return AjaxResponse.error(e.getMessage());
 		}
+		czjl(req, "添加行政区划");
 		return AjaxResponse.dialogOk("vacant_area");
 	}
 
@@ -83,23 +86,25 @@ public class AreaCtrl extends BaseCtrl{
 
 	@PostMapping(path = "update")
 	@ResponseBody
-	public AjaxResponse update(Area area) {
+	public AjaxResponse update(Area area, HttpServletRequest req) {
 		try {
 			areaService.update(area);
 		} catch (Exception e) {
 			return AjaxResponse.error(e.getMessage());
 		}
-		
+		czjl(req, "修改行政区划");
 		return AjaxResponse.dialogOk("vacant_area");
 	}
 	
 	@RequestMapping(path = "delete")
 	@ResponseBody
-	public AjaxResponse delete(@RequestParam String id, Model model) {
-		if(areaService.hasChild(id)) {
-			return AjaxResponse.error("存在子节点，不能删除！");
+	public AjaxResponse delete(@RequestParam String id, Model model, HttpServletRequest req) {
+		try {
+			areaService.delete(id);
+		} catch (Exception e) {
+			return AjaxResponse.error(e.getMessage());
 		}
-		areaService.delete(id);
+		czjl(req, "删除行政区划");
 		return AjaxResponse.ok();
 	}
 

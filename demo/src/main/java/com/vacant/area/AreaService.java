@@ -138,6 +138,9 @@ public class AreaService {
 	}
 
 	public void delete(String id) {
+		if(hasChild(id)) {
+			throw new RuntimeException("存在子节点，不能删除！");
+		}
 		jdbcTemplate.update("delete from vacant_area where id=?", id);
 	}
 

@@ -7,8 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.vacant.security.MenuService;
-import com.vacant.security.VacantMenu;
+import com.vacant.menu.MenuService;
+import com.vacant.menu.VacantMenu;
 
 @Controller
 public class MainControl {

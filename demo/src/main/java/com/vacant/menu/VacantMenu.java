@@ -1,4 +1,4 @@
-package com.vacant.security;
+package com.vacant.menu;
 
 import java.util.List;
 

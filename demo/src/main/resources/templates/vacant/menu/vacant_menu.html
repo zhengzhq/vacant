@@ -1,6 +1,3 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <script th:inline="javascript">
 $(function(){
 	
@@ -16,12 +13,12 @@ $(function(){
 	
 	$('#addChild',$p).click(function(){
 		var parentId = $('#id', $p).val();
-		var url = [[@{'/vacant/security/menu/add'}]];
+		var url = [[@{'/vacant/menu/add'}]];
 		$.pdialog.open(url, "addMenu", "添加子菜单",{mask:true,data:{parentId:parentId},width:800,height:450});
 	});
 
 	$('#add',$p).click(function(){
-		var url = [[@{'/vacant/security/menu/add'}]];
+		var url = [[@{'/vacant/menu/add'}]];
 		$.pdialog.open(url, "addMenu", "添加子菜单",{mask:true,data:{parentId:'root'},width:800,height:450});
 	});
 
@@ -33,7 +30,7 @@ $(function(){
 		}
 		alertMsg.confirm('将从所有角色中删除当前选中的菜单，确定删除吗？'+$('#name',$p).val(), {
 			okCall: function(){
-				var url = [[@{'/vacant/security/menu/delete?id='}]]+id;
+				var url = [[@{'/vacant/menu/delete?id='}]]+id;
 				ajaxTodo(url, function(json){
 					if (json[DWZ.keys.statusCode] == DWZ.statusCode.ok){
 						alertMsg.correct(json.message);
@@ -49,7 +46,7 @@ $(function(){
 
 	$('#edit',$p).click(function(){
 		var id = $('#id', $p).val();
-		var url = [[@{'/vacant/security/menu/edit'}]];
+		var url = [[@{'/vacant/menu/edit'}]];
 		$.pdialog.open(url, "addMenu", "修改菜单"+$('#name',$p).val(),
 				{mask:true,data:{id:id},width:800,height:450});
 	});

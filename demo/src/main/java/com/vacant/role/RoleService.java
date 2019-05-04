@@ -67,12 +67,15 @@ public class RoleService {
 	}
 
 	public boolean hasUser(String id) {
-		String sql = "select 1 from vacant_user_role where role_id=? limit 1";
+		String sql = "select 1 from vacant_user where role_id=? limit 1";
 		List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, id);
 		return list.size() > 0;
 	}
 
 	public void delete(String id) {
+		if(hasUser(id)) {
+			throw new RuntimeException("该角色已经分配给用户，不能删除！");
+		}
 		jdbcTemplate.update("delete from vacant_role where id=?", id);
 		jdbcTemplate.update("delete from vacant_role_menu where role_id=?", id);
 	}

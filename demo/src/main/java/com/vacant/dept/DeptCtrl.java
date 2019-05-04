@@ -2,9 +2,12 @@ package com.vacant.dept;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,8 +58,14 @@ public class DeptCtrl extends BaseCtrl{
 
 	@PostMapping(path = "save")
 	@ResponseBody
-	public AjaxResponse save(VacantDept dept) {
-		deptService.save(dept);
+	public AjaxResponse save(VacantDept dept, HttpServletRequest req) {
+		String czjlName = StringUtils.isEmpty(dept.getId())?"添加用户":"修改用户";
+		try {
+			deptService.save(dept);
+		} catch (Exception e) {
+			return AjaxResponse.error(e.getMessage());
+		}
+		czjl(req, czjlName);
 		return AjaxResponse.dialogOk("vacant_dept");
 	}
 
@@ -69,11 +78,14 @@ public class DeptCtrl extends BaseCtrl{
 
 	@RequestMapping(path = "delete/{id}")
 	@ResponseBody
-	public AjaxResponse delete(@PathVariable String id, Model model) {
-		if(deptService.hasUser(id)) {
-			return AjaxResponse.error("该单位下已创建用户，不能删除！");
+	public AjaxResponse delete(@PathVariable String id, Model model, HttpServletRequest req) {
+		try {
+			deptService.delete(id);
+		} catch (Exception e) {
+			return AjaxResponse.error(e.getMessage());
 		}
-		deptService.delete(id);
+		czjl(req, "删除单位");
+		
 		return AjaxResponse.ok();
 	}
 

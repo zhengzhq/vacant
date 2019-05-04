@@ -70,12 +70,13 @@ public class UserCtrl extends BaseCtrl {
 
 	@PostMapping(path = "add")
 	@ResponseBody
-	public AjaxResponse add(VacantUser user) {
+	public AjaxResponse add(VacantUser user, HttpServletRequest req) {
 		try {
 			userService.add(user);
 		} catch (Exception e) {
 			return AjaxResponse.error(e.getMessage());
 		}
+		czjl(req,"添加用户");
 		return AjaxResponse.ok("vacant_user");
 	}
 
@@ -101,12 +102,13 @@ public class UserCtrl extends BaseCtrl {
 
 	@RequestMapping(path = "delete/{id}")
 	@ResponseBody
-	public AjaxResponse delete(@PathVariable String id, Model model) {
+	public AjaxResponse delete(@PathVariable String id, Model model, HttpServletRequest req) {
 		try {
 			userService.delete(id);
 		} catch (Exception e) {
 			return AjaxResponse.error(e.getMessage());
 		}
+		czjl(req,"删除用户");
 		return AjaxResponse.ok();
 	}
 
