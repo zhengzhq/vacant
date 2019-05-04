@@ -2,8 +2,6 @@ package com.vacant.area;
 
 import java.util.List;
 
-import com.vacant.Utils;
-
 public class Area {
 
 	private String id;

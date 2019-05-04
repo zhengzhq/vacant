@@ -5,20 +5,20 @@ package com.vacant.demo.paging;
  * @author zzq
  *
  */
-public class ConditionAndParams {
+public class WhereAndParams {
 
 	// 查询条件字符串
-	private String condition;
+	private String where;
 	
 	// 查询参数
 	private Object[] params;
 
-	public String getCondition() {
-		return condition;
+	public String getWhere() {
+		return where;
 	}
 
-	public void setCondition(String condition) {
-		this.condition = condition;
+	public void setWhere(String where) {
+		this.where = where;
 	}
 
 	public Object[] getParams() {

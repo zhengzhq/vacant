@@ -1,0 +1,33 @@
+<script th:inline="javascript">
+$(function(){
+	
+	var setting = {
+		callback: {
+			onClick: function(event, treeId, treeNode) {
+				$.bringBack({[[${"conditions['area_code_"+op+"']"}]]:treeNode.code});
+			}
+		},
+		data: {
+			key: {
+				name: 'desc'
+			},
+			simpleData: {
+				enable: true,
+				pIdKey: 'parentId'
+			}
+		}
+	};
+
+	var $p = $.pdialog.getCurrent();
+	var url = [[@{'/vacant/area/tree'}]];
+	ajaxTodo(url,function(zNodes) {
+		$.fn.zTree.init($('#area_lookup_tree', $p), setting, zNodes);
+	});
+
+});
+</script>
+<div class="pageContent">
+	<div layoutH="28">
+		<ul id="area_lookup_tree" class="ztree"></ul>
+	</div>
+</div>

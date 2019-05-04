@@ -76,7 +76,7 @@ public class UserCtrl extends BaseCtrl {
 		} catch (Exception e) {
 			return AjaxResponse.error(e.getMessage());
 		}
-		return AjaxResponse.dialogOk("vacant_user");
+		return AjaxResponse.ok("vacant_user");
 	}
 
 	@GetMapping(path = "edit/{id}")
@@ -96,7 +96,7 @@ public class UserCtrl extends BaseCtrl {
 			return AjaxResponse.error(e.getMessage());
 		}
 		czjl(req,"保存用户编辑");
-		return AjaxResponse.dialogOk("vacant_user");
+		return AjaxResponse.ok("vacant_user");
 	}
 
 	@RequestMapping(path = "delete/{id}")

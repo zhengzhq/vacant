@@ -1,7 +1,7 @@
 <div class="pageContent" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	
-	<form class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone)" 
+	<form class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone)" 
 			th:object="${o}" th:action="@{/vacant/user/add}" method="post">
 		<input type="hidden" th:field="*{id}" />
 		<input type="hidden" th:field="*{deptId}" />
@@ -10,7 +10,7 @@
 				<dt>单位名称：</dt>
 				<dd>
 					<input type="text" th:field="*{dept.name}" maxlength="50" class="required readonly" readonly />
-					<a class="btnLook" th:href="${'/vacant/dept/lookup'}" lookupGroup="">选择用户所属单位</a>
+					<a class="btnLook" th:href="${'/vacant/dept/lookup'}" rel="vacant_dept_lookup" lookupGroup="">选择用户所属单位</a>
 				</dd>
 			</dl>
 			<dl>

@@ -109,6 +109,14 @@ public class AreaService {
 		String name = area.getName();
 		String fullName = parent.getFullName()+name;
 		String state = area.getState();
+		// 如果存在有效的子节点，则不能将该节点设置为无效状态
+		if(state.equals("无效")) {
+			String sql = "select 1 from vacant_area where parent_id=? and state='有效' limit 1";
+			List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, id);
+			if(list.size()>0) {
+				throw new RuntimeException("存在有效子节点，不能将当前节点设置为无效状态");
+			}
+		}
 
 		String sql = "update vacant_area set code=?,name=?,full_name=?,state=? where id=?";
 		jdbcTemplate.update(sql, code, name, fullName, state, id);

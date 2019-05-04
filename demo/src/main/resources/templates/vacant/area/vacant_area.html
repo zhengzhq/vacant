@@ -93,6 +93,9 @@ $(function(){
 			<li><a id="delete" class="delete"><span>删除</span></a></li>
 			<li class="line">line</li>
 			<li><a id="edit" class="edit"><span>修改</span></a></li>
+			<li class="line">line</li>
+			<li><span th:object="${stats}">统计：共有行政区划[[*{yx}]]个，其中市级[[*{sj}]]个，
+					县区[[*{xq}]]个，乡镇[[*{xz}]]个，社区[[*{sq}]]个。</span></li>
 		</ul>
 	</div>
 	<div layoutH="28">

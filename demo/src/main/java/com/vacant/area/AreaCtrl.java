@@ -1,10 +1,14 @@
 package com.vacant.area;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,9 +25,18 @@ public class AreaCtrl extends BaseCtrl{
 	@Autowired
 	private AreaService areaService;
 
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
 	@RequestMapping
 	public String list(Model model) {
+		String sql = "select count(*) yx, count(case when length(code)=4 then 1 end) sj, ";
+		sql += "count(case when length(code)=6 then 1 end) xq, ";
+		sql += "count(case when length(code)=9 then 1 end) xz, ";
+		sql += "count(case when length(code)=12 then 1 end) sq ";
+		sql += "from vacant_area where state='有效' ";
+		Map<String, Object> stats = jdbcTemplate.queryForMap(sql);
+		model.addAttribute("stats", stats);
 		return v();
 	}
 
@@ -94,5 +107,10 @@ public class AreaCtrl extends BaseCtrl{
 	protected String v() {
 		return "vacant/area/vacant_area";
 	}
-	
+
+	@RequestMapping(path = "lookup/{op}")
+	public String lookup(Model model, @PathVariable String op) {
+		model.addAttribute("op", op);
+		return v("lookup");
+	}	
 }

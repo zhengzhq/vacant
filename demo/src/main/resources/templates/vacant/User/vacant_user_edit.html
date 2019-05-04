@@ -1,7 +1,7 @@
 <div class="pageContent" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	
-	<form class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone)" 
+	<form class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone)" 
 			th:object="${o}" th:action="@{/vacant/user/edit}" method="post">
 		<input type="hidden" th:field="*{id}" />
 		<input type="hidden" th:field="*{deptId}" />

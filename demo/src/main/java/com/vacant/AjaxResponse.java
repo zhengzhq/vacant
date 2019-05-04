@@ -48,7 +48,10 @@ public class AjaxResponse {
 	}
 	
 	public static AjaxResponse ok(String navTabId) {
-		AjaxResponse r = ok();
+		AjaxResponse r = new AjaxResponse();
+		r.setStatusCode(STATUS_CODE_OK);
+		r.setMessage("操作成功");
+		r.setCallbackType(CALLBACK_TYPE_CLOSE_CURRENT);
 		r.setNavTabId(navTabId);
 		return r;
 	}

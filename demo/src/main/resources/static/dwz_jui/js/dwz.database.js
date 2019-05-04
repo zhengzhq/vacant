@@ -70,7 +70,7 @@
 						return false;
 					}
 					
-					$.pdialog.open(url, "_blank", $this.attr("title") || $this.text(), options);
+					$.pdialog.open(url, $this.attr("rel") || "_blank", $this.attr("title") || $this.text(), options);
 					return false;
 				});
 			});

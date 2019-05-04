@@ -39,8 +39,8 @@ public class PageService {
 	 * @return
 	 */
 	public Stats stats(String sql, SearchForm searchForm) {
-		ConditionAndParams cp = parseForm(searchForm);
-		sql += cp.getCondition();
+		WhereAndParams cp = parseForm(searchForm);
+		sql += cp.getWhere();
 		return null;
 	}
 
@@ -54,8 +54,8 @@ public class PageService {
 	public Book turnTo(String sql, SearchForm searchForm, String sql2) {
 		int pageNum = searchForm.getPageNum();
 		int numPerPage = searchForm.getNumPerPage();
-		ConditionAndParams cp = parseForm(searchForm);
-		sql += cp.getCondition();
+		WhereAndParams cp = parseForm(searchForm);
+		sql += cp.getWhere();
 		sql += " limit ";
 		sql += (pageNum-1) * numPerPage;
 		sql += ",";
@@ -65,7 +65,7 @@ public class PageService {
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, params);
 		Book book = new Book();
 		book.setPage(rows);
-		sql2 += cp.getCondition();
+		sql2 += cp.getWhere();
 		Map<String, Object> stats = jdbcTemplate.queryForMap(sql2, cp.getParams());
 		book.setStats(stats);
 		return book;
@@ -77,9 +77,9 @@ public class PageService {
 	 * @param searchForm
 	 * @return
 	 */
-	public ConditionAndParams parseForm(SearchForm searchForm) {
-		ConditionAndParams cp = new ConditionAndParams();
-		String condition = " where 1=1";
+	public WhereAndParams parseForm(SearchForm searchForm) {
+		WhereAndParams cp = new WhereAndParams();
+		String where = " where 1=1";
 		Map<String, String> conditions = searchForm.getConditions();
 		List<String> list = new ArrayList<String>();
 		for (Entry<String, String> e : conditions.entrySet()) {
@@ -87,51 +87,54 @@ public class PageService {
 			if (StringUtils.isEmptyOrWhitespace(value)) {
 				continue;
 			}
-			condition += " and ";
+			String and = " and ";
 			String key = e.getKey().toUpperCase();
 			if (key.endsWith(OP_LK)) {
-				condition += key.replace(OP_LK, "");
-				condition += " like ?";
+				and += key.replace(OP_LK, "");
+				and += " like ?";
 				list.add(value + "%");
 			} else if (key.endsWith(OP_BLK)) {
-				condition += key.replace(OP_BLK, "");
-				condition += " like ?";
+				and += key.replace(OP_BLK, "");
+				and += " like ?";
 				list.add("%" + value + "%");
 			}  else if (key.endsWith(OP_EQ)) {
-				condition += key.replace(OP_EQ, "");
-				condition += " = ?";
+				and += key.replace(OP_EQ, "");
+				and += " = ?";
 				list.add(value);
 			} else if (key.endsWith(OP_GT)) {
-				condition += key.replace(OP_GT, "");
-				condition += " > ?";
+				and += key.replace(OP_GT, "");
+				and += " > ?";
 				list.add(value);
 			} else if (key.endsWith(OP_GE)) {
-				condition += key.replace(OP_GE, "");
-				condition += " >= ?";
+				and += key.replace(OP_GE, "");
+				and += " >= ?";
 				list.add(value);
 			} else if (key.endsWith(OP_LT)) {
-				condition += key.replace(OP_LT, "");
-				condition += " < ?";
+				and += key.replace(OP_LT, "");
+				and += " < ?";
 				list.add(value);
 			} else if (key.endsWith(OP_LE)) {
-				condition += key.replace(OP_LK, "");
-				condition += " <= ?";
+				and += key.replace(OP_LK, "");
+				and += " <= ?";
 				list.add(e.getValue());
 			} else if (key.endsWith(OP_IN)) {
-				condition += key.replace(OP_IN, "");
-				condition += " in(";
+				and += key.replace(OP_IN, "");
+				and += " in(";
 				String[] vs = value.split(",");
 				for (int i = 0; i < vs.length; i++) {
 					if (i > 0) {
-						condition += ",";
+						and += ",";
 					}
-					condition += "?";
+					and += "?";
 					list.add(vs[i]);
 				}
-				condition += ")";
+				and += ")";
+			} else {
+				continue;
 			}
+			where += and;
 		}
-		cp.setCondition(condition);
+		cp.setWhere(where);
 		cp.setParams(list.toArray());
 		return cp;
 	}
