@@ -91,7 +91,7 @@ public class RoleCtrl extends BaseCtrl{
 		} catch (Exception e) {
 			return AjaxResponse.error(e.getMessage());
 		}
-		czjl(req, "删除角色","id:"+id);
+		czjl(req, "删除角色");
 		return AjaxResponse.ok();
 	}
 	

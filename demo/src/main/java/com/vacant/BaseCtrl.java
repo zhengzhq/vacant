@@ -20,21 +20,6 @@ public abstract class BaseCtrl {
 	protected String v(String page) {
 		return v() + "_" + page;
 	}
-	
-	protected void czjl(HttpServletRequest req, String name, String params) {
-
-		String path = req.getServletPath();
-		VacantUser user = (VacantUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String czrName = user.getName();
-		String czrId= user.getId();
-		String czsj = Utils.dateTime();
-		String ip = req.getRemoteAddr();
-
-		String sql = "insert into vacant_czjl ";
-		sql += "(id, name, path, params, czr_id, czr_name, czsj, ip) ";
-		sql += "values (uuid(),?,?,?,?,?,?,?)";
-		jdbcTemplate.update(sql, name, path, params, czrId, czrName, czsj, ip);
-	}
 
 	protected void czjl(HttpServletRequest req, String name) {
 		String path = req.getServletPath();
