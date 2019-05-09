@@ -98,4 +98,8 @@ public class VacantMenu {
 	public void setChecked(String checked) {
 		this.checked = checked;
 	}
+	
+	public String getDesc() {
+		return String.format("%s %s,path=%s,rel=%s,gybz=%s", xssx, name, path, rel, gybz);
+	}
 }

@@ -3,34 +3,67 @@ $(function(){
 	
 	var $p = navTab.getCurrentPanel();
 
-	$('#tree a', $p).each(function(){
-		var $this = $(this);
-		$this.click(function(){
-			$("#id", $p).val($this.attr('id'))
-			$('#name', $p).val($this.text());
-		});
+	var setting = {
+		data: {
+			key: {
+				name: 'desc'
+			},
+			simpleData: {
+				enable: true,
+				pIdKey: 'parentId'
+			}
+		}
+	};
+	var url = [[@{'/vacant/menu/tree'}]];
+	ajaxTodo(url,function(zNodes) {
+		$.fn.zTree.init($('#menuTree',$p), setting, zNodes);
 	});
-	
+
 	$('#addChild',$p).click(function(){
-		var parentId = $('#id', $p).val();
+		var node = getSelectedNode();
+		if(node==null) {
+			alertMsg.error('请选择父节点');
+			return;
+		}
 		var url = [[@{'/vacant/menu/add'}]];
-		$.pdialog.open(url, "addMenu", "添加子菜单",{mask:true,data:{parentId:parentId},width:800,height:450});
+		$.pdialog.open(url, "addMenu", "添加子菜单",{mask:true,data:{parentId:node.id},width:800,height:450});
 	});
 
 	$('#add',$p).click(function(){
 		var url = [[@{'/vacant/menu/add'}]];
 		$.pdialog.open(url, "addMenu", "添加子菜单",{mask:true,data:{parentId:'root'},width:800,height:450});
 	});
-
-	$('#delete',$p).click(function(){
-		var id = $('#id', $p).val();
-		if(id == 'root') {
-			alertMsg.error('请选择要删除的节点。');
+	
+	$('#addChild',$p).click(function(){
+		var node = getSelectedNode();
+		if(node==null) {
+			alertMsg.error('请选择父节点');
 			return;
 		}
-		alertMsg.confirm('将从所有角色中删除当前选中的菜单，确定删除吗？'+$('#name',$p).val(), {
+		var url = [[@{'/vacant/menu/add'}]];
+		$.pdialog.open(url, "addMenu", "添加子菜单",{mask:true,data:{parentId:nodes[0].id},width:800,height:450});
+	});
+	
+	function getSelectedNode() {
+		var treeObj = $.fn.zTree.getZTreeObj("menuTree");
+		var nodes = treeObj.getSelectedNodes();
+		if(nodes.length==0) {
+			return null;
+		} else {
+			return nodes[0];
+		}
+	}
+
+	$('#delete',$p).click(function(){
+		var node = getSelectedNode();
+		if(node==null) {
+			alertMsg.error('请选择要删除的节点');
+			return;
+		}
+		alertMsg.confirm('将从所有角色中删除当前选中的菜单，确定删除吗？'+node.name, {
 			okCall: function(){
-				var url = [[@{'/vacant/menu/delete?id='}]]+id;
+				var id = $('#id', $p).val();
+				var url = [[@{'/vacant/menu/delete?id='}]]+node.id;
 				ajaxTodo(url, function(json){
 					if (json[DWZ.keys.statusCode] == DWZ.statusCode.ok){
 						alertMsg.correct(json.message);
@@ -45,10 +78,14 @@ $(function(){
 	});
 
 	$('#edit',$p).click(function(){
-		var id = $('#id', $p).val();
+		var node = getSelectedNode();
+		if(node==null) {
+			alertMsg.error('请选择要修改的节点');
+			return;
+		}
 		var url = [[@{'/vacant/menu/edit'}]];
-		$.pdialog.open(url, "addMenu", "修改菜单"+$('#name',$p).val(),
-				{mask:true,data:{id:id},width:800,height:450});
+		$.pdialog.open(url, "addMenu", "修改菜单"+node.name,
+				{mask:true,data:{id:node.id},width:800,height:450});
 	});
 
 });
@@ -67,21 +104,6 @@ $(function(){
 			<li><a id="edit" class="edit"><span>修改</span></a></li>
 		</ul>
 	</div>
-	<ul id="tree" class="tree treeFolder">
-		<li th:each="menu:${menuList}">
-			<a th:id="${menu.id}" th:text="${menu.xssx + ' ' + menu.name}">最低生活保障</a>
-			<ul>
-				<li th:each="model:${menu.children}">
-					<a th:id="${model.id}" th:text="${model.xssx + ' ' + model.name}">低保户管理</a>
-					<ul>
-						<li th:each="resource:${model.children}">
-							<a class="resource" th:id="${resource.id}"
-									th:text="${resource.xssx + ' ' + resource.name + ',path=' + resource.path + ',rel=' + resource.rel + ',gybz=' + gybz}">低保户申请登记</a>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</li>
-	</ul>
+	<ul class="ztree" id="menuTree"></ul>
 </div>
 </html>

@@ -1,5 +1,7 @@
 package com.vacant.menu;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +31,14 @@ public class MenuControl extends BaseCtrl {
 
 	@RequestMapping
 	public String list(Model model) {
-		model.addAttribute("menuList", menuService.zxtList());
 		return v();
+	}
+	
+	@PostMapping(path = "tree")
+	@ResponseBody
+	public List<VacantMenu> tree() {
+		List<VacantMenu> tree = menuService.children("root", true);
+		return tree;
 	}
 	
 	@GetMapping(path = "add")

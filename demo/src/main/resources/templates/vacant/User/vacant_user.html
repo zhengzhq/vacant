@@ -1,7 +1,6 @@
 <div class="pageHeader">
 	<form id="pagerForm" onsubmit="return navTabSearch(this);" th:action="@{/vacant/user}" method="post" 
-			th:object="${searchForm}"
-			onreset="$(this).find('select.combox').comboxReset()">
+			th:object="${searchForm}">
 	<input type="hidden" th:field="*{pageNum}" />
 	<div class="searchBar">
 		<table class="searchContent">
@@ -14,6 +13,16 @@
 				</td>
 				<td>
 					用户名：<input type="text" th:field="*{conditions['username_eq']}" />
+				</td>
+				<td style="padding-right:0px;">
+					角色：
+				</td>
+				<td>
+					<select class="combox" id="role_id" th:field="*{conditions['role_id_eq']}">
+						<option value="">全部</option>
+						<option th:each="role:${roleList}" th:value="${role.id}" 
+								th:text="${role.name}"></option>
+					</select>
 				</td>
 				<td>
 					每页行数：<input type="text" th:field="*{numPerPage}" style="width:22px" />

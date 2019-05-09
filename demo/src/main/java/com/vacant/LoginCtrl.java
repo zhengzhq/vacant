@@ -15,7 +15,6 @@ public class LoginCtrl extends BaseCtrl {
 
 	@RequestMapping(path = "/logout")
 	public String logout(HttpServletRequest req) {
-		czjl(req, "退出");
 		return "login";
 	}
 	

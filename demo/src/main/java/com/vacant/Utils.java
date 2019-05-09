@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.UUID;
 
 import org.slf4j.Logger;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import com.vacant.user.VacantUser;
 
 public class Utils {
 
@@ -54,5 +57,13 @@ public class Utils {
 		} else {
 			throw new RuntimeException("行政区划代码长度错误");
 		}
+	}
+	
+	public static VacantUser user() {
+		return (VacantUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	}
+	
+	public static String userId() {
+		return user().getId();
 	}
 }

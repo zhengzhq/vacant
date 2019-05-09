@@ -41,70 +41,90 @@ public class MenuService {
 		}
 	}
 
-	public List<VacantMenu> zxtList() {
-		return menuList("root");
-	}
-
-	private List<VacantMenu> menuList(String parentId) {
-		return jdbcTemplate.query("select * from vacant_menu where parent_id=? order by xssx",
-				new String[] { parentId }, new MenuRowMapper());
-	}
-
-	public boolean hasChild(String id) {
-		String sql = "select 1 from vacant_menu where parent_id=? limit 1";
-		List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, id);
-		return list.size()>0;
+	public VacantMenu findByPk(String id) {
+		List<VacantMenu> list = jdbcTemplate.query("select * from vacant_menu where id=?", new String[] { id },
+				new RowMapper<VacantMenu>() {
+			@Override
+			public VacantMenu mapRow(ResultSet rs, int rowNum) throws SQLException {
+				VacantMenu menu = menu(rs);
+				// menu.setChildren(menuList(rs.getString("id")));
+				return menu;
+			}
+		});
+		if (list.size() == 1) {
+			return list.get(0);
+		}
+		throw new RuntimeException("vacant_menu表主键错误：" + id);
 	}
 
 	public void delete(String id) {
-		if(hasChild(id)) {
+		if (hasChild(id)) {
 			throw new RuntimeException("存在子节点，不能删除！");
 		}
 		jdbcTemplate.update("delete from vacant_menu where id=?", id);
 		jdbcTemplate.update("delete from vacant_role_menu where menu_id=?", id);
 	}
 
-	private class MenuRowMapper implements RowMapper<VacantMenu> {
-
-		@Override
-		public VacantMenu mapRow(ResultSet rs, int rowNum) throws SQLException {
-			VacantMenu menu = menu(rs);
-			menu.setChildren(menuList(rs.getString("id")));
-			return menu;
-		}
+	public boolean hasChild(String id) {
+		String sql = "select 1 from vacant_menu where parent_id=? limit 1";
+		List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, id);
+		return list.size() > 0;
 	}
 
-	public VacantMenu findByPk(String id) {
-		List<VacantMenu> list = jdbcTemplate.query("select * from vacant_menu where id=?",
-				new String[] { id }, new MenuRowMapper());
-		if (list.size()==1) {
-			return list.get(0);
-		}
-		throw new RuntimeException("vacant_menu表主键错误：" + id);
-	}
+	public List<VacantMenu> children(String parentId, boolean recursive) {
+		return jdbcTemplate.query("select * from vacant_menu where parent_id=? order by xssx",
+				new String[] { parentId }, new RowMapper<VacantMenu>() {
 	
-	public List<VacantMenu> menuListForRole(String roleId, String parentMenuId) {
+			@Override
+			public VacantMenu mapRow(ResultSet rs, int rowNum) throws SQLException {
+				VacantMenu menu = menu(rs);
+				if(recursive) {
+					menu.setChildren(children(rs.getString("id"), recursive));
+				}
+				return menu;
+			}
+		});
+	}
+
+	public List<VacantMenu> childrenForRole(String roleId, String parentId) {
 		String sql = "select a.*, (case when b.id is null then 'false' else 'true' end) checked ";
 		sql += "from vacant_menu a left join vacant_role_menu b on a.id=b.menu_id and b.role_id=? ";
 		sql += "where a.parent_id=? order by a.xssx ";
-		return jdbcTemplate.query(sql, new Object[] {roleId, parentMenuId}, new TreeRowMapper(roleId));
+		return jdbcTemplate.query(sql, new Object[] { roleId, parentId }, new RowMapper<VacantMenu>() {
+			@Override
+			public VacantMenu mapRow(ResultSet rs, int rowNum) throws SQLException {
+				VacantMenu menu = menu(rs);
+				menu.setChecked(rs.getString("checked"));
+				List<VacantMenu> children = childrenForRole(roleId, menu.getId());
+				if(children.isEmpty()) {
+					children = null;
+				}
+				menu.setChildren(children);
+				return menu;
+			}
+		});
 	}
-	private class TreeRowMapper implements RowMapper<VacantMenu> {
-		private String roleId;
-		
-		public TreeRowMapper(String roleId) {
-			this.roleId = roleId;
-		}
 
-		@Override
-		public VacantMenu mapRow(ResultSet rs, int rowNum) throws SQLException {
-			VacantMenu menu = menu(rs);
-			menu.setChecked(rs.getString("checked"));
-			menu.setChildren(menuListForRole(roleId, menu.getId()));
-			return menu;
-		}
+	public List<VacantMenu> childrenForUser(String parentId, String userId, boolean recursive) {
+		String sql = "select * from vacant_menu m, vacant_role_menu rm, vacant_user u ";
+		sql += "where m.id=rm.menu_id and rm.role_id=u.role_id and u.id=? and m.parent_id=? ";
+		sql += " order by xssx";
+		return jdbcTemplate.query(sql, new String[] { userId, parentId }, new RowMapper<VacantMenu>() {
+			@Override
+			public VacantMenu mapRow(ResultSet rs, int rowNum) throws SQLException {
+				VacantMenu menu = menu(rs);
+				if(recursive) {
+					List<VacantMenu> children = childrenForUser(menu.getId(), userId, recursive);
+					if(children.isEmpty()) {
+						children = null;
+					}
+					menu.setChildren(children);
+				}
+				return menu;
+			}
+		});
 	}
-	
+
 	private VacantMenu menu(ResultSet rs) throws SQLException {
 		VacantMenu menu = new VacantMenu();
 		String id = rs.getString("id");

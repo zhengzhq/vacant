@@ -53,21 +53,14 @@ public class RoleCtrl extends BaseCtrl{
 	@GetMapping(path = "edit/{id}")
 	public String edit(@PathVariable String id, Model model) {
 		VacantRole o = roleService.findByPk(id);
-		//model.addAttribute("menuList",menuService.menuListForRole(id, "root"));
 		model.addAttribute("role", o);
 		return v("edit");
-	}
-
-	@RequestMapping(path="menu")
-	@ResponseBody
-	public List<VacantMenu> menuList() {
-		return menuService.zxtList();
 	}
 
 	@RequestMapping(path="menu/{id}")
 	@ResponseBody
 	public List<VacantMenu> menuListForRole(@PathVariable String id) {
-		return menuService.menuListForRole(id, "root");
+		return menuService.childrenForRole(id, "root");
 	}
 	
 	@PostMapping(path = "save")
