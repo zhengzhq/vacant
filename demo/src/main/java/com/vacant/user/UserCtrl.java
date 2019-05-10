@@ -77,7 +77,7 @@ public class UserCtrl extends BaseCtrl {
 			return AjaxResponse.error(e.getMessage());
 		}
 		czjl(req,"添加用户");
-		return AjaxResponse.ok("vacant_user");
+		return AjaxResponse.navTabCloseAndReload("vacant_user");
 	}
 
 	@GetMapping(path = "edit/{id}")
@@ -97,7 +97,7 @@ public class UserCtrl extends BaseCtrl {
 			return AjaxResponse.error(e.getMessage());
 		}
 		czjl(req,"保存用户编辑");
-		return AjaxResponse.ok("vacant_user");
+		return AjaxResponse.navTabCloseAndReload("vacant_user");
 	}
 
 	@RequestMapping(path = "delete/{id}")
@@ -110,6 +110,26 @@ public class UserCtrl extends BaseCtrl {
 		}
 		czjl(req,"删除用户");
 		return AjaxResponse.ok();
+	}
+
+	// 显示修改密码页面
+	@GetMapping(path = "changepwd")
+	public String changepwd() {
+		return v("changepwd");
+	}
+
+	@PostMapping(path = "changepwd")
+	@ResponseBody
+	public AjaxResponse changepwd(HttpServletRequest req) {
+		try {
+			String oldPassword = req.getParameter("oldPassword");
+			String newPassword = req.getParameter("newPassword");
+			userService.changePwd(oldPassword, newPassword);
+		} catch (Exception e) {
+			return AjaxResponse.error(e.getMessage());
+		}
+		czjl(req,"修改密码");
+		return AjaxResponse.close();
 	}
 
 }

@@ -26,7 +26,7 @@
 </div>
 
 <div class="pageContent" th:with="p=@{/vacant/user}">
-	<table class="list" style="width:100%;" layoutH="63">
+	<table class="list" style="width:100%;text-align: center" layoutH="63">
 		<thead>
 			<tr>
 				<th style="width:100px;">操作名称</th>
@@ -39,8 +39,8 @@
 		<tbody>
 			<tr target="row_id" th:rel="${row.id}" th:each="row,stat:${book.page}" th:object="${row}">
 				<td th:text="*{name}">添加菜单</td>
-				<td th:text="*{path}">/vacant/menu/save</td>
-				<td th:text="*{params}">id:[],parentId:[root],xssx:[0],name:[ceshi11],path:[ceshi],rel:[ceshi],gybz:[1]</td>
+				<td style="text-align: left;padding-left:5px;" th:text="*{path}">/vacant/menu/save</td>
+				<td style="text-align: left;padding-left:5px;" th:text="*{params}">id:[],parentId:[root],xssx:[0],name:[ceshi11],path:[ceshi],rel:[ceshi],gybz:[1]</td>
 				<td th:text="*{czr_name}">郑志强</td>
 				<td th:text="*{czsj}">2019-05-10 20:23:56</td>
 			</tr>

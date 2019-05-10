@@ -30,7 +30,7 @@ public class AjaxResponse {
 		return r;
 	}
 
-	public static AjaxResponse okAndClose() {
+	public static AjaxResponse close() {
 		AjaxResponse r = new AjaxResponse();
 		r.setStatusCode(STATUS_CODE_OK);
 		r.setMessage("操作成功");
@@ -38,7 +38,7 @@ public class AjaxResponse {
 		return r;
 	}
 	
-	public static AjaxResponse dialogOk(String navTabId) {
+	public static AjaxResponse dialogCloseAndReload(String navTabId) {
 		AjaxResponse r = new AjaxResponse();
 		r.setStatusCode(STATUS_CODE_OK);
 		r.setMessage("操作成功");
@@ -47,7 +47,7 @@ public class AjaxResponse {
 		return r;
 	}
 	
-	public static AjaxResponse ok(String navTabId) {
+	public static AjaxResponse navTabCloseAndReload(String navTabId) {
 		AjaxResponse r = new AjaxResponse();
 		r.setStatusCode(STATUS_CODE_OK);
 		r.setMessage("操作成功");

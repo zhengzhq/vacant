@@ -60,7 +60,7 @@ public class MenuCtrl extends BaseCtrl {
 			return AjaxResponse.error(e.getMessage());
 		}
 		czjl(req, czjlName);
-		return AjaxResponse.dialogOk("vacant_menu");
+		return AjaxResponse.dialogCloseAndReload("vacant_menu");
 	}
 
 	@GetMapping(path = "edit")

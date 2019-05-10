@@ -66,7 +66,7 @@ public class DeptCtrl extends BaseCtrl{
 			return AjaxResponse.error(e.getMessage());
 		}
 		czjl(req, czjlName);
-		return AjaxResponse.dialogOk("vacant_dept");
+		return AjaxResponse.dialogCloseAndReload("vacant_dept");
 	}
 
 	@GetMapping(path = "edit/{id}")

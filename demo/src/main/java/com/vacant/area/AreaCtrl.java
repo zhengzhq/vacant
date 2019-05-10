@@ -67,7 +67,7 @@ public class AreaCtrl extends BaseCtrl{
 			return AjaxResponse.error(e.getMessage());
 		}
 		czjl(req, "添加行政区划");
-		return AjaxResponse.dialogOk("vacant_area");
+		return AjaxResponse.dialogCloseAndReload("vacant_area");
 	}
 
 	@GetMapping(path = "edit")
@@ -93,7 +93,7 @@ public class AreaCtrl extends BaseCtrl{
 			return AjaxResponse.error(e.getMessage());
 		}
 		czjl(req, "修改行政区划");
-		return AjaxResponse.dialogOk("vacant_area");
+		return AjaxResponse.dialogCloseAndReload("vacant_area");
 	}
 	
 	@RequestMapping(path = "delete")

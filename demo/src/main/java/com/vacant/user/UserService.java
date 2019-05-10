@@ -108,7 +108,7 @@ public class UserService implements UserDetailsService {
 
 	public void delete(String id) {
 		if (hasCzjl(id)) {
-			throw new RuntimeException("用户已登录过系统，不能删除");
+			throw new RuntimeException("存在与用户相关的操作记录，不能删除");
 		}
 		jdbcTemplate.update("delete from vacant_user where id=?", id);
 
@@ -121,6 +121,18 @@ public class UserService implements UserDetailsService {
 		sql += "from vacant_user user where username=?";
 		List<User> list = jdbcTemplate.query(sql, new String[] { username }, mapper());
 		return list.get(0);
+	}
+
+	// 修改密码
+	public void changePwd(String oldPassword, String newPassword) {
+		BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
+		User user = findByPk(Utils.userId());
+		if(!encode.matches(oldPassword,user.getPassword())) {
+			throw new RuntimeException("旧密码错误");
+		}
+		
+		String password = new BCryptPasswordEncoder().encode(newPassword);
+		jdbcTemplate.update("update vacant_user set password=? where id=?", password, user.getId());
 	}
 
 }

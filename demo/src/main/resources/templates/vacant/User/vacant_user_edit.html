@@ -1,5 +1,4 @@
-<div class="pageContent" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<div class="pageContent">
 	
 	<form class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone)" 
 			th:object="${o}" th:action="@{/vacant/user/edit}" method="post">

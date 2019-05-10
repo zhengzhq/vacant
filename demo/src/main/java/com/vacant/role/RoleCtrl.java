@@ -73,7 +73,7 @@ public class RoleCtrl extends BaseCtrl{
 			return AjaxResponse.error(e.getMessage());
 		}
 		czjl(req, czjlName);
-		return AjaxResponse.dialogOk("vacant_role");
+		return AjaxResponse.dialogCloseAndReload("vacant_role");
 	}
 
 	@RequestMapping(path = "delete/{id}")
