@@ -22,7 +22,7 @@ public class DeptService {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	public void save(VacantDept dept) {
+	public void save(Dept dept) {
 		String id = dept.getId();
 		String areaCode = dept.getAreaCode();
 		String name = dept.getName();
@@ -40,17 +40,17 @@ public class DeptService {
 		}
 	}
 
-	public VacantDept findByPk(String id) {
-		List<VacantDept> list = jdbcTemplate.query("select * from vacant_dept where id=?", new String[] { id },
+	public Dept findByPk(String id) {
+		List<Dept> list = jdbcTemplate.query("select * from vacant_dept where id=?", new String[] { id },
 				mapper());
 		return list.get(0);
 	}
 
-	private RowMapper<VacantDept> mapper() {
-		return new RowMapper<VacantDept>() {
+	private RowMapper<Dept> mapper() {
+		return new RowMapper<Dept>() {
 			@Override
-			public VacantDept mapRow(ResultSet rs, int rowNum) throws SQLException {
-				VacantDept dept = new VacantDept();
+			public Dept mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Dept dept = new Dept();
 				dept.setId(rs.getString("id"));
 				dept.setAreaCode(rs.getString("area_code"));
 				dept.setName(rs.getString("name"));

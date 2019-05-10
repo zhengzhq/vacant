@@ -44,7 +44,7 @@ public class RoleCtrl extends BaseCtrl{
 
 	@GetMapping(path = "add")
 	public String add(Model model) {
-		VacantRole o = new VacantRole();
+		Role o = new Role();
 		model.addAttribute("role",o);
 		//model.addAttribute("menuList",menuService.zxlList());
 		return v("edit");
@@ -52,7 +52,7 @@ public class RoleCtrl extends BaseCtrl{
 
 	@GetMapping(path = "edit/{id}")
 	public String edit(@PathVariable String id, Model model) {
-		VacantRole o = roleService.findByPk(id);
+		Role o = roleService.findByPk(id);
 		model.addAttribute("role", o);
 		return v("edit");
 	}
@@ -65,7 +65,7 @@ public class RoleCtrl extends BaseCtrl{
 	
 	@PostMapping(path = "save")
 	@ResponseBody
-	public AjaxResponse save(VacantRole role, HttpServletRequest req) {
+	public AjaxResponse save(Role role, HttpServletRequest req) {
 		String czjlName = StringUtils.isEmpty(role.getId())?"添加角色":"修改角色";
 		try {
 			roleService.save(role);

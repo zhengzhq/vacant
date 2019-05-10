@@ -7,9 +7,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.vacant.dept.VacantDept;
+import com.vacant.dept.Dept;
 
-public class VacantUser implements UserDetails{
+public class User implements UserDetails{
 
 	/**
 	 * 
@@ -25,7 +25,7 @@ public class VacantUser implements UserDetails{
 	private String createTime;
 	private String roleId;
 
-	private VacantDept dept;
+	private Dept dept;
 
 	/**
 	 * @return the id
@@ -97,11 +97,11 @@ public class VacantUser implements UserDetails{
 		this.createTime = createTime;
 	}
 
-	public VacantDept getDept() {
+	public Dept getDept() {
 		return dept;
 	}
 
-	public void setDept(VacantDept dept) {
+	public void setDept(Dept dept) {
 		this.dept = dept;
 	}
 	

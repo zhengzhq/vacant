@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.vacant.user.VacantUser;
+import com.vacant.user.User;
 
 public abstract class BaseCtrl {
 
@@ -44,7 +44,7 @@ public abstract class BaseCtrl {
 			}
 			params += "]";
 		}
-		VacantUser user = (VacantUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String czrName = user.getName();
 		String czrId= user.getId();
 		String czsj = Utils.dateTime();

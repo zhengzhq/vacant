@@ -27,17 +27,16 @@ public class MenuService {
 		String name = menu.getName();
 		String path = menu.getPath();
 		String rel = menu.getRel();
-		String gybz = menu.getGybz();
 
 		if (StringUtils.isEmpty(id)) {
 			id = UUID.randomUUID().toString();
-			String sql = "insert into vacant_menu values(?,?,?,?,?,?,?)";
-			jdbcTemplate.update(sql, id, parentId, xssx, name, path, rel, gybz);
+			String sql = "insert into vacant_menu values(?,?,?,?,?,?)";
+			jdbcTemplate.update(sql, id, parentId, xssx, name, path, rel);
 			menu.setId(id);
 		} else {
 			String sql = "update vacant_menu set parent_id=?,xssx=?,name=?,path=?,";
-			sql += "rel=?,gybz=? where id=?";
-			jdbcTemplate.update(sql, parentId, xssx, name, path, rel, gybz, id);
+			sql += "rel=? where id=?";
+			jdbcTemplate.update(sql, parentId, xssx, name, path, rel, id);
 		}
 	}
 
@@ -79,7 +78,11 @@ public class MenuService {
 			public VacantMenu mapRow(ResultSet rs, int rowNum) throws SQLException {
 				VacantMenu menu = menu(rs);
 				if(recursive) {
-					menu.setChildren(children(rs.getString("id"), recursive));
+					List<VacantMenu> children = children(menu.getId(), recursive);
+					if(children.isEmpty()) {
+						children = null;
+					}
+					menu.setChildren(children);
 				}
 				return menu;
 			}

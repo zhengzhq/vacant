@@ -10,7 +10,6 @@ public class VacantMenu {
 	private String name;
 	private String path;
 	private String rel;
-	private String gybz;
 	private String checked; // 是否选中
 	
 	private List<VacantMenu> children;
@@ -72,20 +71,6 @@ public class VacantMenu {
 	}
 
 	/**
-	 * @return the gybz
-	 */
-	public String getGybz() {
-		return gybz;
-	}
-
-	/**
-	 * @param gybz the gybz to set
-	 */
-	public void setGybz(String gybz) {
-		this.gybz = gybz;
-	}
-
-	/**
 	 * @return the checked
 	 */
 	public String getChecked() {
@@ -100,6 +85,6 @@ public class VacantMenu {
 	}
 	
 	public String getDesc() {
-		return String.format("%s %s,path=%s,rel=%s,gybz=%s", xssx, name, path, rel, gybz);
+		return String.format("%s %s,path=%s,rel=%s", xssx, name, path, rel);
 	}
 }

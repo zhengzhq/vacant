@@ -20,17 +20,17 @@ public class RoleService {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	public List<VacantRole> all() {
+	public List<Role> all() {
 		return jdbcTemplate.query("select * from vacant_role", new Object[] {}, new RoleMapper());
 	}
 
-	public VacantRole findByPk(String id) {
-		List<VacantRole> list = jdbcTemplate.query("select * from vacant_role where id=?", new String[] { id },
+	public Role findByPk(String id) {
+		List<Role> list = jdbcTemplate.query("select * from vacant_role where id=?", new String[] { id },
 				new RoleMapper());
 		return list.get(0);
 	}
 
-	public void save(VacantRole role) {
+	public void save(Role role) {
 		String id = role.getId();
 		String name = role.getName();
 
@@ -56,10 +56,10 @@ public class RoleService {
 		}
 	}
 
-	private class RoleMapper implements RowMapper<VacantRole> {
+	private class RoleMapper implements RowMapper<Role> {
 		@Override
-		public VacantRole mapRow(ResultSet rs, int rowNum) throws SQLException {
-			VacantRole role = new VacantRole();
+		public Role mapRow(ResultSet rs, int rowNum) throws SQLException {
+			Role role = new Role();
 			role.setId(rs.getString("id"));
 			role.setName(rs.getString("name"));
 			return role;

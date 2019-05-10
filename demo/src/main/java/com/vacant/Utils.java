@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.vacant.user.VacantUser;
+import com.vacant.user.User;
 
 public class Utils {
 
@@ -59,8 +59,8 @@ public class Utils {
 		}
 	}
 	
-	public static VacantUser user() {
-		return (VacantUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	public static User user() {
+		return (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	}
 	
 	public static String userId() {

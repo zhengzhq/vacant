@@ -21,7 +21,7 @@ import com.vacant.demo.paging.Book;
 import com.vacant.demo.paging.PageService;
 import com.vacant.demo.paging.SearchForm;
 import com.vacant.role.RoleService;
-import com.vacant.user.VacantUser;
+import com.vacant.user.User;
 import com.vacant.user.UserService;
 
 @Controller
@@ -61,7 +61,7 @@ public class UserCtrl extends BaseCtrl {
 
 	@GetMapping(path = "add")
 	public String add(Model model) {
-		VacantUser o = new VacantUser();
+		User o = new User();
 		o.setCreateTime(Utils.dateTime());
 		model.addAttribute("o", o);
 		model.addAttribute("roleList", roleService.all());
@@ -70,7 +70,7 @@ public class UserCtrl extends BaseCtrl {
 
 	@PostMapping(path = "add")
 	@ResponseBody
-	public AjaxResponse add(VacantUser user, HttpServletRequest req) {
+	public AjaxResponse add(User user, HttpServletRequest req) {
 		try {
 			userService.add(user);
 		} catch (Exception e) {
@@ -82,7 +82,7 @@ public class UserCtrl extends BaseCtrl {
 
 	@GetMapping(path = "edit/{id}")
 	public String edit(@PathVariable String id, Model model) {
-		VacantUser o = userService.findByPk(id);
+		User o = userService.findByPk(id);
 		model.addAttribute("o", o);
 		model.addAttribute("roleList", roleService.all());
 		return v("edit");
@@ -90,7 +90,7 @@ public class UserCtrl extends BaseCtrl {
 
 	@PostMapping(path = "edit")
 	@ResponseBody
-	public AjaxResponse edit(VacantUser user, HttpServletRequest req) {
+	public AjaxResponse edit(User user, HttpServletRequest req) {
 		try {
 			userService.edit(user);
 		} catch (Exception e) {

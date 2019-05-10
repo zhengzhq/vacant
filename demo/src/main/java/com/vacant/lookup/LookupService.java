@@ -35,6 +35,12 @@ public class LookupService {
 		return rootList(type, "请选择");
 	}
 
+	/**
+	 * 以树的形式返回指定类型的字典，并使用指定的文本作为空值对象的项目，用于查询和表单编辑
+	 * @param type
+	 * @param text
+	 * @return
+	 */
 	public List<Lookup> rootList(String type, String text) {
 		String sql = "select * from vacant_lookup where state='%s' and parent_id='root' and type=?";
 		sql = String.format(sql, COMMON_STATE_YX);

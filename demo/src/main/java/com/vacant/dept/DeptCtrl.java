@@ -51,14 +51,14 @@ public class DeptCtrl extends BaseCtrl{
 
 	@GetMapping(path = "add")
 	public String add(Model model) {
-		VacantDept o = new VacantDept();
+		Dept o = new Dept();
 		model.addAttribute("o",o);
 		return v("edit");
 	}
 
 	@PostMapping(path = "save")
 	@ResponseBody
-	public AjaxResponse save(VacantDept dept, HttpServletRequest req) {
+	public AjaxResponse save(Dept dept, HttpServletRequest req) {
 		String czjlName = StringUtils.isEmpty(dept.getId())?"添加用户":"修改用户";
 		try {
 			deptService.save(dept);
@@ -71,7 +71,7 @@ public class DeptCtrl extends BaseCtrl{
 
 	@GetMapping(path = "edit/{id}")
 	public String edit(@PathVariable String id, Model model) {
-		VacantDept o = deptService.findByPk(id);
+		Dept o = deptService.findByPk(id);
 		model.addAttribute("o",o);
 		return v("edit");
 	}

@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.vacant.Utils;
-import com.vacant.dept.VacantDept;
+import com.vacant.dept.Dept;
 
 @Service
 @Transactional
@@ -26,7 +26,7 @@ public class UserService implements UserDetailsService {
 	private JdbcTemplate jdbcTemplate;
 
 	@Transactional
-	public void add(VacantUser user) {
+	public void add(User user) {
 		String username = user.getUsername();
 		if (isUsernameExists(username)) {
 			throw new RuntimeException("与其他用户名冲突：" + username);
@@ -51,7 +51,7 @@ public class UserService implements UserDetailsService {
 
 	}
 
-	public void edit(VacantUser user) {
+	public void edit(User user) {
 		String id = user.getId();
 		String state = user.getState();
 		String roleId = user.getRoleId();
@@ -62,22 +62,22 @@ public class UserService implements UserDetailsService {
 
 	}
 
-	public VacantUser findByPk(String id) {
+	public User findByPk(String id) {
 		String sql = "select user.*, ";
 		sql += "(select name from vacant_dept where id=user.dept_id limit 1) dept_name ";
 		sql += "from vacant_user user where id=?";
-		List<VacantUser> list = jdbcTemplate.query(sql, new String[] { id }, mapper());
+		List<User> list = jdbcTemplate.query(sql, new String[] { id }, mapper());
 		return list.get(0);
 	}
 
-	private RowMapper<VacantUser> mapper() {
-		return new RowMapper<VacantUser>() {
+	private RowMapper<User> mapper() {
+		return new RowMapper<User>() {
 			@Override
-			public VacantUser mapRow(ResultSet rs, int rowNum) throws SQLException {
-				VacantDept dept = new VacantDept();
+			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Dept dept = new Dept();
 				dept.setName(rs.getString("dept_name"));
 
-				VacantUser user = new VacantUser();
+				User user = new User();
 				user.setId(rs.getString("id"));
 				user.setAreaCode(rs.getString("area_code"));
 				user.setDeptId(rs.getString("dept_id"));
@@ -119,7 +119,7 @@ public class UserService implements UserDetailsService {
 		String sql = "select user.*, ";
 		sql += "(select name from vacant_dept where id=user.dept_id limit 1) dept_name ";
 		sql += "from vacant_user user where username=?";
-		List<VacantUser> list = jdbcTemplate.query(sql, new String[] { username }, mapper());
+		List<User> list = jdbcTemplate.query(sql, new String[] { username }, mapper());
 		return list.get(0);
 	}
 

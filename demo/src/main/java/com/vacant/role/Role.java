@@ -1,6 +1,6 @@
 package com.vacant.role;
 
-public class VacantRole {
+public class Role {
 
 	private String id;
 	private String name;

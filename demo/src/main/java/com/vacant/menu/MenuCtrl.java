@@ -19,7 +19,7 @@ import com.vacant.BaseCtrl;
 
 @Controller
 @RequestMapping(path = "/vacant/menu")
-public class MenuControl extends BaseCtrl {
+public class MenuCtrl extends BaseCtrl {
 	
 	@Autowired
 	private MenuService menuService;
@@ -56,6 +56,7 @@ public class MenuControl extends BaseCtrl {
 		try {
 			menuService.save(menu);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return AjaxResponse.error(e.getMessage());
 		}
 		czjl(req, czjlName);
@@ -75,6 +76,7 @@ public class MenuControl extends BaseCtrl {
 		try {
 			menuService.delete(id);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return AjaxResponse.error(e.getMessage());
 		}
 		czjl(req, "删除菜单");

@@ -1,6 +1,6 @@
 package com.vacant.dept;
 
-public class VacantDept {
+public class Dept {
 
 	private String id;
 	private String areaCode;

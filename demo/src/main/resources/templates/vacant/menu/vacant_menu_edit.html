@@ -2,7 +2,7 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	
 	<form class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone)" 
-			th:object="${menu}" th:action="@{/vacant/security/menu/save}" method="post">
+			th:object="${menu}" th:action="@{/vacant/menu/save}" method="post">
 		<input type="hidden" th:field="*{id}" />
 		<input type="hidden" th:field="*{parentId}" />
 		<div class="pageFormContent nowrap" layoutH="58">
@@ -32,17 +32,6 @@
 					<span class="info">&nbsp;navTabId，如果path不为空，则rel不能为空</span>
 				</dd>
 			</dl>
-			<dl>
-				<dt>公用标志：</dt>
-				<dd>
-					<select class="combox" th:field="*{gybz}">
-						<option value="">请选择</option>
-						<option value="1">是</option>
-						<option value="0">否</option>
-					</select>
-					<span class="info">&nbsp;如果path不为空，则此项不能为空。公用菜单不能分配给角色。</span>
-				</dd>
-			</dl>
 		</div>
 		<div class="formBar">
 			<ul>
@@ -53,11 +42,3 @@
 	</form>
 	
 </div>
-
-
-<script type="text/javascript">
-function customvalidXxx(element){
-	if ($(element).val() == "xxx") return false;
-	return true;
-}
-</script>

@@ -51,7 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// 例如，如果一个菜单的url为menu_url，则该菜单对应的页面中的操作的url应以menu_url开头
 		// 这样就可以利用**来配置页面和页面上的相关操作了
 		String sql = "select a.path, group_concat(b.role_id) roles from vacant_menu a, vacant_role_menu b";
-		sql += " where a.id = b.`menu_id` and a.gybz='0' group by a.id";
+		sql += " where a.id = b.`menu_id` group by a.id";
 		List<Map<String, Object>> pathAndRolesList = jdbcTemplate.queryForList(sql);
 		for (Map<String, Object> pathAndRoles : pathAndRolesList) {
 			String path = (String) pathAndRoles.get("path");
