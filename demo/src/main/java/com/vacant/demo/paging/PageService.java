@@ -43,19 +43,13 @@ public class PageService {
 		sql += cp.getWhere();
 		return null;
 	}
-
-	/**
-	 * “翻到”指定的页码
-	 * 
-	 * @param sql
-	 * @param searchForm
-	 * @return
-	 */
-	public Book turnTo(String sql, SearchForm searchForm, String sql2) {
+	
+	public Book turnTo(String sql, SearchForm searchForm, String sql2, String order) {
 		int pageNum = searchForm.getPageNum();
 		int numPerPage = searchForm.getNumPerPage();
 		WhereAndParams cp = parseForm(searchForm);
 		sql += cp.getWhere();
+		sql += " " + order;
 		sql += " limit ";
 		sql += (pageNum-1) * numPerPage;
 		sql += ",";
@@ -69,6 +63,17 @@ public class PageService {
 		Map<String, Object> stats = jdbcTemplate.queryForMap(sql2, cp.getParams());
 		book.setStats(stats);
 		return book;
+	}
+
+	/**
+	 * “翻到”指定的页码
+	 * 
+	 * @param sql
+	 * @param searchForm
+	 * @return
+	 */
+	public Book turnTo(String sql, SearchForm searchForm, String sql2) {
+		return turnTo(sql, searchForm, sql2, "");
 	}
 
 	/**

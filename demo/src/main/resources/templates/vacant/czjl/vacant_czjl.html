@@ -1,0 +1,58 @@
+<div class="pageHeader">
+	<form id="pagerForm" onsubmit="return navTabSearch(this);" th:action="@{/vacant/czjl}" method="post" 
+			th:object="${searchForm}">
+	<input type="hidden" th:field="*{pageNum}" />
+	<div class="searchBar">
+		<table class="searchContent">
+			<tr>
+				<td>
+					操作人：<input type="text" th:field="*{conditions['czr_name_eq']}" />
+				</td>
+				<td>
+					操作时间：<input type="text" th:field="*{conditions['czsj_lk']}" />
+				</td>
+				<td>
+					每页行数：<input type="text" th:field="*{numPerPage}" style="width:22px" />
+				</td>
+				<td>
+					<ul>
+						<li><div class="buttonActive"><div class="buttonContent"><button type="submit">检索</button></div></div></li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+	</div>
+	</form>
+</div>
+
+<div class="pageContent" th:with="p=@{/vacant/user}">
+	<table class="list" style="width:100%;" layoutH="63">
+		<thead>
+			<tr>
+				<th style="width:100px;">操作名称</th>
+				<th style="width:200px;">路径</th>
+				<th>参数</th>
+				<th style="width:100px;">操作人姓名</th>
+				<th style="width:200px;">操作时间</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr target="row_id" th:rel="${row.id}" th:each="row,stat:${book.page}" th:object="${row}">
+				<td th:text="*{name}">添加菜单</td>
+				<td th:text="*{path}">/vacant/menu/save</td>
+				<td th:text="*{params}">id:[],parentId:[root],xssx:[0],name:[ceshi11],path:[ceshi],rel:[ceshi],gybz:[1]</td>
+				<td th:text="*{czr_name}">郑志强</td>
+				<td th:text="*{czsj}">2019-05-10 20:23:56</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="panelBar">
+		<div class="pages">
+			<span th:text="${'共'+book.stats['totalCount']+'条'}">共200条</span>
+		</div>
+		<div class="pagination" targetType="navTab" th:totalCount="${book.stats['totalCount']}" 
+				th:numPerPage="${searchForm.numPerPage}"
+				th:currentPage="${searchForm.pageNum}"></div>
+
+	</div>
+</div>

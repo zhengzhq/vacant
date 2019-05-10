@@ -16,6 +16,12 @@ public class Utils {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return formatter.format(currentTime);
 	}
+
+	public static String date() {
+		Date currentTime = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		return formatter.format(currentTime);
+	}
 	
 	public static void log(Logger logger, String sql, Object[] params) {
 		String msg = sql;

@@ -48,7 +48,7 @@ public class RoleService {
 			jdbcTemplate.update(sql, id);
 		}
 		// 插入本次的菜单
-		sql = "insert into vacant_role_menu values (uuid(),?,?,'0')";
+		sql = "insert into vacant_role_menu values (uuid(),?,?)";
 		String menus = role.getMenus();
 		String[] menuIds = menus.split(",");
 		for (String menuId : menuIds) {
