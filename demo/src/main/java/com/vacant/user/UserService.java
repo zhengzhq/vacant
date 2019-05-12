@@ -125,13 +125,13 @@ public class UserService implements UserDetailsService {
 
 	// 修改密码
 	public void changePwd(String oldPassword, String newPassword) {
-		BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
 		User user = findByPk(Utils.userId());
-		if(!encode.matches(oldPassword,user.getPassword())) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		if(!encoder.matches(oldPassword,user.getPassword())) {
 			throw new RuntimeException("旧密码错误");
 		}
 		
-		String password = new BCryptPasswordEncoder().encode(newPassword);
+		String password = encoder.encode(newPassword);
 		jdbcTemplate.update("update vacant_user set password=? where id=?", password, user.getId());
 	}
 

@@ -27,6 +27,17 @@ public class LookupService {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
+	// 获取指定type的code对应的text
+	public String text(String type, String code) {
+		String sql = "select text from vacant_lookup where state='%s' and type=? and code=? limit 1";
+		sql = String.format(sql, COMMON_STATE_YX);
+		String text = jdbcTemplate.queryForObject(sql, String.class, type, code);
+		if(text == null) {
+			text = "";
+		}
+		return text;
+	}
+
 	public List<Lookup> queryList(String type) {
 		return rootList(type, "全部");
 	}
@@ -37,6 +48,7 @@ public class LookupService {
 
 	/**
 	 * 以树的形式返回指定类型的字典，并使用指定的文本作为空值对象的项目，用于查询和表单编辑
+	 * 
 	 * @param type
 	 * @param text
 	 * @return
