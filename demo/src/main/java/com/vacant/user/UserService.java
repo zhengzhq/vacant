@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.vacant.Utils;
 import com.vacant.dept.Dept;
+import com.vacant.lookup.LookupService;
 
 @Service
 @Transactional
@@ -118,7 +119,8 @@ public class UserService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		String sql = "select user.*, ";
 		sql += "(select name from vacant_dept where id=user.dept_id limit 1) dept_name ";
-		sql += "from vacant_user user where username=?";
+		sql += "from vacant_user user where username=? and state='%s'";
+		sql = String.format(sql, LookupService.COMMON_STATE_YX);
 		List<User> list = jdbcTemplate.query(sql, new String[] { username }, mapper());
 		return list.get(0);
 	}

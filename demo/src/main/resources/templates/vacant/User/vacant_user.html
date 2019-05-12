@@ -69,7 +69,7 @@
 				<td th:text="*{dept_name}">长春市民政局</td>
 				<td th:text="*{name}">张协会</td>
 				<td th:text="*{username}">zxh</td>
-				<td th:text="*{state}">有效</td>
+				<td th:text="${#lookups.text('common_state',row.state)}">有效</td>
 				<td th:text="*{create_time}">2019-04-28 20:15:00</td>
 				<td th:text="*{role_name}">角色</td>
 			</tr>

@@ -8,6 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.vacant.dept.Dept;
+import com.vacant.lookup.LookupService;
 
 public class User implements UserDetails{
 
@@ -130,7 +131,7 @@ public class User implements UserDetails{
 
 	@Override
 	public boolean isEnabled() {
-		return state.equals("有效");
+		return state.equals(LookupService.COMMON_STATE_YX);
 	}
 
 	public String getRoleId() {
