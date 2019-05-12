@@ -29,9 +29,8 @@
 				<dt>状态：</dt>
 				<dd>
 					<select class="combox required" th:field="*{state}" >
-						<option value="">请选择</option>
-						<option value="有效">有效</option>
-						<option value="无效">无效</option>
+						<option th:each="lookup:${#lookups.editList('common_state')}" th:value="${lookup.code}" 
+								th:text="${lookup.text}">有效</option>
 					</select>
 				</dd>
 			</dl>

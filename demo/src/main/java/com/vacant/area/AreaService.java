@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.vacant.Utils;
+import com.vacant.lookup.LookupService;
 
 @Service
 @Transactional
@@ -23,6 +24,9 @@ public class AreaService {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+
+	@Autowired
+	private LookupService lookupService;
 
 	private RowMapper<Area> mapper() {
 		return new RowMapper<Area>() {
@@ -36,6 +40,9 @@ public class AreaService {
 				area.setFullName(rs.getString("full_name"));
 				area.setState(rs.getString("state"));
 				area.setCreateTime(rs.getString("create_time"));
+				String desc = String.format("%s(%s,%s)", area.getName(), area.getCode(),
+						lookupService.text(LookupService.COMMON_STATE, area.getState()));
+				area.setDesc(desc);
 
 				area.setChildren(children(area.getId()));
 				return area;
@@ -75,7 +82,7 @@ public class AreaService {
 		String[] params = { parentId };
 		Utils.log(logger, sql, params);
 		List<Area> list = jdbcTemplate.query(sql, params, mapper());
-		if(list.size()>0) {
+		if (list.size() > 0) {
 			return list;
 		}
 		return null; // 为了使叶节点的图表与非叶节点不一样，不能返回空list
@@ -103,17 +110,17 @@ public class AreaService {
 	public void update(Area area) {
 		String parentId = area.getParentId();
 		Area parent = findByPk(parentId);
-		
+
 		String id = area.getId();
 		String code = parent.getCode() + area.getSubCode();
 		String name = area.getName();
-		String fullName = parent.getFullName()+name;
+		String fullName = parent.getFullName() + name;
 		String state = area.getState();
 		// 如果存在有效的子节点，则不能将该节点设置为无效状态
-		if(state.equals("无效")) {
+		if (state.equals("无效")) {
 			String sql = "select 1 from vacant_area where parent_id=? and state='有效' limit 1";
 			List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, id);
-			if(list.size()>0) {
+			if (list.size() > 0) {
 				throw new RuntimeException("存在有效子节点，不能将当前节点设置为无效状态");
 			}
 		}
@@ -124,8 +131,8 @@ public class AreaService {
 
 	public Area findByPk(String id) {
 		String sql = "select * from vacant_area a where a.id=?";
-		List<Area> list = jdbcTemplate.query(sql, new String[] {id},mapper());
-		if(list.size()>0) {
+		List<Area> list = jdbcTemplate.query(sql, new String[] { id }, mapper());
+		if (list.size() > 0) {
 			return list.get(0);
 		}
 		return null;
@@ -134,11 +141,11 @@ public class AreaService {
 	public boolean hasChild(String id) {
 		String sql = "select 1 from vacant_area where parent_id=? limit 1";
 		List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, id);
-		return list.size()>0;
+		return list.size() > 0;
 	}
 
 	public void delete(String id) {
-		if(hasChild(id)) {
+		if (hasChild(id)) {
 			throw new RuntimeException("存在子节点，不能删除！");
 		}
 		jdbcTemplate.update("delete from vacant_area where id=?", id);

@@ -15,6 +15,7 @@ public class Area {
 	private List<Area> children;
 	private String parentCode;
 	private String subCode;
+	private String desc;
 
 	public String getId() {
 		return id;
@@ -79,9 +80,13 @@ public class Area {
 	public void setChildren(List<Area> children) {
 		this.children = children;
 	}
+	
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
 
 	public String getDesc() {
-		return String.format("%s(%s,%s)", name, code, state);
+		return desc;
 	}
 
 	public String getParentCode() {
