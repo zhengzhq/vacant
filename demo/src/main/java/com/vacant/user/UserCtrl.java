@@ -1,10 +1,12 @@
 package com.vacant.user;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,9 +22,9 @@ import com.vacant.Utils;
 import com.vacant.demo.paging.Book;
 import com.vacant.demo.paging.PageService;
 import com.vacant.demo.paging.SearchForm;
+import com.vacant.lookup.Lookup;
+import com.vacant.lookup.LookupService;
 import com.vacant.role.RoleService;
-import com.vacant.user.User;
-import com.vacant.user.UserService;
 
 @Controller
 @RequestMapping(path = "/vacant/user")
@@ -130,6 +132,52 @@ public class UserCtrl extends BaseCtrl {
 		}
 		czjl(req,"修改密码");
 		return AjaxResponse.close();
+	}
+	
+	@Autowired
+	LookupService lookupService;
+	@Autowired
+	JdbcTemplate jdbcTemplate;
+
+	@RequestMapping(path = "jmxnbj")
+	@ResponseBody
+	public AjaxResponse jmxnbj() {
+		try {
+//			String sql = "insert into vacant_lookup values(uuid(),'1','abc',uuid(),'是短发舒服','1')";
+//			for(int i=0; i<5000; i++) {
+//				jdbcTemplate.update(sql);
+//			}
+			long t1 = System.currentTimeMillis();
+			for(int i=0;i<1000;i++) {
+				lookupService.text("common_state", "1");
+			}
+			long t2 = System.currentTimeMillis();
+			System.out.println("数据库解码用时：" + (t2-t1));
+			Map<String, Lookup> map = new HashMap<String, Lookup>();
+			Lookup l = new Lookup();
+			l.setType("common_state");
+			l.setCode("1");;
+			l.setText("是短发舒服");;
+			map.put("common_state,1", l);
+			for(int i=0; i<5000; i++) {
+				l = new Lookup();
+				String code = Utils.uuid();
+				l.setType("abc");
+				l.setCode(code);
+				l.setText("是短发舒服");;
+				map.put("abc," + code, l);
+			}
+			t1 = System.currentTimeMillis();
+			for(int i=0;i<1000;i++) {
+				map.get("common_state,1");
+			}
+			t2 = System.currentTimeMillis();
+			System.out.println("内存解码用时：" + (t2-t1));
+			
+		} catch (Exception e) {
+			return AjaxResponse.error(e.getMessage());
+		}
+		return AjaxResponse.ok();
 	}
 
 }

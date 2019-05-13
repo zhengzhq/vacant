@@ -2,9 +2,12 @@ package com.vacant.lookup;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
+@DependsOn("jdbcTemplate")
 public class LookupService {
 
 	public static final String COMMON_STATE = "common_state"; // 状态
@@ -27,12 +31,24 @@ public class LookupService {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
+	private Map<String, String> lookupMap = null;
+
 	// 获取指定type的code对应的text
 	public String text(String type, String code) {
-		String sql = "select text from vacant_lookup where state='%s' and type=? and code=? limit 1";
-		sql = String.format(sql, COMMON_STATE_YX);
-		String text = jdbcTemplate.queryForObject(sql, String.class, type, code);
-		if(text == null) {
+//		String sql = "select text from vacant_lookup where state='%s' and type=? and code=? limit 1";
+//		sql = String.format(sql, COMMON_STATE_YX);
+//		String text = jdbcTemplate.queryForObject(sql, String.class, type, code);
+
+		if (lookupMap == null) {
+			lookupMap = new HashMap<String, String>();
+			String sql = "select concat(type,',',code) code, text from vacant_lookup";
+			List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
+			for (Map<String, Object> map : list) {
+				lookupMap.put((String) map.get("code"), (String) map.get("text"));
+			}
+		}
+		String text = lookupMap.get(type + "," + code);
+		if (text == null) {
 			text = "";
 		}
 		return text;
