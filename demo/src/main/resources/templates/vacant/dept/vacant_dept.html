@@ -7,11 +7,14 @@
 		<table class="searchContent">
 			<tr>
 				<td>
-					行政区划：<input type="text" th:field="*{conditions['area_code_eq']}" />
-					<a class="btnLook" th:href="${'/vacant/area/lookup/eq'}" lookupGroup="" style="float:right;">选择单位所属行政区划</a>
+					行政区划lk：
+					<input type="text" name="area_full_name"
+							th:value="${#areas.fullName(searchForm.conditions['area_code_lk'])}" />
+					<input type="hidden" th:field="*{conditions['area_code_lk']}" />
+					<a class="btnLook" th:href="${'/vacant/area/lookup/lk'}" lookupGroup="" style="float:right;">选择单位所属行政区划</a>
 				</td>
 				<td>
-					单位名称：<input type="text" th:field="*{conditions['name_eq']}" />
+					单位名称blk：<input type="text" th:field="*{conditions['name_blk']}" />
 				</td>
 				<td>
 					每页行数：<input type="text" th:field="*{numPerPage}" style="width:22px" />
@@ -30,29 +33,29 @@
 <div class="pageContent" th:with="p=@{/vacant/dept}">
 	<div class="panelBar">
 		<ul class="toolBar">
-			<li><a class="add" th:href="${p+'/add'}" target="dialog" width="800" height="450"><span>添加</span></a></li>
+			<li><a class="add" th:href="${p+'/add'}" target="dialog" rel="editDept" width="800" height="450"><span>添加</span></a></li>
 			<li class="line">line</li>
 			<li><a class="delete" th:href="${p+'/delete/{row_id}'}" 
 						target="ajaxTodo" title="确定要删除吗?"><span>删除</span></a></li>
 			<li class="line">line</li>
-			<li><a class="edit" th:href="${p+'/edit/{row_id}'}" target="dialog" width="800" height="450"><span>修改</span></a></li>
+			<li><a class="edit" th:href="${p+'/edit/{row_id}'}" target="dialog" rel="editDept" width="800" height="450"><span>修改</span></a></li>
 		</ul>
 	</div>
 	<table class="list" layoutH="90">
 		<thead>
 			<tr style="text-align: center">
-				<th width="80">序号</th>
-				<th width="120">行政区划</th>
-				<th width="120">单位名称</th>
+				<th width="50">序号</th>
+				<th width="200">行政区划</th>
+				<th width="200">单位名称</th>
 				<th width="120">创建时间</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr target="row_id" th:rel="${row.id}" th:each="row,stat:${book.page}" th:object="${row}">
-				<td th:text="${stat.count}">1</td>
-				<td th:text="*{area_code}">2201</td>
+				<td th:text="${stat.count}" style="text-align: center">1</td>
+				<td th:text="${#areas.fullName(row.area_code)}">2201</td>
 				<td th:text="*{name}">长春市民政局</td>
-				<td th:text="*{create_time}">2019-04-28 20:15:00</td>
+				<td th:text="*{create_time}" style="text-align: center">2019-04-28 20:15:00</td>
 			</tr>
 		</tbody>
 	</table>

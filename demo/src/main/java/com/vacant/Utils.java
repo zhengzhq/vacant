@@ -72,4 +72,11 @@ public class Utils {
 	public static String userId() {
 		return user().getId();
 	}
+	
+	public static String null2blank(String str) {
+		if(str == null) {
+			return "";
+		}
+		return str;
+	}
 }

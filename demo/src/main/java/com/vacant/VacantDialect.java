@@ -11,6 +11,7 @@ import org.thymeleaf.dialect.AbstractDialect;
 import org.thymeleaf.dialect.IExpressionObjectDialect;
 import org.thymeleaf.expression.IExpressionObjectFactory;
 
+import com.vacant.area.AreaService;
 import com.vacant.lookup.LookupService;
 
 @Component
@@ -18,10 +19,13 @@ public class VacantDialect extends AbstractDialect implements IExpressionObjectD
 
 	@Autowired
 	private LookupService lookupService;
-	
+	@Autowired
+	private AreaService areaService;
+
 	private IExpressionObjectFactory expressionObjectFactory = null;
 
 	public static final String EXPRESSION_OBJECT_NAME_LOOKUP = "lookups";
+	public static final String EXPRESSION_OBJECT_NAME_AREA = "areas";
 
 	public VacantDialect() {
 		super("vacant");
@@ -41,14 +45,17 @@ public class VacantDialect extends AbstractDialect implements IExpressionObjectD
 
 			@Override
 			public Set<String> getAllExpressionObjectNames() {
-				return Collections.unmodifiableSet(new LinkedHashSet<String>(
-						java.util.Arrays.asList(new String[] { EXPRESSION_OBJECT_NAME_LOOKUP })));
+				return Collections.unmodifiableSet(new LinkedHashSet<String>(java.util.Arrays
+						.asList(new String[] { EXPRESSION_OBJECT_NAME_LOOKUP, EXPRESSION_OBJECT_NAME_AREA })));
 			}
 
 			@Override
 			public Object buildObject(IExpressionContext context, String expressionObjectName) {
 				if (EXPRESSION_OBJECT_NAME_LOOKUP.equals(expressionObjectName)) {
 					return lookupService;
+				}
+				if (EXPRESSION_OBJECT_NAME_AREA.equals(expressionObjectName)) {
+					return areaService;
 				}
 				return null;
 			}

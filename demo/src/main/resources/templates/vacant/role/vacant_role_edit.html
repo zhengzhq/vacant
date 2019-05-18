@@ -31,6 +31,8 @@ $(function(){
 	var id = $('#id',$p).val();
 	if(id) {
 		url += '/' + id;
+	} else {
+		url += '/no_this_id';
 	}
 	ajaxTodo(url,function(zNodes) {
 		$.fn.zTree.init($('#tree', $p), setting, zNodes);

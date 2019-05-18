@@ -9,7 +9,9 @@
 			<dl>
 				<dt>行政区划：</dt>
 				<dd>
-					<input type="text" th:field="*{areaCode}" class="digits required" />
+					<input type="hidden" th:field="*{areaCode}" class="digits required" />
+					<input type="text" name="area_full_name" th:value="${#areas.fullName(o.areaCode)}" class="required" />
+					<a class="btnLook" th:href="${'/vacant/area/lookup/nop'}" lookupGroup="">选择单位所属行政区划</a>
 				</dd>
 			</dl>
 			<dl>

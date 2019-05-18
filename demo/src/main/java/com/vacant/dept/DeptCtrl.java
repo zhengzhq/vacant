@@ -40,7 +40,7 @@ public class DeptCtrl extends BaseCtrl{
 	public String list(@ModelAttribute SearchForm searchForm, Model model) {
 		Map<String, String> conditions = searchForm.getConditions();
 		if(conditions.isEmpty()) {
-			conditions.put("area_code_eq", "2201");
+			conditions.put("area_code_lk", "2201");
 		}
 		String sql = "select * from vacant_dept";
 		String sql2 = "select count(*) totalCount from vacant_dept";

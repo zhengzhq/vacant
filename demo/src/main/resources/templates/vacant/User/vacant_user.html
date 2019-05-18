@@ -6,13 +6,13 @@
 		<table class="searchContent">
 			<tr>
 				<td>
-					行政区划：<input type="text" th:field="*{conditions['user.area_code_lk']}" />
+					行政区划lk：<input type="text" th:field="*{conditions['user.area_code_lk']}" />
 				</td>
 				<td>
-					单位名称：<input type="text" th:field="*{conditions['dept.name_blk']}" />
+					单位名称blk：<input type="text" th:field="*{conditions['dept.name_blk']}" />
 				</td>
 				<td>
-					用户名：<input type="text" th:field="*{conditions['username_eq']}" />
+					用户名eq：<input type="text" th:field="*{conditions['username_eq']}" />
 				</td>
 				<td style="padding-right:0px;">
 					角色：
@@ -67,7 +67,7 @@
 		<tbody>
 			<tr target="row_id" th:rel="${row.id}" th:each="row,stat:${book.page}" th:object="${row}">
 				<td th:text="${stat.count}">1</td>
-				<td th:text="*{area_code}">2201</td>
+				<td th:text="${#areas.fullName(row.area_code)}">2201</td>
 				<td th:text="*{dept_name}">长春市民政局</td>
 				<td th:text="*{name}">张协会</td>
 				<td th:text="*{username}">zxh</td>

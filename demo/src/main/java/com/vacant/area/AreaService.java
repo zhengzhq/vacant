@@ -2,6 +2,7 @@ package com.vacant.area;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.vacant.Utils;
 import com.vacant.lookup.LookupService;
@@ -28,7 +30,9 @@ public class AreaService {
 	@Autowired
 	private LookupService lookupService;
 
-	private RowMapper<Area> mapper() {
+	private Map<String, Area> areaMap = null;
+
+	private RowMapper<Area> mapper(boolean recursive) {
 		return new RowMapper<Area>() {
 			@Override
 			public Area mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -43,8 +47,9 @@ public class AreaService {
 				String desc = String.format("%s(%s,%s)", area.getName(), area.getCode(),
 						lookupService.text(LookupService.COMMON_STATE, area.getState()));
 				area.setDesc(desc);
-
-				area.setChildren(children(area.getId()));
+				if (recursive) {
+					area.setChildren(children(area.getId(), recursive));
+				}
 				return area;
 			}
 		};
@@ -53,7 +58,7 @@ public class AreaService {
 	public Area root() {
 		String sql = "select * from vacant_area where parent_id is null";
 		logger.debug(sql);
-		List<Area> list = jdbcTemplate.query(sql, new String[] {}, mapper());
+		List<Area> list = jdbcTemplate.query(sql, new String[] {}, mapper(true));
 		if (list.size() > 0) {
 			return list.get(0);
 		}
@@ -70,18 +75,18 @@ public class AreaService {
 		String sql = "select * from vacant_area where id=?";
 		String[] params = { id };
 		Utils.log(logger, sql, params);
-		List<Area> list = jdbcTemplate.query(sql, params, mapper());
+		List<Area> list = jdbcTemplate.query(sql, params, mapper(true));
 		if (list.size() > 0) {
 			return list.get(0);
 		}
 		return null;
 	}
 
-	public List<Area> children(String parentId) {
+	public List<Area> children(String parentId, boolean recursive) {
 		String sql = "select * from vacant_area where parent_id=?";
 		String[] params = { parentId };
 		Utils.log(logger, sql, params);
-		List<Area> list = jdbcTemplate.query(sql, params, mapper());
+		List<Area> list = jdbcTemplate.query(sql, params, mapper(recursive));
 		if (list.size() > 0) {
 			return list;
 		}
@@ -131,7 +136,7 @@ public class AreaService {
 
 	public Area findByPk(String id) {
 		String sql = "select * from vacant_area a where a.id=?";
-		List<Area> list = jdbcTemplate.query(sql, new String[] { id }, mapper());
+		List<Area> list = jdbcTemplate.query(sql, new String[] { id }, mapper(false));
 		if (list.size() > 0) {
 			return list.get(0);
 		}
@@ -149,6 +154,35 @@ public class AreaService {
 			throw new RuntimeException("存在子节点，不能删除！");
 		}
 		jdbcTemplate.update("delete from vacant_area where id=?", id);
+	}
+
+	// 获取指定code对应的行政区划名
+	public String name(String code) {
+		if(StringUtils.isEmpty(code)) {
+			return "";
+		}
+		return Utils.null2blank(getAreaMap().get(code).getName());
+	}
+
+	// 获取指定code对应的行政区划名
+	public String fullName(String code) {
+		if(StringUtils.isEmpty(code)) {
+			return "";
+		}
+		return Utils.null2blank(getAreaMap().get(code).getFullName());
+	}
+
+	private Map<String, Area> getAreaMap() {
+
+		if (areaMap == null) {
+			areaMap = new HashMap<String, Area>();
+			String sql = "select * from vacant_area";
+			List<Area> list = jdbcTemplate.query(sql, new String[] {}, mapper(false));
+			for (Area area : list) {
+				areaMap.put(area.getCode(), area);
+			}
+		}
+		return areaMap;
 	}
 
 }

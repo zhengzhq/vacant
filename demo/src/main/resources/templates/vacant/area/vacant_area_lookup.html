@@ -4,7 +4,9 @@ $(function(){
 	var setting = {
 		callback: {
 			onClick: function(event, treeId, treeNode) {
-				$.bringBack({[[${"conditions['area_code_"+op+"']"}]]:treeNode.code});
+				$.bringBack({[[${"conditions['area_code_"+op+"']"}]]:treeNode.code,
+					"area_full_name":treeNode.fullName,
+					"areaCode":treeNode.code});
 			}
 		},
 		data: {
