@@ -22,18 +22,18 @@ public class Utils {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		return formatter.format(currentTime);
 	}
-	
+
 	public static void log(Logger logger, String sql, Object[] params) {
 		String msg = sql;
 		msg += "(";
-		for(int i=0; i< params.length; i++) {
+		for (int i = 0; i < params.length; i++) {
 			msg += ",";
 			msg += params[i];
 		}
 		msg += ")";
 		logger.debug(msg);
 	}
-	
+
 	public static String uuid() {
 		return UUID.randomUUID().toString();
 	}
@@ -51,6 +51,7 @@ public class Utils {
 			throw new RuntimeException("行政区划代码长度错误");
 		}
 	}
+
 	public static String subCode(String code) {
 		if (code.length() == 12) {
 			return code.substring(9);
@@ -64,19 +65,38 @@ public class Utils {
 			throw new RuntimeException("行政区划代码长度错误");
 		}
 	}
-	
+
 	public static User user() {
-		return (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	}
-	
+
 	public static String userId() {
 		return user().getId();
 	}
 	
+	public static String userName() {
+		return user().getName();
+	}
+
 	public static String null2blank(String str) {
-		if(str == null) {
+		if (str == null) {
 			return "";
 		}
 		return str;
+	}
+
+	public static String attachPath(String origName) {
+		String suffix = origName.substring(origName.lastIndexOf("."));
+		Date currentTime = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMM");
+		String month = formatter.format(currentTime);
+		formatter = new SimpleDateFormat("yyyyMMdd");
+		String day = formatter.format(currentTime);
+
+		return String.format("%s/%s/%s/%s%s", Cons.ATTACH_ROOT, month, day, uuid(), suffix);
+	}
+	
+	public static void main(String[] args) throws Exception {
+		System.out.println(attachPath("a.jpg"));
 	}
 }

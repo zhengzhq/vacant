@@ -27,6 +27,10 @@ public class LookupService {
 	public static final String COMMON_STATE = "common_state"; // 状态
 	public static final String COMMON_STATE_YX = "1"; // 有效
 	public static final String COMMON_STATE_WX = "0"; // 无效
+	
+	public static final String DEMO_UPLOAD_TYPE_1 = "1"; // 1个图片
+	public static final String DEMO_UPLOAD_TYPE_N = "n"; // 多个图片
+	public static final String DEMO_UPLOAD_TYPE_F = "f"; // 文件
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;

@@ -3,10 +3,8 @@
 	
 	<form class="pageForm required-validate"  enctype="multipart/form-data"
 			onsubmit="return iframeCallback(this, dialogAjaxDone)" 
-			th:object="${o}" th:action="@{/demo/attach/save}" method="post">
-		<input type="hidden" th:field="*{id}" />
+			th:object="${o}" th:action="@{/demo/upload/add}" method="post">
 		<input type="hidden" th:field="*{type}" />
-		<input type="hidden" th:field="*{createTime}" />
 		<div class="pageFormContent nowrap" layoutH="58">
 			<dl>
 				<dt>说明：</dt>
@@ -18,7 +16,7 @@
 				<dt>选择文件：</dt>
 				<dd>
 					<div class="upload-wrap">
-						<input type="file" name="attach" accept="image/*" class="valid" style="left: 0px;">
+						<input type="file" name="files" accept="image/*" class="valid" style="left: 0px;">
 						<div class="thumbnail" th:if="${attach}">
 							<img th:src="@{'/demo/attach/'+attach.path}" style="max-width: 80px; max-height: 80px">
 							<a class="del-icon" th:href="@{'/demo/attach/delete/'+attach.id}"></a>

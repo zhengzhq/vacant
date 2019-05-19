@@ -1,13 +1,13 @@
-package vacant.demo.attach;
+package vacant.demo.upload.attach;
 
 public class Attach {
 
 	private String id;
 	private int size; // 文件大小，字节数
 	private String path; // 相对路径，含文件名
-	private String desc; // 说明
 	private String orig_name; // 原始文件名
 	private String createTime; // 创建时间
+	private String createUser; // 创建人
 
 	public String getId() {
 		return id;
@@ -33,14 +33,6 @@ public class Attach {
 		this.path = path;
 	}
 
-	public String getDesc() {
-		return desc;
-	}
-
-	public void setDesc(String desc) {
-		this.desc = desc;
-	}
-
 	public String getOrig_name() {
 		return orig_name;
 	}
@@ -55,6 +47,14 @@ public class Attach {
 
 	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
+	}
+
+	public String getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
 	}
 
 }
