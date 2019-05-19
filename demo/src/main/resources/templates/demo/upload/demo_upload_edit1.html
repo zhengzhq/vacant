@@ -20,8 +20,8 @@
 					<div class="upload-wrap">
 						<input type="file" name="attach" accept="image/*" class="valid" style="left: 0px;">
 						<div class="thumbnail" th:if="${attach}">
-							<img th:src="@{'/demo/attach/'+attach.path}" style="max-width: 80px; max-height: 80px">
-							<a class="del-icon" th:href="@{'/demo/attach/delete/'+attach.id}"></a>
+							<img th:src="@{'/demo/attach/download/'+${attach.id}}" style="max-width: 80px; max-height: 80px">
+							<a class="del-icon" th:href="@{'/demo/attach/delete/'+${attach.id}}"></a>
 						</div>
 					</div>
 				</dd>

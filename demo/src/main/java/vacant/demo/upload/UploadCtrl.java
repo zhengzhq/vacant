@@ -1,5 +1,6 @@
 package vacant.demo.upload;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,8 @@ import vacant.Utils;
 import vacant.admin.paging.Book;
 import vacant.admin.paging.PageService;
 import vacant.admin.paging.SearchForm;
+import vacant.demo.upload.attach.Attach;
+import vacant.demo.upload.attach.AttachService;
 
 @Controller
 @RequestMapping(path = "/demo/upload")
@@ -38,6 +41,8 @@ public class UploadCtrl extends BaseCtrl {
 
 	@Autowired
 	private UploadService uploadService;
+	@Autowired
+	private AttachService attachService;
 
 	@Autowired
 	private PageService pageService;
@@ -79,8 +84,17 @@ public class UploadCtrl extends BaseCtrl {
 	@GetMapping(path = "edit/{id}")
 	public String edit(@PathVariable String id, Model model) {
 		Upload o = uploadService.findByPk(id);
+		String type = o.getType();
 		model.addAttribute("o", o);
-		return v("edit");
+		
+		Attach attach = null;
+		List<Attach> list = attachService.listByUploadId(o.getId());
+		if(!list.isEmpty()) {
+			attach = list.get(0);
+		}
+		model.addAttribute("attach", attach);
+		
+		return v("edit"+type);
 	}
 
 	@RequestMapping(path = "delete/{id}")

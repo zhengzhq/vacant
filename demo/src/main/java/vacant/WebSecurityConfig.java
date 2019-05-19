@@ -59,7 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			reg.regexMatchers("^" + path + ".*").hasAnyAuthority(roles.split(","));
 		}
 		// 其他请求要求登录就可以了
-		reg.anyRequest().authenticated(); // 如登录成功后默认显示的main页面
+		reg.anyRequest().authenticated();
+		// 如登录成功后默认显示的main页面
 		reg.and().formLogin().loginPage("/login").defaultSuccessUrl("/main").permitAll().and().logout().permitAll();
 	}
 

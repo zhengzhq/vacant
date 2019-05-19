@@ -3,9 +3,10 @@ package vacant.demo.upload.attach;
 public class Attach {
 
 	private String id;
+	private String uploadId; // 上传记录id
 	private int size; // 文件大小，字节数
 	private String path; // 相对路径，含文件名
-	private String orig_name; // 原始文件名
+	private String origName; // 原始文件名
 	private String createTime; // 创建时间
 	private String createUser; // 创建人
 
@@ -15,6 +16,14 @@ public class Attach {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getUploadId() {
+		return uploadId;
+	}
+
+	public void setUploadId(String uploadId) {
+		this.uploadId = uploadId;
 	}
 
 	public int getSize() {
@@ -33,12 +42,12 @@ public class Attach {
 		this.path = path;
 	}
 
-	public String getOrig_name() {
-		return orig_name;
+	public String getOrigName() {
+		return origName;
 	}
 
-	public void setOrig_name(String orig_name) {
-		this.orig_name = orig_name;
+	public void setOrigName(String origName) {
+		this.origName = origName;
 	}
 
 	public String getCreateTime() {
