@@ -1,4 +1,4 @@
-package com.vacant.user;
+package vacant.core.user;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,15 +16,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.vacant.AjaxResponse;
-import com.vacant.BaseCtrl;
-import com.vacant.Utils;
-import com.vacant.demo.paging.Book;
-import com.vacant.demo.paging.PageService;
-import com.vacant.demo.paging.SearchForm;
-import com.vacant.lookup.Lookup;
-import com.vacant.lookup.LookupService;
-import com.vacant.role.RoleService;
+import vacant.AjaxResponse;
+import vacant.BaseCtrl;
+import vacant.Utils;
+import vacant.core.lookup.Lookup;
+import vacant.core.lookup.LookupService;
+import vacant.core.paging.Book;
+import vacant.core.paging.PageService;
+import vacant.core.paging.SearchForm;
+import vacant.core.role.RoleService;
 
 @Controller
 @RequestMapping(path = "/vacant/user")

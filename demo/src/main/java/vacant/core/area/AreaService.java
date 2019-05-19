@@ -1,4 +1,4 @@
-package com.vacant.area;
+package vacant.core.area;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,8 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import com.vacant.Utils;
-import com.vacant.lookup.LookupService;
+import vacant.Utils;
+import vacant.core.lookup.LookupService;
 
 @Service
 @Transactional

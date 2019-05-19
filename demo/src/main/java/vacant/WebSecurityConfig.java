@@ -1,4 +1,4 @@
-package com.vacant;
+package vacant;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.vacant.user.UserService;
+import vacant.core.user.UserService;
 
 @Configuration
 @EnableWebSecurity

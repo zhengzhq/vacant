@@ -1,4 +1,4 @@
-package com.vacant.czjl;
+package vacant.core.czjl;
 
 public class Czjl {
 

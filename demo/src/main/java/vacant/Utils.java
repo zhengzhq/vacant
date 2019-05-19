@@ -1,4 +1,4 @@
-package com.vacant;
+package vacant;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.vacant.user.User;
+import vacant.core.user.User;
 
 public class Utils {
 

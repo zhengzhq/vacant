@@ -1,4 +1,4 @@
-package com.vacant;
+package vacant;
 
 import java.util.List;
 
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.vacant.menu.MenuService;
-import com.vacant.menu.VacantMenu;
+import vacant.core.menu.MenuService;
+import vacant.core.menu.VacantMenu;
 
 @Controller
 public class MainControl {

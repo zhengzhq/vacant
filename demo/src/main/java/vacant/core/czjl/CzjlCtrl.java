@@ -1,4 +1,4 @@
-package com.vacant.czjl;
+package vacant.core.czjl;
 
 import java.util.Map;
 
@@ -8,11 +8,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.vacant.BaseCtrl;
-import com.vacant.Utils;
-import com.vacant.demo.paging.Book;
-import com.vacant.demo.paging.PageService;
-import com.vacant.demo.paging.SearchForm;
+import vacant.BaseCtrl;
+import vacant.Utils;
+import vacant.core.paging.Book;
+import vacant.core.paging.PageService;
+import vacant.core.paging.SearchForm;
 
 @Controller
 @RequestMapping(path = "/vacant/czjl")

@@ -1,4 +1,4 @@
-package com.vacant.area;
+package vacant.core.area;
 
 import java.util.Map;
 
@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.vacant.AjaxResponse;
-import com.vacant.BaseCtrl;
-import com.vacant.Utils;
+import vacant.AjaxResponse;
+import vacant.BaseCtrl;
+import vacant.Utils;
 
 @Controller
 @RequestMapping(path = "/vacant/area")

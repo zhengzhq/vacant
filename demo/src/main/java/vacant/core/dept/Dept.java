@@ -1,4 +1,4 @@
-package com.vacant.dept;
+package vacant.core.dept;
 
 public class Dept {
 

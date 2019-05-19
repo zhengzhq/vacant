@@ -1,4 +1,4 @@
-package com.vacant;
+package vacant;
 
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -11,8 +11,8 @@ import org.thymeleaf.dialect.AbstractDialect;
 import org.thymeleaf.dialect.IExpressionObjectDialect;
 import org.thymeleaf.expression.IExpressionObjectFactory;
 
-import com.vacant.area.AreaService;
-import com.vacant.lookup.LookupService;
+import vacant.core.area.AreaService;
+import vacant.core.lookup.LookupService;
 
 @Component
 public class VacantDialect extends AbstractDialect implements IExpressionObjectDialect {

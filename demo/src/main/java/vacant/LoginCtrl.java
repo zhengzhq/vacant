@@ -1,4 +1,4 @@
-package com.vacant;
+package vacant;
 
 import javax.servlet.http.HttpServletRequest;
 

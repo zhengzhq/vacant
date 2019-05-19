@@ -1,4 +1,4 @@
-package com.vacant.role;
+package vacant.core.role;
 
 public class Role {
 

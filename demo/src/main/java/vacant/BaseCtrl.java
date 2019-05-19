@@ -1,4 +1,4 @@
-package com.vacant;
+package vacant;
 
 import java.util.Map;
 
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.vacant.user.User;
+import vacant.core.user.User;
 
 public abstract class BaseCtrl {
 

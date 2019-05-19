@@ -1,0 +1,65 @@
+<div class="pageHeader">
+	<form id="pagerForm" onsubmit="return navTabSearch(this);" th:action="@{/demo/upload}" method="post" 
+			th:object="${searchForm}"
+			onreset="$(this).find('select.combox').comboxReset()">
+	<input type="hidden" th:field="*{pageNum}" />
+	<div class="searchBar">
+		<table class="searchContent">
+			<tr>
+				<td>
+					创建时间lk：<input type="text" th:field="*{conditions['create_time_lk']}" />
+				</td>
+				<td>
+					每页行数：<input type="text" th:field="*{numPerPage}" style="width:22px" />
+				</td>
+				<td>
+					<ul>
+						<li><div class="buttonActive"><div class="buttonContent"><button type="submit">检索</button></div></div></li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+	</div>
+	</form>
+</div>
+
+<div class="pageContent" th:with="p=@{/demo/upload}">
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a class="add" th:href="${p+'/add'}" target="dialog" rel="editUpload" width="800" height="450"><span>添加</span></a></li>
+			<li class="line">line</li>
+			<li><a class="delete" th:href="${p+'/delete/{row_id}'}" 
+						target="ajaxTodo" title="确定要删除吗?"><span>删除</span></a></li>
+			<li class="line">line</li>
+			<li><a class="edit" th:href="${p+'/edit/{row_id}'}" target="dialog" rel="editUpload" width="800" height="450"><span>修改</span></a></li>
+		</ul>
+	</div>
+	<table class="list" layoutH="90">
+		<thead>
+			<tr style="text-align: center">
+				<th width="200">id</th>
+				<th width="200">类型</th>
+				<th width="120">创建时间</th>
+				<th width="120">创建人</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr target="row_id" th:rel="${row.id}" th:each="row,stat:${book.page}" th:object="${row}">
+				<td th:text="*{id}">6919feca-58f2-49f4-ae6a-ed911290ab5a</td>
+				<td th:text="${#lookups.text('demo_upload_type'),row.type}">230K</td>
+				<td th:text="*{create_time}" style="text-align: center">2019-04-28 20:15:00</td>
+				<td th:text="*{create_user}" style="text-align: center">郑志强</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="panelBar">
+		<div class="pages">
+			<span th:text="${'共'+book.stats['totalCount']+'条'}">共200条</span>
+		</div>
+		<div class="pagination" targetType="navTab" th:totalCount="${book.stats['totalCount']}" 
+				th:numPerPage="${searchForm.numPerPage}"
+				th:currentPage="${searchForm.pageNum}">
+		</div>
+
+	</div>
+</div>

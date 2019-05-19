@@ -1,4 +1,4 @@
-package com.vacant.lookup;
+package vacant.core.lookup;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

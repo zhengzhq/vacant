@@ -1,4 +1,4 @@
-package com.vacant.user;
+package vacant.core.user;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,8 +7,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.vacant.dept.Dept;
-import com.vacant.lookup.LookupService;
+import vacant.core.dept.Dept;
+import vacant.core.lookup.LookupService;
 
 public class User implements UserDetails{
 

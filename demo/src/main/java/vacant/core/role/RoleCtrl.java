@@ -1,4 +1,4 @@
-package com.vacant.role;
+package vacant.core.role;
 
 import java.util.List;
 
@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.vacant.AjaxResponse;
-import com.vacant.BaseCtrl;
-import com.vacant.demo.paging.SearchForm;
-import com.vacant.menu.MenuService;
-import com.vacant.menu.VacantMenu;
+import vacant.AjaxResponse;
+import vacant.BaseCtrl;
+import vacant.core.menu.MenuService;
+import vacant.core.menu.VacantMenu;
+import vacant.core.paging.SearchForm;
 
 @Controller
 @RequestMapping(path = "/vacant/role")

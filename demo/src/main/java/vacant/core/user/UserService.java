@@ -1,4 +1,4 @@
-package com.vacant.user;
+package vacant.core.user;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,9 +16,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.vacant.Utils;
-import com.vacant.dept.Dept;
-import com.vacant.lookup.LookupService;
+import vacant.Utils;
+import vacant.core.dept.Dept;
+import vacant.core.lookup.LookupService;
 
 @Service
 @Transactional

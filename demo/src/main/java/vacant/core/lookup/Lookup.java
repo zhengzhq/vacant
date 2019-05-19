@@ -1,4 +1,4 @@
-package com.vacant.lookup;
+package vacant.core.lookup;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.vacant.menu;
+package vacant.core.menu;
 
 import java.util.List;
 
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.vacant.AjaxResponse;
-import com.vacant.BaseCtrl;
+import vacant.AjaxResponse;
+import vacant.BaseCtrl;
 
 @Controller
 @RequestMapping(path = "/vacant/menu")

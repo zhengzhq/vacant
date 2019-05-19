@@ -1,4 +1,4 @@
-package com.vacant.demo.paging;
+package vacant.core.paging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
-import com.vacant.Utils;
+import vacant.Utils;
 
 @Service
 public class PageService {

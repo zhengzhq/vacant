@@ -1,4 +1,4 @@
-package com.vacant.demo.paging;
+package vacant.core.paging;
 
 import java.util.List;
 import java.util.Map;

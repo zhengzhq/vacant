@@ -1,0 +1,37 @@
+<div class="pageContent" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+	
+	<form class="pageForm required-validate"  enctype="multipart/form-data"
+			onsubmit="return iframeCallback(this, dialogAjaxDone)" 
+			th:object="${o}" th:action="@{/demo/attach/save}" method="post">
+		<input type="hidden" th:field="*{id}" />
+		<input type="hidden" th:field="*{createTime}" />
+		<div class="pageFormContent nowrap" layoutH="58">
+			<dl>
+				<dt>说明：</dt>
+				<dd>
+					<input type="text" th:field="*{desc}" maxlength="50" class="required" />
+				</dd>
+			</dl>
+			<dl>
+				<dt>选择文件：</dt>
+				<dd>
+					<div class="upload-wrap">
+						<input type="file" name="attach" accept="image/*" class="valid" style="left: 0px;">
+						<div class="thumbnail" th:if="${attach}">
+							<img th:src="@{'/demo/attach/'+attach.path}" style="max-width: 80px; max-height: 80px">
+							<a class="del-icon" th:href="@{'/demo/attach/delete/'+attach.id}"></a>
+						</div>
+					</div>
+				</dd>
+			</dl>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">提交</button></div></div></li>
+				<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+			</ul>
+		</div>
+	</form>
+	
+</div>

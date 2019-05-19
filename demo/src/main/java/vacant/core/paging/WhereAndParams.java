@@ -1,4 +1,4 @@
-package com.vacant.demo.paging;
+package vacant.core.paging;
 
 /**
  * 条件和值

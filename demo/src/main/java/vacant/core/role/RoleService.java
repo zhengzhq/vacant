@@ -1,4 +1,4 @@
-package com.vacant.role;
+package vacant.core.role;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

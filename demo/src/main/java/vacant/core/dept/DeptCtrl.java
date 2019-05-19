@@ -1,4 +1,4 @@
-package com.vacant.dept;
+package vacant.core.dept;
 
 import java.util.Map;
 
@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.vacant.AjaxResponse;
-import com.vacant.BaseCtrl;
-import com.vacant.demo.paging.Book;
-import com.vacant.demo.paging.PageService;
-import com.vacant.demo.paging.SearchForm;
+import vacant.AjaxResponse;
+import vacant.BaseCtrl;
+import vacant.core.paging.Book;
+import vacant.core.paging.PageService;
+import vacant.core.paging.SearchForm;
 
 @Controller
 @RequestMapping(path = "/vacant/dept")

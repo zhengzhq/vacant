@@ -1,4 +1,4 @@
-package com.vacant.dept;
+package vacant.core.dept;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.StringUtils;
 
-import com.vacant.Utils;
+import vacant.Utils;
 
 @Service
 @Transactional

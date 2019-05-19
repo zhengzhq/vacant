@@ -1,4 +1,4 @@
-package com.vacant.area;
+package vacant.core.area;
 
 import java.util.List;
 
