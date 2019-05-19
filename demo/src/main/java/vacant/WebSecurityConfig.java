@@ -14,7 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import vacant.core.user.UserService;
+import vacant.admin.user.UserService;
 
 @Configuration
 @EnableWebSecurity

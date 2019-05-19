@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import vacant.core.user.User;
+import vacant.admin.user.User;
 
 public abstract class BaseCtrl {
 

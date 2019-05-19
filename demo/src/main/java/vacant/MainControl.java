@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import vacant.core.menu.MenuService;
-import vacant.core.menu.VacantMenu;
+import vacant.admin.menu.MenuService;
+import vacant.admin.menu.VacantMenu;
 
 @Controller
 public class MainControl {

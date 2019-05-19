@@ -11,8 +11,8 @@ import org.thymeleaf.dialect.AbstractDialect;
 import org.thymeleaf.dialect.IExpressionObjectDialect;
 import org.thymeleaf.expression.IExpressionObjectFactory;
 
-import vacant.core.area.AreaService;
-import vacant.core.lookup.LookupService;
+import vacant.admin.area.AreaService;
+import vacant.admin.lookup.LookupService;
 
 @Component
 public class VacantDialect extends AbstractDialect implements IExpressionObjectDialect {

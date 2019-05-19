@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import vacant.core.user.User;
+import vacant.admin.user.User;
 
 public class Utils {
 
