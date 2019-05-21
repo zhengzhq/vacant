@@ -97,6 +97,19 @@ public class UploadCtrl extends BaseCtrl {
 		return v("edit"+type);
 	}
 
+	@PostMapping(path = "edit")
+	@ResponseBody
+	public AjaxResponse edit(Upload upload, HttpServletRequest req, @RequestParam MultipartFile files[]) {
+		try {
+			uploadService.update(upload, files);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return AjaxResponse.error(e.getMessage());
+		}
+		czjl(req, "编辑上传记录");
+		return AjaxResponse.dialogCloseAndReload("demo_upload");
+	}
+
 	@RequestMapping(path = "delete/{id}")
 	@ResponseBody
 	public AjaxResponse delete(@PathVariable String id, Model model, HttpServletRequest req) {
@@ -105,18 +118,9 @@ public class UploadCtrl extends BaseCtrl {
 		} catch (Exception e) {
 			return AjaxResponse.error(e.getMessage());
 		}
-		czjl(req, "删除单位");
+		czjl(req, "删除上传记录");
 
 		return AjaxResponse.ok();
-	}
-
-	@RequestMapping(path = "lookup")
-	public String lookup(@ModelAttribute SearchForm searchForm, Model model) {
-		String sql = "select * from demo_upload";
-		String sql2 = "select count(*) totalCount from vacant_upload";
-		Book book = pageService.turnTo(sql, searchForm, sql2);
-		model.addAttribute("book", book);
-		return v("lookup");
 	}
 
 }

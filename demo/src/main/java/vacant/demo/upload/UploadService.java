@@ -13,12 +13,16 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import vacant.Utils;
+import vacant.demo.upload.attach.Attach;
+import vacant.demo.upload.attach.AttachService;
 
 @Service
 @Transactional
 public class UploadService {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	@Autowired
+	private AttachService attachService;
 
 	private RowMapper<Upload> mapper() {
 		return new RowMapper<Upload>() {
@@ -37,14 +41,18 @@ public class UploadService {
 
 	public Upload findByPk(String id) {
 		List<Upload> list = jdbcTemplate.query("select * from demo_upload where id=?", new String[] { id }, mapper());
-		if(list.isEmpty()) {
+		if (list.isEmpty()) {
 			return null;
 		}
 		return list.get(0);
 	}
 
 	public void delete(String id) {
-		// TODO Auto-generated method stub
+		List<Attach> list = attachService.listByUploadId(id);
+		for (Attach attach : list) {
+			attachService.delete(attach.getId());
+		}
+		jdbcTemplate.update("delete from demo_upload where id=?",id);
 
 	}
 
@@ -56,18 +64,42 @@ public class UploadService {
 		String sql = "insert into demo_upload_attach values(uuid(),?,?,?,?,?,?)";
 		for (MultipartFile file : files) {
 			String origName = file.getOriginalFilename();
-			String path = Utils.attachPath(origName);
-			File dir = new File(path).getParentFile();
+			String relativePath = Utils.attachPath(origName);
+			String fullPath = Utils.fullPath(relativePath);
+			File dir = new File(fullPath).getParentFile();
 			if (!dir.exists()) {
 				dir.mkdirs();
 			}
-			file.transferTo(new File(path));
+			file.transferTo(new File(fullPath));
 
-			jdbcTemplate.update(sql, id, file.getSize(), path, origName, createTime, createUser);
+			jdbcTemplate.update(sql, id, file.getSize(), relativePath, origName, createTime, createUser);
 		}
 		// 保存upload
 		sql = "insert into demo_upload values(?,?,?,?,?)";
 		jdbcTemplate.update(sql, id, upload.getType(), upload.getDesc(), createTime, createUser);
+	}
+
+	public void update(Upload upload, MultipartFile[] files) throws Exception {
+		String id = upload.getId();
+		String createTime = Utils.dateTime();
+		String createUser = Utils.userName();
+		// 保存attach
+		String sql = "insert into demo_upload_attach values(uuid(),?,?,?,?,?,?)";
+		for (MultipartFile file : files) {
+			String origName = file.getOriginalFilename();
+			String relativePath = Utils.attachPath(origName);
+			String fullPath = Utils.fullPath(relativePath);
+			File dir = new File(fullPath).getParentFile();
+			if (!dir.exists()) {
+				dir.mkdirs();
+			}
+			file.transferTo(new File(fullPath));
+
+			jdbcTemplate.update(sql, id, file.getSize(), relativePath, origName, createTime, createUser);
+		}
+		// 保存upload
+		sql = "update demo_upload set `desc`=? where id=?";
+		jdbcTemplate.update(sql, upload.getDesc(), id);
 	}
 
 }

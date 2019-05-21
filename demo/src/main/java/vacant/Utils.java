@@ -93,7 +93,11 @@ public class Utils {
 		formatter = new SimpleDateFormat("yyyyMMdd");
 		String day = formatter.format(currentTime);
 
-		return String.format("%s/%s/%s/%s%s", Cons.ATTACH_ROOT, month, day, uuid(), suffix);
+		return String.format("%s/%s/%s%s", month, day, uuid(), suffix);
+	}
+	
+	public static String fullPath(String relativePath) {
+		return String.format("%s/%s", Cons.ATTACH_ROOT, relativePath);
 	}
 	
 	public static void main(String[] args) throws Exception {

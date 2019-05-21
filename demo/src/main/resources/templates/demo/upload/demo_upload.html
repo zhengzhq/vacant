@@ -26,9 +26,9 @@
 <div class="pageContent" th:with="p=@{/demo/upload}">
 	<div class="panelBar">
 		<ul class="toolBar">
-			<li><a class="add" th:href="${p+'/add/1'}" target="dialog" rel="editUpload" width="800" height="450"><span>上传单个图片</span></a></li>
-			<li><a class="add" th:href="${p+'/add/n'}" target="dialog" rel="editUpload" width="800" height="450"><span>上传多个图片</span></a></li>
-			<li><a class="add" th:href="${p+'/add/f'}" target="dialog" rel="editUpload" width="800" height="450"><span>上传文件</span></a></li>
+			<li><a class="add" th:href="${p+'/add/1'}" target="dialog" rel="addUpload1" width="800" height="450"><span>上传单个图片</span></a></li>
+			<li><a class="add" th:href="${p+'/add/n'}" target="dialog" rel="addUploadn" width="800" height="450"><span>上传多个图片</span></a></li>
+			<li><a class="add" th:href="${p+'/add/f'}" target="dialog" rel="addUploadf" width="800" height="450"><span>上传文件</span></a></li>
 			<li class="line">line</li>
 			<li><a class="delete" th:href="${p+'/delete/{row_id}'}" 
 						target="ajaxTodo" title="确定要删除吗?"><span>删除</span></a></li>

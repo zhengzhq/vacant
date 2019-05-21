@@ -1,5 +1,6 @@
 package vacant.demo.upload.attach;
 
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -9,6 +10,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import vacant.Utils;
 
 @Service
 @Transactional
@@ -30,7 +33,7 @@ public class AttachService {
 				attach.setId(rs.getString("id"));
 				attach.setUploadId(rs.getString("upload_id"));
 				attach.setSize(rs.getInt("size"));
-				attach.setPath(rs.getString("path"));
+				attach.setRelativePath(rs.getString("relative_path"));
 				attach.setOrigName(rs.getString("orig_name"));
 				attach.setCreateTime(rs.getString("create_time"));
 				attach.setCreateUser(rs.getString("create_user"));
@@ -46,5 +49,13 @@ public class AttachService {
 			return null;
 		}
 		return list.get(0);
+	}
+
+	public void delete(String id) {
+		Attach attach = findByPk(id);
+		String fullPath = Utils.fullPath(attach.getRelativePath());
+		new File(fullPath).delete();
+		jdbcTemplate.update("delete from demo_upload_attach where id=?", id);
+		
 	}
 }

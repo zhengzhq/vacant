@@ -45,6 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		http.headers().frameOptions().sameOrigin(); // 允许使用iframe
 		ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry reg = http.authorizeRequests()
 				.antMatchers("/index", "/dwz_jui/**", "/").permitAll();
 		// 对所有的路径进行配置，要求菜单项的url为该菜单项所指向的页面上相关功能的url的根

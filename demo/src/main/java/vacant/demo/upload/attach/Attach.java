@@ -5,7 +5,7 @@ public class Attach {
 	private String id;
 	private String uploadId; // 上传记录id
 	private int size; // 文件大小，字节数
-	private String path; // 相对路径，含文件名
+	private String relativePath; // 相对路径，含文件名
 	private String origName; // 原始文件名
 	private String createTime; // 创建时间
 	private String createUser; // 创建人
@@ -34,12 +34,12 @@ public class Attach {
 		this.size = size;
 	}
 
-	public String getPath() {
-		return path;
+	public String getRelativePath() {
+		return relativePath;
 	}
 
-	public void setPath(String path) {
-		this.path = path;
+	public void setRelativePath(String relativePath) {
+		this.relativePath = relativePath;
 	}
 
 	public String getOrigName() {

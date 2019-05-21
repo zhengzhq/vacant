@@ -1,7 +1,6 @@
-<div class="pageContent" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<div class="pageContent">
 	
-	<form class="pageForm required-validate"  enctype="multipart/form-data"
+	<form class="pageForm required-validate" enctype="multipart/form-data"
 			onsubmit="return iframeCallback(this, dialogAjaxDone)" 
 			th:object="${o}" th:action="@{/demo/upload/add}" method="post">
 		<input type="hidden" th:field="*{type}" />
@@ -17,10 +16,6 @@
 				<dd>
 					<div class="upload-wrap">
 						<input type="file" name="files" accept="image/*" class="valid" style="left: 0px;">
-						<div class="thumbnail" th:if="${attach}">
-							<img th:src="@{'/demo/attach/'+attach.path}" style="max-width: 80px; max-height: 80px">
-							<a class="del-icon" th:href="@{'/demo/attach/delete/'+attach.id}"></a>
-						</div>
 					</div>
 				</dd>
 			</dl>
