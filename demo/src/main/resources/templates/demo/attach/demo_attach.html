@@ -24,35 +24,25 @@
 </div>
 
 <div class="pageContent" th:with="p=@{/demo/attach}">
-	<div class="panelBar">
-		<ul class="toolBar">
-			<li><a class="add" th:href="${p+'/add'}" target="dialog" rel="editAttach" width="800" height="450"><span>添加</span></a></li>
-			<li class="line">line</li>
-			<li><a class="delete" th:href="${p+'/delete/{row_id}'}" 
-						target="ajaxTodo" title="确定要删除吗?"><span>删除</span></a></li>
-			<li class="line">line</li>
-			<li><a class="edit" th:href="${p+'/edit/{row_id}'}" target="dialog" rel="editAttach" width="800" height="450"><span>修改</span></a></li>
-		</ul>
-	</div>
 	<table class="list" layoutH="90">
 		<thead>
 			<tr style="text-align: center">
-				<th width="200">id</th>
-				<th width="200">大小</th>
-				<th width="200">路径</th>
-				<th width="200">说明</th>
+				<th width="250">id</th>
+				<th width="60">大小</th>
+				<th width="400">路径</th>
 				<th width="200">原始文件名</th>
 				<th width="120">创建时间</th>
+				<th width="40">操作</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr target="row_id" th:rel="${row.id}" th:each="row,stat:${book.page}" th:object="${row}">
-				<td th:text="*{id}">6919feca-58f2-49f4-ae6a-ed911290ab5a</td>
-				<td th:text="*{size}">230K</td>
-				<td th:text="*{path}">2019/05/17/6919feca-58f2-49f4-ae6a-ed911290ab5a.jpg</td>
-				<td th:text="*{desc}">张三的身份证正面</td>
+				<td th:text="*{id}" style="text-align: center">6919feca-58f2-49f4-ae6a-ed911290ab5a</td>
+				<td th:text="*{size}" style="text-align: right">230K</td>
+				<td th:text="*{relative_path}">2019/05/17/6919feca-58f2-49f4-ae6a-ed911290ab5a.jpg</td>
 				<td th:text="*{orig_name}">39843733.jpg</td>
 				<td th:text="*{create_time}" style="text-align: center">2019-04-28 20:15:00</td>
+				<td style="text-align: center"><a th:href="@{'/demo/attach/download/'+${row.id}}">下载</a></td>
 			</tr>
 		</tbody>
 	</table>
