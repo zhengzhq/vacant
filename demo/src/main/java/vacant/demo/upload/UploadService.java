@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import net.coobird.thumbnailator.Thumbnails;
 import vacant.Utils;
 import vacant.demo.upload.attach.Attach;
 import vacant.demo.upload.attach.AttachService;
@@ -52,7 +53,7 @@ public class UploadService {
 		for (Attach attach : list) {
 			attachService.delete(attach.getId());
 		}
-		jdbcTemplate.update("delete from demo_upload where id=?",id);
+		jdbcTemplate.update("delete from demo_upload where id=?", id);
 
 	}
 
@@ -70,7 +71,9 @@ public class UploadService {
 			if (!dir.exists()) {
 				dir.mkdirs();
 			}
-			file.transferTo(new File(fullPath));
+			// file.transferTo(new File(fullPath));
+			Thumbnails.of(file.getInputStream()).size(744, 992).outputFormat("jpg")
+					.toFile(new File(fullPath));
 
 			jdbcTemplate.update(sql, id, file.getSize(), relativePath, origName, createTime, createUser);
 		}

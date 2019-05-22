@@ -27,6 +27,7 @@
 	<table class="list" layoutH="90">
 		<thead>
 			<tr style="text-align: center">
+				<th width="100">预览</th>
 				<th width="250">id</th>
 				<th width="60">大小</th>
 				<th width="400">路径</th>
@@ -37,6 +38,7 @@
 		</thead>
 		<tbody>
 			<tr target="row_id" th:rel="${row.id}" th:each="row,stat:${book.page}" th:object="${row}">
+				<td style="text-align: center"><img alt="预览" th:src="@{'/demo/attach/download/'+${row.id}}" style="width:48px;height:64px"></td>
 				<td th:text="*{id}" style="text-align: center">6919feca-58f2-49f4-ae6a-ed911290ab5a</td>
 				<td th:text="*{size}" style="text-align: right">230K</td>
 				<td th:text="*{relative_path}">2019/05/17/6919feca-58f2-49f4-ae6a-ed911290ab5a.jpg</td>

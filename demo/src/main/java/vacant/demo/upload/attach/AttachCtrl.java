@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import net.coobird.thumbnailator.Thumbnails;
 import vacant.AjaxResponse;
 import vacant.BaseCtrl;
 import vacant.Utils;
@@ -32,7 +33,7 @@ public class AttachCtrl extends BaseCtrl {
 	private AttachService attachService;
 	@Autowired
 	private PageService pageService;
-	
+
 	@RequestMapping
 	public String list(@ModelAttribute SearchForm searchForm, Model model) {
 		Map<String, String> conditions = searchForm.getConditions();
@@ -45,7 +46,7 @@ public class AttachCtrl extends BaseCtrl {
 		model.addAttribute("book", book);
 		return v();
 	}
-	
+
 	@RequestMapping(path = "download/{id}")
 	public void download(@PathVariable String id, HttpServletResponse response) throws Exception {
 		Attach attach = attachService.findByPk(id);
@@ -53,6 +54,17 @@ public class AttachCtrl extends BaseCtrl {
 		String fileName = relativePath.substring(relativePath.lastIndexOf("/") + 1);
 		response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
 		FileCopyUtils.copy(new FileInputStream(new File(Utils.fullPath(relativePath))), response.getOutputStream());
+	}
+
+	@RequestMapping(path = "preview/{id}")
+	public void preview(@PathVariable String id, HttpServletResponse response) throws Exception {
+		Attach attach = attachService.findByPk(id);
+		String relativePath = attach.getRelativePath();
+		String fileName = relativePath.substring(relativePath.lastIndexOf("/") + 1);
+		response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+		Thumbnails.of(new FileInputStream(Utils.fullPath(relativePath))).size(48, 64)
+				.toOutputStream(response.getOutputStream());
+//		FileCopyUtils.copy(new FileInputStream(new File(Utils.fullPath(relativePath))), response.getOutputStream());
 	}
 
 	@RequestMapping(path = "delete/{id}")

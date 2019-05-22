@@ -86,7 +86,8 @@ public class Utils {
 	}
 
 	public static String attachPath(String origName) {
-		String suffix = origName.substring(origName.lastIndexOf("."));
+//		String suffix = origName.substring(origName.lastIndexOf("."));
+		String suffix = ".jpg";
 		Date currentTime = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMM");
 		String month = formatter.format(currentTime);
