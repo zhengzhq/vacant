@@ -86,7 +86,13 @@ public class UploadService {
 		String id = upload.getId();
 		String createTime = Utils.dateTime();
 		String createUser = Utils.userName();
-		// 保存attach
+		// 删除原有attach
+		List<Attach> list = attachService.listByUploadId(id);
+		for (Attach attach : list) {
+			attachService.delete(attach.getId());
+		}
+		
+		// 保存新attach
 		String sql = "insert into demo_upload_attach values(uuid(),?,?,?,?,?,?)";
 		for (MultipartFile file : files) {
 			String origName = file.getOriginalFilename();

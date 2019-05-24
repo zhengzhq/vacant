@@ -87,12 +87,8 @@ public class UploadCtrl extends BaseCtrl {
 		String type = o.getType();
 		model.addAttribute("o", o);
 		
-		Attach attach = null;
-		List<Attach> list = attachService.listByUploadId(o.getId());
-		if(!list.isEmpty()) {
-			attach = list.get(0);
-		}
-		model.addAttribute("attach", attach);
+		List<Attach> attachList = attachService.listByUploadId(o.getId());
+		model.addAttribute("attachList", attachList);
 		
 		return v("edit"+type);
 	}
