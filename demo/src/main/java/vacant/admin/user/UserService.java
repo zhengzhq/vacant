@@ -68,6 +68,9 @@ public class UserService implements UserDetailsService {
 		sql += "(select name from vacant_dept where id=user.dept_id limit 1) dept_name ";
 		sql += "from vacant_user user where id=?";
 		List<User> list = jdbcTemplate.query(sql, new String[] { id }, mapper());
+		if(list.isEmpty()) {
+			return null;
+		}
 		return list.get(0);
 	}
 
@@ -136,5 +139,5 @@ public class UserService implements UserDetailsService {
 		String password = encoder.encode(newPassword);
 		jdbcTemplate.update("update vacant_user set password=? where id=?", password, user.getId());
 	}
-
+	
 }

@@ -37,10 +37,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-		authenticationProvider.setUserDetailsService(userService);
-		authenticationProvider.setPasswordEncoder(new BCryptPasswordEncoder());
-		auth.authenticationProvider(authenticationProvider);
+//		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+//		authenticationProvider.setUserDetailsService(userService);
+//		authenticationProvider.setPasswordEncoder(new BCryptPasswordEncoder());
+//		auth.authenticationProvider(authenticationProvider);
+		
+		auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
 	}
 
 	@Override
@@ -57,7 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		for (Map<String, Object> pathAndRoles : pathAndRolesList) {
 			String path = (String) pathAndRoles.get("path");
 			String roles = (String) pathAndRoles.get("roles");
-			reg.regexMatchers("^" + path + ".*").hasAnyAuthority(roles.split(","));
+			reg.regexMatchers("^" + path + ".*").hasAnyAuthority(roles.split(",")); // 自定义的User类的Authority不包含ROLE_前缀，所以不能使用hasAnyRole
+//			reg.regexMatchers("^" + path + ".*").hasAnyRole(roles.split(","));
 		}
 		// 其他请求要求登录就可以了
 		reg.anyRequest().authenticated();

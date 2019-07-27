@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-@DependsOn("jdbcTemplate")
+// @DependsOn("jdbcTemplate")
 public class LookupService {
 
 	public static final String COMMON_STATE = "common_state"; // 状态
