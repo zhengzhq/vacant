@@ -70,7 +70,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	public static void main(String[] args) {
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-		String encode = bCryptPasswordEncoder.encode("password");
+		String encode = bCryptPasswordEncoder.encode("a");
 		System.out.println(encode);
 		System.out.println("s/abc/def".matches("^/abc.*"));
 	}
